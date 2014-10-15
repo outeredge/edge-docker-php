@@ -12,16 +12,13 @@ RUN apt-get update && \
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN npm install -g bower && npm cache clean
 
-# Setup apache
+# Setup apache, expects application files to be available at /var/www/public
 RUN a2enmod rewrite
 RUN mkdir /etc/service/apache
 ADD apache.conf /etc/apache2/sites-enabled/000-default.conf
 ADD apache.sh /etc/service/apache/run
 RUN chmod +x /etc/service/apache/run
 
-# Add application code onbuild
-ONBUILD ADD . /var/www
-ONBUILD RUN chown www-data:www-data /var/www -R
+WORKDIR /var/www
 
 EXPOSE 80
-WORKDIR /var/www
