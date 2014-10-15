@@ -1,10 +1,6 @@
 FROM phusion/baseimage:0.9.15
 MAINTAINER outer/edge <hello@outeredgeuk.com>
 
-# Set correct environment variables.
-ENV HOME /root
-ENV DEBIAN_FRONTEND noninteractive
-
 # Install default packages and cleanup
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -29,4 +25,3 @@ ONBUILD RUN chown www-data:www-data /var/www -R
 
 EXPOSE 80
 WORKDIR /var/www
-CMD ["/sbin/my_init"]
