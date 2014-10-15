@@ -3,8 +3,8 @@ MAINTAINER outer/edge <hello@outeredgeuk.com>
 
 # Install default packages and cleanup
 RUN apt-get update && \
-    apt-get install -y \
-        ruby ruby-dev nodejs-legacy npm git-core apache2 libapache2-mod-php5 \
+    apt-get install -y --no-install-recommends \
+        ruby nodejs-legacy npm git-core apache2 libapache2-mod-php5 \
         php5-cli php5-mysql php5-sqlite php5-curl php5-intl && \
     apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
