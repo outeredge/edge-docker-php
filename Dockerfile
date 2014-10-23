@@ -1,24 +1,30 @@
-FROM phusion/baseimage:0.9.15
+FROM ubuntu:14.04
 MAINTAINER outer/edge <hello@outeredgeuk.com>
 
-# Install default packages and cleanup
+ENV DEBIAN_FRONTEND noninteractive
+ENV HOME /root
+
+# Install Default Packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
+        curl nano wget software-properties-common \
         ruby nodejs-legacy npm git-core apache2 libapache2-mod-php5 \
         php5-cli php5-mysql php5-sqlite php5-curl php5-intl && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    apt-get clean && \
+    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
 
-# Install package managers
+# Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install bower
 RUN npm install -g bower && npm cache clean
 
-# Setup apache, expects application files to be available at /var/www/public
+# Setup apache
 RUN a2enmod rewrite
-RUN mkdir /etc/service/apache
 ADD apache.conf /etc/apache2/sites-enabled/000-default.conf
-ADD apache.sh /etc/service/apache/run
-RUN chmod +x /etc/service/apache/run
+ADD run.sh /run.sh
+RUN chmod +x /run.sh
 
 WORKDIR /var/www
-
 EXPOSE 80
+CMD ["/run.sh"]
