@@ -22,9 +22,9 @@ RUN npm install -g bower && npm cache clean
 # Setup apache
 RUN a2enmod rewrite
 ADD apache.conf /etc/apache2/sites-enabled/000-default.conf
-ADD run.sh /run.sh
-RUN chmod +x /run.sh
+ADD apache.sh /apache.sh
+RUN chmod +x /apache.sh
 
 WORKDIR /var/www
 EXPOSE 80
-CMD ["/run.sh"]
+CMD ["/apache.sh"]
