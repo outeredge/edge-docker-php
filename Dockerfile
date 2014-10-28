@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM ubuntu:14.10
 MAINTAINER outer/edge <hello@outeredgeuk.com>
 
 ENV DEBIAN_FRONTEND noninteractive
