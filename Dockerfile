@@ -25,6 +25,10 @@ ADD apache.conf /etc/apache2/sites-enabled/000-default.conf
 ADD apache.sh /apache.sh
 RUN chmod +x /apache.sh
 
+# Cache
+VOLUME ["/root/.composer"]
+
 WORKDIR /var/www
+
 EXPOSE 80
 CMD ["/apache.sh"]
