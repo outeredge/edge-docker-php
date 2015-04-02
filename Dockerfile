@@ -1,34 +1,19 @@
-FROM ubuntu:14.10
+FROM ubuntu:14.04
+
 MAINTAINER outer/edge <hello@outeredgeuk.com>
 
-ENV DEBIAN_FRONTEND noninteractive
-ENV HOME /root
+COPY build.sh /build.sh
+RUN /build.sh
 
-# Install Default Packages
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-        curl nano wget software-properties-common \
-        ruby nodejs-legacy npm git-core apache2 libapache2-mod-php5 \
-        php5-cli php5-mysql php5-sqlite php5-curl php5-intl && \
-    apt-get clean && \
-    rm -rf /tmp/* /var/tmp/* /var/lib/apt/lists/*
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx-default /etc/nginx/conf.d/default
+COPY php-fpm.conf /usr/local/etc/php-fpm.conf
+COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-# Install composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install bower
-RUN npm install -g bower && npm cache clean
-
-# Setup apache
-RUN a2enmod rewrite
-ADD apache.conf /etc/apache2/sites-enabled/000-default.conf
-ADD apache.sh /apache.sh
-RUN chmod +x /apache.sh
-
-# Cache
-VOLUME ["/root/.composer"]
+EXPOSE 80
 
 WORKDIR /var/www
 
-EXPOSE 80
-CMD ["/apache.sh"]
+CMD ["/usr/bin/supervisord"]

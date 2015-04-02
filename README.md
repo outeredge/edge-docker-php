@@ -1,20 +1,4 @@
-edge-docker-php
-===============
+# edge-docker-php
+Ubuntu 14.04 running Nginx 1.7 with Pagespeed and PHP 5.6
 
-Base docker image for running PHP web applications.
-
-Included packages
------------------
-
- * Apache 2.4
- * PHP (mysql, sqlite, curl, intl)
- * Ruby
- * Node.js
- * Git
-
-#### Package managers
-
- * Composer
- * Rubygems
- * Npm
- * Bower
+## Adding PHP extensions

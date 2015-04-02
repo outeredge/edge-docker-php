@@ -1,0 +1,25 @@
+server {
+    listen 80;
+    root /var/www/public/;
+
+    charset utf-8;
+
+    #https://developers.google.com/speed/pagespeed/module/configuration
+    #pagespeed on;
+
+    location / {
+        try_files $uri =404;
+
+        fastcgi_index   index.php;
+        fastcgi_pass    unix:/var/run/php-fpm.sock;
+        include         fastcgi.conf;
+    }
+
+    location = /favicon.ico { log_not_found off; access_log off; }
+    location = /robots.txt  { log_not_found off; access_log off; }
+
+    # Deny .htaccess file access
+    location ~ /\.ht {
+            deny all;
+    }
+}
