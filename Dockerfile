@@ -12,6 +12,8 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+ONBUILD RUN composer self-update
+
 EXPOSE 80
 
 WORKDIR /var/www
