@@ -14,8 +14,8 @@ server {
     location ~ \.php$ {
         try_files $uri =404;
 
-        fastcgi_pass   127.0.0.1:9000;
-        include        fastcgi.conf;
+        fastcgi_pass 127.0.0.1:9000;
+        include fastcgi.conf;
     }
 
     location = /robots.txt { log_not_found off; }
