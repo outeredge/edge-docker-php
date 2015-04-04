@@ -1,9 +1,6 @@
 server {
     listen 80;
     root /var/www/public;
-    index index.php;
-
-    charset utf-8;
 
     pagespeed on;
 
