@@ -7,7 +7,7 @@ RUN /build.sh
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx-default /etc/nginx/conf.d/default
+COPY nginx-default.conf /etc/nginx/conf.d/default
 COPY php-fpm.conf /usr/local/etc/php-fpm.conf
 COPY php.ini /usr/local/etc/php/php.ini
 
