@@ -39,15 +39,15 @@ make -j"$(nproc)"
 make install
 
 # download and install php
-apt-get install -y --no-install-recommends libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libicu-dev
+apt-get install -y --no-install-recommends libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev
 mkdir /tmp/php
 mkdir -p /usr/local/etc/php/conf.d
 wget http://php.net/get/php-$PHP_VERSION.tar.bz2/from/this/mirror -O - | tar -jxf - -C /tmp/php --strip=1
 cd /tmp/php
 ./configure \
-    --with-config-file-path="/usr/local/etc/php" \
-    --with-config-file-scan-dir="/usr/local/etc/php/conf.d" \
-    --with-libdir=/lib/x86_64-linux-gnu \
+    --with-config-file-path=/usr/local/etc/php \
+    --with-config-file-scan-dir=/usr/local/etc/php/conf.d \
+    --with-jpeg-dir=/usr \
     --with-fpm-user=www-data \
     --with-fpm-group=www-data \
     --disable-cgi \
