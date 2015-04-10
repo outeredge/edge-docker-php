@@ -60,8 +60,9 @@ cd /tmp/php
     --with-curl \
     --with-openssl \
     --with-readline \
+    --with-zlib \
     --with-pdo-mysql \
-    --with-mcrypt \
+    --with-mcrypt=shared \
     --with-gd=shared
 make -j"$(nproc)"
 make install
