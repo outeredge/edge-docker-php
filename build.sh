@@ -11,7 +11,8 @@ DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install basic tools
-apt-get install -y --no-install-recommends build-essential curl nano wget git-core ca-certificates supervisor
+apt-get install -y --no-install-recommends build-essential python-pip curl nano wget git-core ca-certificates supervisor
+pip install j2cli
 
 # download ngx_pagespeed
 apt-get install -y --no-install-recommends zlib1g-dev libpcre3-dev libssl-dev
@@ -37,6 +38,7 @@ cd /tmp/nginx
     --add-module=/tmp/ngx_pagespeed
 make -j"$(nproc)"
 make install
+cd /etc/ssl/certs && openssl dhparam -out dhparam.pem 2048
 
 # download and install php
 apt-get install -y --no-install-recommends libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev
