@@ -5,12 +5,12 @@ MAINTAINER outer/edge <hello@outeredgeuk.com>
 COPY build.sh /build.sh
 RUN /build.sh
 
-COPY entrypoint.sh /entrypoint.sh
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-COPY nginx.conf /etc/nginx/nginx.conf
-COPY nginx-default.conf /etc/nginx/conf.d/default
-COPY php-fpm.conf /usr/local/etc/php-fpm.conf
-COPY php.ini /usr/local/etc/php/php.ini
+COPY entrypoint.sh /
+COPY supervisord.conf /etc/supervisor/conf.d/
+COPY nginx.conf /etc/nginx/
+COPY default.conf.j2 /etc/nginx/templates/
+COPY php-fpm.conf /usr/local/etc/
+COPY php.ini /usr/local/etc/php/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
