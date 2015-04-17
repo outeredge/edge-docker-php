@@ -5,7 +5,11 @@ server {
     listen 443 ssl spdy;
     ssl_certificate /etc/ssl/certs/ssl-cert.pem;
     ssl_certificate_key /etc/ssl/private/ssl-cert.key;
-    {% endif %}
+    ssl_trusted_certificate /etc/ssl/certs/ssl-chain.pem;
+    {% endif; %}
+    {% if NGINX_HSTS == 'On' %}
+    add_header Strict-Transport-Security max-age=15768000;
+    {% endif; %}
 
     root /var/www;
 

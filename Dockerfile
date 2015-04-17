@@ -14,8 +14,9 @@ COPY php.ini /usr/local/etc/php/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-ENV PHP_OPCACHE Off
-ENV NGINX_SSL Off
+ENV PHP_OPCACHE=Off \
+    NGINX_SSL=Off \
+    NGINX_HSTS=Off
 
 ONBUILD RUN composer self-update
 
