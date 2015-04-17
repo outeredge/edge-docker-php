@@ -19,7 +19,7 @@ ENV NGINX_SSL Off
 
 ONBUILD RUN composer self-update
 
-EXPOSE 80
+EXPOSE 80 443
 
 WORKDIR /var/www
 
