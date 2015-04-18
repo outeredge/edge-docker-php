@@ -7,8 +7,7 @@ RUN /build.sh
 
 COPY entrypoint.sh /
 COPY supervisord.conf /etc/supervisor/conf.d/
-COPY nginx.conf /etc/nginx/
-COPY default.j2.conf /etc/nginx/conf.d/
+COPY nginx /etc/nginx/
 COPY php-fpm.conf /usr/local/etc/
 COPY php.ini /usr/local/etc/php/
 
