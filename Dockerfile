@@ -8,17 +8,17 @@ RUN /build.sh
 COPY entrypoint.sh /
 COPY supervisord.conf /etc/supervisor/conf.d/
 COPY nginx.conf /etc/nginx/
-COPY default.conf.j2 /etc/nginx/templates/
+COPY default.j2.conf /etc/nginx/conf.d/
 COPY php-fpm.conf /usr/local/etc/
 COPY php.ini /usr/local/etc/php/
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+ONBUILD RUN composer self-update
+
 ENV PHP_OPCACHE=Off \
     NGINX_SSL=Off \
     NGINX_HSTS=Off
-
-ONBUILD RUN composer self-update
 
 EXPOSE 80 443
 
