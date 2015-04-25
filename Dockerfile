@@ -17,7 +17,8 @@ ONBUILD RUN composer self-update
 
 ENV PHP_OPCACHE=Off \
     NGINX_SSL=Off \
-    NGINX_HSTS=Off
+    NGINX_HSTS=Off \
+    NGINX_PAGESPEED=Off
 
 EXPOSE 80 443
 
