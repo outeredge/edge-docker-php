@@ -6,7 +6,7 @@ COPY build.sh /build.sh
 RUN /build.sh
 
 COPY entrypoint.sh /
-COPY supervisord.conf.j2 /etc/supervisor/conf.d/
+COPY templates /templates/
 COPY nginx /etc/nginx/
 COPY php-fpm.conf /usr/local/etc/
 COPY php.ini /usr/local/etc/php/
@@ -19,7 +19,11 @@ ENV ENABLE_CRON=Off \
     PHP_OPCACHE=Off \
     NGINX_SSL=Off \
     NGINX_HSTS=Off \
-    NGINX_PAGESPEED=Off
+    NGINX_PAGESPEED=Off \
+    SMTP_HOST= \
+    SMTP_PORT= \
+    SMTP_USER= \
+    SMTP_PASS=
 
 EXPOSE 80 443
 

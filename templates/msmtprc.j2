@@ -1,0 +1,14 @@
+defaults
+auth            on
+tls             on
+tls_starttls    on
+tls_trust_file  /etc/ssl/certs/ca-certificates.crt
+
+{% if SMTP_HOST %}
+account         default
+host            {{ SMTP_HOST }}
+port            {{ SMTP_PORT }}
+from            {{ SMTP_USER }}
+user            {{ SMTP_USER }}
+password        {{ SMTP_PASS }}
+{% endif %}
