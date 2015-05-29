@@ -1,8 +1,15 @@
 defaults
 auth            on
+
+{% if SMTP_PORT > 25 %}
 tls             on
+{% endif %}
+{% if SMTP_PORT == 587 %}
 tls_starttls    on
+{% elseif %}
+{% if SMTP_PORT > 25 && SMTP_CHECK_CERTS != Off %}
 tls_trust_file  /etc/ssl/certs/ca-certificates.crt
+{% endif %}
 
 {% if SMTP_HOST %}
 account         default
