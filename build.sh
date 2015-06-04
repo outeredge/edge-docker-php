@@ -61,6 +61,7 @@ cd /tmp/php
     --enable-mbstring \
     --enable-mysqlnd \
     --enable-opcache \
+    --enable-soap=shared \
     --enable-zip \
     --with-curl \
     --with-openssl \
