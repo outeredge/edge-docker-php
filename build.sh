@@ -38,7 +38,10 @@ cd /tmp/nginx
     --add-module=/tmp/ngx_pagespeed
 make -j"$(nproc)"
 make install
-cd /etc/ssl/certs && openssl dhparam -out dhparam.pem 2048
+
+# create custom dh params
+openssl dhparam -out /etc/ssl/certs/dhparam-reduced.pem 1024
+openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 # download and install php
 apt-get install -y --no-install-recommends libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev

@@ -6,6 +6,10 @@ server {
     ssl_certificate /etc/ssl/certs/ssl-cert.pem;
     ssl_certificate_key /etc/ssl/private/ssl-cert.key;
     ssl_trusted_certificate /etc/ssl/certs/ssl-chain.pem;
+    {% if NGINX_SSL_REDUCED == 'On' %}
+    ssl_dhparam	/etc/ssl/certs/dhparam-reduced.pem;
+    ssl_ciphers AES256+EECDH:AES256+EDH:DHE-RSA-AES128-SHA:!aNULL;
+    {% endif %}
     {% endif %}
     {% if NGINX_HSTS == 'On' %}
     add_header Strict-Transport-Security max-age=15768000;
