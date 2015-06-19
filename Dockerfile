@@ -23,7 +23,8 @@ ENV ENABLE_CRON=Off \
     SMTP_HOST= \
     SMTP_PORT= \
     SMTP_USER= \
-    SMTP_PASS=
+    SMTP_PASS= \
+    SMTP_FROM=
 
 EXPOSE 80 443
 

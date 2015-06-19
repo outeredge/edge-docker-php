@@ -12,9 +12,10 @@ Most configuration can be done with environment variables. Here are the availabl
 | NGINX_SSL_REDUCED | -       | Adds additional cipher suites that allow older (i.e. Java7) clients to connect |
 | NGINX_HSTS        | Off     | Enable [HSTS] (http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) |
 | NGINX_PAGESPEED   | Off     | Enable ngx_pagespeed extension |
-| SMTP_HOST         | -       | Set SMTP hostname (uses MSMTP for sendmail) | 
+| SMTP_HOST         | -       | Set SMTP hostname (uses MSMTP for sendmail) |
 | SMTP_PORT         | -       | Set SMTP port |
-| SMTP_USER         | -       | Set SMTP username/SMTP from |
+| SMTP_USER         | -       | Set SMTP username |
+| SMTP_FROM         | -       | Set SMTP envelope-from header |
 | SMTP_PASS         | -       | Set SMTP password |
 
 ## PHP extensions
