@@ -1,5 +1,5 @@
 # edge-docker-php
-Ubuntu 14.04 running Nginx 1.7 with Pagespeed and PHP 5.6. Places nicely with [dredger](https://github.com/outeredge/dredger).
+Ubuntu 14.04 running Nginx 1.9 with Pagespeed and PHP 5.6. Plays nicely with [dredger](https://github.com/outeredge/dredger).
 
 ## Configuration Options
 Most configuration can be done with environment variables. Here are the available options;
