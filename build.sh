@@ -11,7 +11,7 @@ DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install basic tools
-apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip curl nano wget git-core ca-certificates supervisor
+apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip=1.5.4-1 curl nano wget git-core ca-certificates supervisor
 pip install j2cli
 
 # download ngx_pagespeed
