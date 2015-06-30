@@ -22,9 +22,10 @@ wget https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz -O - | tar -
 
 # install nginx
 mkdir /tmp/nginx
+mkdir /var/www
 mkdir -p /etc/nginx/conf.d
 mkdir -p -m 755 /var/cache/pagespeed
-chown -R www-data:www-data /var/cache/pagespeed
+chown -R www-data:www-data /var/cache/pagespeed /var/www
 wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -zxf - -C /tmp/nginx --strip=1
 cd /tmp/nginx
 ./configure \
