@@ -1,7 +1,7 @@
 defaults
 auth            on
 
-{% if SMTP_PORT > 25 %}
+{% if '25' not in SMTP_PORT %}
 tls             on
 {% endif %}
 {% if SMTP_PORT == '587' %}
