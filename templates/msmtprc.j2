@@ -1,5 +1,7 @@
 defaults
+{% if SMTP_PASS is defined and SMTP_PASS %}
 auth            on
+{% endif %}
 
 {% if '25' not in SMTP_PORT %}
 tls             on
@@ -17,7 +19,11 @@ tls_trust_file  /etc/ssl/certs/ca-certificates.crt
 account         default
 host            {{ SMTP_HOST }}
 port            {{ SMTP_PORT }}
-from            {{ SMTP_FROM }}
 user            {{ SMTP_USER }}
 password        {{ SMTP_PASS }}
+{% endif %}
+{% if SMTP_FROM is defined and SMTP_FROM %}
+from            {{ SMTP_FROM }}
+{% else %}
+from            {{ SMTP_USER }}
 {% endif %}
