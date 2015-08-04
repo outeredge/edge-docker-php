@@ -4,8 +4,6 @@ COPY . /
 
 RUN /build.sh
 
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 ENV ENABLE_CRON=Off \
     PHP_OPCACHE=Off \
     NGINX_SSL=Off \

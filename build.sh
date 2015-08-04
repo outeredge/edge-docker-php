@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-NGINX_VERSION=1.9.2
-NPS_VERSION=1.9.32.4
-PHP_VERSION=5.6.10
+NGINX_VERSION=1.9.3
+NPS_VERSION=1.9.32.6
+PHP_VERSION=5.6.11
 
 DEBIAN_FRONTEND=noninteractive
 
@@ -77,6 +77,9 @@ make install
 # download ioncube extension
 wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
 cp /tmp/ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ioncube.so
+
+# install composer
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # cleanup
 apt-get purge -y build-essential g++
