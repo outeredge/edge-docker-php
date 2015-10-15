@@ -32,6 +32,9 @@ server {
 
         include fastcgi.conf;
         fastcgi_param SERVER_NAME $host;
+        {% if NGINX_HSTS == 'On' %}
+        fastcgi_param HTTPS 'on';
+        {% endif %}
         fastcgi_read_timeout 300;
         fastcgi_pass 127.0.0.1:9000;
     }
