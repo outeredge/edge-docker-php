@@ -16,7 +16,7 @@ listen = 127.0.0.1:9000
 
 pm = dynamic
 pm.start_servers = 10
-pm.max_children = 30
+pm.max_children = {{ PHP_MAX_CHILDREN }}
 pm.min_spare_servers = 5
 pm.max_spare_servers = 10
 pm.max_requests = 500
