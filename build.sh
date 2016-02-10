@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 
-NGINX_VERSION=1.9.4
-NPS_VERSION=1.9.32.6
-PHP_VERSION=5.6.12
+NGINX_VERSION=1.9.11
+NPS_VERSION=1.10.33.4
+PHP_VERSION=5.6.18
 
 DEBIAN_FRONTEND=noninteractive
 
@@ -34,7 +34,7 @@ cd /tmp/nginx
     --user=www-data \
     --group=www-data \
     --with-http_ssl_module \
-    --with-http_spdy_module \
+    --with-http_v2_module \
     --add-module=/tmp/ngx_pagespeed
 make -j"$(nproc)"
 make install

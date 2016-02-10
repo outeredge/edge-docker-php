@@ -2,7 +2,7 @@ server {
     listen 80 default_server reuseport;
 
     {% if NGINX_SSL != 'Off' %}
-    listen 443 default_server ssl spdy reuseport;
+    listen 443 default_server ssl http2 reuseport;
     ssl_certificate /etc/ssl/certs/ssl-cert.pem;
     ssl_certificate_key /etc/ssl/private/ssl-cert.key;
     ssl_trusted_certificate /etc/ssl/certs/ssl-chain.pem;
