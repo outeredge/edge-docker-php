@@ -3,7 +3,7 @@ set -e
 
 NGINX_VERSION=1.9.4
 NPS_VERSION=1.9.32.6
-PHP_VERSION=5.6.12
+PHP_VERSION=7.0.3
 
 DEBIAN_FRONTEND=noninteractive
 
@@ -34,7 +34,7 @@ cd /tmp/nginx
     --user=www-data \
     --group=www-data \
     --with-http_ssl_module \
-    --with-http_spdy_module \
+    --with-http_v2_module \
     --add-module=/tmp/ngx_pagespeed
 make -j"$(nproc)"
 make install
@@ -72,10 +72,6 @@ cd /tmp/php
     --with-gd=shared
 make -j"$(nproc)"
 make install
-
-# download ioncube extension
-wget http://downloads3.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
-cp /tmp/ioncube/ioncube_loader_lin_5.6.so /usr/local/lib/php/extensions/no-debug-non-zts-20131226/ioncube.so
 
 # install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
