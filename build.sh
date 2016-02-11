@@ -44,7 +44,7 @@ openssl dhparam -out /etc/ssl/certs/dhparam-reduced.pem 1024
 openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 # download and install php
-apt-get install -y --no-install-recommends libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev
+apt-get install -y --no-install-recommends libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev libxslt1-dev
 mkdir /tmp/php
 mkdir -p /usr/local/etc/php/conf.d
 wget http://php.net/get/php-$PHP_VERSION.tar.bz2/from/this/mirror -O - | tar -jxf - -C /tmp/php --strip=1
@@ -69,7 +69,8 @@ cd /tmp/php
     --with-zlib \
     --with-pdo-mysql \
     --with-mcrypt=shared \
-    --with-gd=shared
+    --with-gd=shared \
+    --with-xsl=shared
 make -j"$(nproc)"
 make install
 
