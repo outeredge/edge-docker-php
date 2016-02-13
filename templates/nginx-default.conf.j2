@@ -31,7 +31,6 @@ server {
         try_files $uri =404;
 
         include fastcgi.conf;
-        fastcgi_param SERVER_NAME $host;
         {% if NGINX_HSTS == 'On' %}
         fastcgi_param HTTPS 'on';
         {% endif %}

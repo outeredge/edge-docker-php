@@ -74,6 +74,10 @@ cd /tmp/php
 make -j"$(nproc)"
 make install
 
+# Use host as SERVER_NAME
+sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
+sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
+
 # install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
