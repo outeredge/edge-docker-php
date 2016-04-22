@@ -7,7 +7,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | Environment       | Default | Description |
 | -------------     | ------- | --- |
 | ENABLE_CRON       | Off     | Enables crond, add your cron jobs to /etc/crontab |
-| PHP_OPCACHE       | Off     | Enables PHP OPcache extension |
+| PHP_OPCACHE_VALIDATE | On   | Forces OPcache to check for updates on every request, turn Off for production |
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
 | PHP_MAX_CHILDREN  | 30      | Specify the maximum number of concurrent PHP processes |
 | NGINX_SSL         | Off     | *On* - Enables HTTP/2 in Nginx |
