@@ -2,7 +2,6 @@
 set -e
 
 NGINX_VERSION=1.9.15
-NPS_VERSION=1.11.33.0
 PHP_VERSION=7.0.5
 
 DEBIAN_FRONTEND=noninteractive
@@ -14,17 +13,10 @@ apt-get update
 apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip=1.5.4-1 curl nano wget unzip git-core ca-certificates supervisor
 pip install j2cli
 
-# download ngx_pagespeed
-apt-get install -y --no-install-recommends zlib1g-dev libpcre3-dev libssl-dev
-mkdir /tmp/ngx_pagespeed
-wget https://github.com/pagespeed/ngx_pagespeed/archive/release-${NPS_VERSION}-beta.tar.gz -O - | tar -zxf - --strip=1 -C /tmp/ngx_pagespeed
-wget https://dl.google.com/dl/page-speed/psol/${NPS_VERSION}.tar.gz -O - | tar -zxf - -C /tmp/ngx_pagespeed
-
 # install nginx
 mkdir /tmp/nginx
 mkdir /var/www
 mkdir -p /etc/nginx/conf.d
-mkdir -p -m 755 /var/cache/pagespeed
 wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -zxf - -C /tmp/nginx --strip=1
 cd /tmp/nginx
 ./configure \
@@ -34,8 +26,7 @@ cd /tmp/nginx
     --user=www-data \
     --group=www-data \
     --with-http_ssl_module \
-    --with-http_v2_module \
-    --add-module=/tmp/ngx_pagespeed
+    --with-http_v2_module
 make -j"$(nproc)"
 make install
 

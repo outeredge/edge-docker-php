@@ -10,7 +10,6 @@ ENV ENABLE_CRON=Off \
     PHP_TIMEZONE=Europe/London \
     NGINX_SSL=Off \
     NGINX_HSTS=Off \
-    NGINX_PAGESPEED=Off \
     SMTP_HOST= \
     SMTP_PORT= \
     SMTP_USER= \
