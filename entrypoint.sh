@@ -7,7 +7,7 @@ j2 /templates/msmtprc.j2 > /etc/msmtprc
 
 umask 002
 
-chown -R www-data:www-data /var/cache/pagespeed /var/www
+chown -R www-data:www-data /var/www
 chmod -R g=u /var/www
 
 exec "$@"

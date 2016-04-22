@@ -43,8 +43,4 @@ server {
     location = /favicon.ico { log_not_found off; }
 
     include security.conf;
-
-    {% if NGINX_PAGESPEED == 'On' %}
-    include pagespeed.conf;
-    {% endif %}
 }
