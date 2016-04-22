@@ -14,6 +14,7 @@ apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip=
 pip install j2cli
 
 # install nginx
+apt-get install -y --no-install-recommends libpcre3-dev libssl-dev
 mkdir /tmp/nginx
 mkdir /var/www
 mkdir -p /etc/nginx/conf.d
