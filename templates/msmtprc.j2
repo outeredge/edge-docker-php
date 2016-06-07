@@ -3,7 +3,7 @@ defaults
 auth            on
 {% endif %}
 
-{% if '25' not in SMTP_PORT %}
+{% if SMTP_TLS is defined and SMTP_TLS == 'On' %}
 tls             on
 {% endif %}
 {% if SMTP_PORT == '587' %}

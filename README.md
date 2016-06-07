@@ -19,6 +19,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | SMTP_USER         | -       | Set SMTP username |
 | SMTP_FROM         | -       | Set SMTP envelope-from header |
 | SMTP_PASS         | -       | Set SMTP password |
+| SMTP_TLS          | Off     | Enable TLS support, by default STARTTLS is enabled on port 587 |
 | SMTP_CHECK_CERTS  | On      | Specifying *Off* will disable SMTP TLS certificate checks |
 
 ## PHP extensions
