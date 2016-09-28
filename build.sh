@@ -10,8 +10,9 @@ DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install basic tools
-apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip=1.5.4-1 curl nano wget unzip git-core ca-certificates supervisor
-pip install j2cli
+apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip python-setuptools curl nano wget unzip git-core ca-certificates supervisor
+pip install --upgrade pip
+pip install shinto-cli
 
 # install nginx
 apt-get install -y --no-install-recommends libpcre3-dev libssl-dev
@@ -36,7 +37,7 @@ openssl dhparam -out /etc/ssl/certs/dhparam-reduced.pem 1024
 openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
 # download and install php
-apt-get install -y --no-install-recommends libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev libxslt1-dev
+apt-get install -y --no-install-recommends pkg-config libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev libxslt1-dev
 mkdir /tmp/php
 mkdir -p /usr/local/etc/php/conf.d
 wget http://php.net/get/php-$PHP_VERSION.tar.bz2/from/this/mirror -O - | tar -jxf - -C /tmp/php --strip=1
