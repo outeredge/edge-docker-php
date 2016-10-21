@@ -1,5 +1,5 @@
 # edge-docker-php
-Ubuntu 14.04 running Nginx 1.9 and PHP 7.0. Plays nicely with [dredger](https://github.com/outeredge/dredger).
+Ubuntu 16.04 running Nginx and PHP 7. Plays nicely with [dredger](https://github.com/outeredge/dredger).
 
 ## Configuration Options
 Most configuration can be done with environment variables. Here are the available options;
