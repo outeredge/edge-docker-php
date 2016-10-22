@@ -11,7 +11,6 @@ ENV ENABLE_CRON=Off \
     NGINX_SSL=Off \
     NGINX_HSTS=Off \
     XDEBUG_ENABLE=Off \
-    XDEBUG_CONFIG= \
     SMTP_HOST= \
     SMTP_PORT= \
     SMTP_USER= \
