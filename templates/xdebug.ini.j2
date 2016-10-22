@@ -1,4 +1,6 @@
 [xdebug]
-{% if PHP_XDEBUG_ENABLE == 'On' %}
+{% if XDEBUG_ENABLE == 'On' %}
 zend_extension = xdebug.so
+xdebug.remote_enable=on
+xdebug.remote_autostart=off
 {% endif %}

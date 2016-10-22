@@ -8,9 +8,9 @@ Most configuration can be done with environment variables. Here are the availabl
 | -------------     | ------- | --- |
 | ENABLE_CRON       | Off     | Enables crond, add your cron jobs to /etc/crontab |
 | PHP_OPCACHE_VALIDATE | On   | Forces OPcache to check for updates on every request, turn Off for production |
-| PHP_XDEBUG_ENABLE | Off     | Enables the Xdebug PHP extension |
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
 | PHP_MAX_CHILDREN  | 30      | Specify the maximum number of concurrent PHP processes |
+| XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
 | NGINX_SSL         | Off     | *On* - Enables HTTP/2 in Nginx |
 |                   |         | *Reduced* - Enables HTTP/2 with support for older (i.e. Java7) clients |
 |                   |         | *High* - Enables HTTP/2 without TLS v1.0 (for PCI DSS 3.1 Compliance) |
