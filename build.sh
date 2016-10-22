@@ -6,15 +6,15 @@ PHP_VERSION=7.0.12
 
 DEBIAN_FRONTEND=noninteractive
 
-# build apt cache
+# Build apt cache
 apt-get update
 
-# install basic tools
-apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip python-setuptools curl cron nano wget unzip git-core ca-certificates supervisor
+# Install basic tools
+apt-get install -y --no-install-recommends autoconf build-essential msmtp-mta python-pip python-setuptools curl cron nano wget unzip git-core ca-certificates supervisor
 pip install --upgrade pip
 pip install shinto-cli
 
-# install nginx
+# Install nginx
 apt-get install -y --no-install-recommends libpcre3-dev libssl-dev
 mkdir /tmp/nginx
 mkdir /var/www
@@ -32,11 +32,11 @@ cd /tmp/nginx
 make -j"$(nproc)"
 make install
 
-# create custom dh params
+# Create custom dh params
 openssl dhparam -out /etc/ssl/certs/dhparam-reduced.pem 1024
 openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
 
-# download and install php
+# Download and install php
 apt-get install -y --no-install-recommends pkg-config libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev libxslt1-dev
 mkdir /tmp/php
 mkdir -p /usr/local/etc/php/conf.d
@@ -67,14 +67,17 @@ cd /tmp/php
 make -j"$(nproc)"
 make install
 
+# Install xdebug
+pecl install xdebug
+
 # Use host as SERVER_NAME
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
 sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
 
-# install composer
+# Install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# cleanup
+# Cleanup
 apt-get purge -y build-essential g++
 apt-get autoremove -y
 apt-get clean
