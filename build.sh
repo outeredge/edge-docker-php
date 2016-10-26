@@ -67,8 +67,10 @@ cd /tmp/php
 make -j"$(nproc)"
 make install
 
-# Install xdebug
+# Install xdebug and webgrind
 pecl install xdebug
+git clone https://github.com/jokkedk/webgrind.git /var/webgrind
+chown www-data:www-data -R /var/webgrind
 
 # Use host as SERVER_NAME
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params

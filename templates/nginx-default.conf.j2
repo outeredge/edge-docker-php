@@ -42,4 +42,7 @@ server {
     location = /favicon.ico { log_not_found off; }
 
     include security.conf;
+    {% if XDEBUG_ENABLE == 'On' %}
+    include webgrind.conf;
+    {% endif %}
 }
