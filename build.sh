@@ -2,7 +2,7 @@
 set -e
 
 NGINX_VERSION=1.11.8
-PHP_VERSION=7.0.14
+PHP_VERSION=7.1.0
 
 DEBIAN_FRONTEND=noninteractive
 
