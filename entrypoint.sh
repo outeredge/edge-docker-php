@@ -11,4 +11,6 @@ umask 002
 chown -R www-data:www-data /var/www
 chmod -R g=u /var/www
 
+env > /etc/environment
+
 exec "$@"
