@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-NGINX_VERSION=1.11.8
-PHP_VERSION=5.6.29
+NGINX_VERSION=1.11.9
+PHP_VERSION=5.6.30
 
 DEBIAN_FRONTEND=noninteractive
 
@@ -10,7 +10,7 @@ DEBIAN_FRONTEND=noninteractive
 apt-get update
 
 # install basic tools
-apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip python-setuptools curl nano wget unzip git-core ca-certificates supervisor
+apt-get install -y --no-install-recommends build-essential msmtp-mta python-pip python-setuptools curl cron nano wget unzip git-core ca-certificates supervisor
 pip install --upgrade pip
 pip install shinto-cli
 
