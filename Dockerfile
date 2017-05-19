@@ -23,4 +23,4 @@ WORKDIR /var/www
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf"]
