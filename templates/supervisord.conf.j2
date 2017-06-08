@@ -3,20 +3,21 @@ nodaemon=true
 
 [program:nginx]
 command=nginx
+autostart=true
 redirect_stderr=true
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 
 [program:php-fpm]
 command=php-fpm
+autostart=true
 redirect_stderr=true
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 
-{% if ENABLE_CRON == 'On' %}
 [program:cron]
 command = cron -f
+autostart={% if ENABLE_CRON == 'On' %}true{% else %}false{% endif %}
 redirect_stderr=true
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
-{% endif %}
