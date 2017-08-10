@@ -9,5 +9,6 @@ umask 002
 
 chown -R www-data:www-data /var/www
 chmod -R g=u /var/www
+chmod -f 644 /etc/crontab
 
 exec "$@"
