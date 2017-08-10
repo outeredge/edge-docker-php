@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-NGINX_VERSION=1.13.3
-PHP_VERSION=7.0.21
+NGINX_VERSION=1.13.4
+PHP_VERSION=7.0.22
 
 DEBIAN_FRONTEND=noninteractive
 
