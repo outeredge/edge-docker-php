@@ -40,4 +40,4 @@ ENV NGINX_VERSION=1.13.5 \
 
 COPY . /
 
-RUN build.sh
+RUN /build.sh
