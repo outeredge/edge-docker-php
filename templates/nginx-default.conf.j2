@@ -6,10 +6,7 @@ server {
     ssl_certificate /etc/ssl/certs/ssl-cert.pem;
     ssl_certificate_key /etc/ssl/private/ssl-cert.key;
     ssl_trusted_certificate /etc/ssl/certs/ssl-chain.pem;
-    {% if NGINX_SSL == 'Reduced' %}
-    ssl_dhparam	/etc/ssl/certs/dhparam-reduced.pem;
-    ssl_ciphers AES256+EECDH:AES256+EDH:DHE-RSA-AES128-SHA:!aNULL;
-    {% elif NGINX_SSL == 'High' %}
+    {% if NGINX_SSL == 'High' %}
     ssl_protocols TLSv1.1 TLSv1.2;
     {% endif %}
     {% endif %}

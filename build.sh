@@ -1,25 +1,36 @@
-#!/bin/bash
-set -e
+#!/bin/bash -ex
 
-NGINX_VERSION=1.13.4
-PHP_VERSION=7.1.8
+apk add --no-cache --virtual .build-deps \
+    autoconf \
+    coreutils \
+    curl-dev \
+    gcc \
+    g++ \
+    icu-dev \
+    libc-dev \
+    libjpeg-turbo-dev \
+    libmcrypt-dev \
+    libpng-dev \
+    libressl \
+    libressl-dev \
+    libxml2-dev \
+    libxslt-dev \
+    make \
+    pcre-dev \
+    readline-dev \
+    zlib-dev
 
-DEBIAN_FRONTEND=noninteractive
+addgroup -g 82 -S www-data
+adduser -u 82 -D -S -G www-data www-data
 
-# Build apt cache
-apt-get update
-
-# Install basic tools
-apt-get install -y --no-install-recommends autoconf build-essential msmtp-mta python-pip python-setuptools curl cron nano wget unzip git-core ca-certificates supervisor
-pip install --upgrade pip
-pip install shinto-cli
-
-# Install nginx
-apt-get install -y --no-install-recommends libpcre3-dev libssl-dev
-mkdir /tmp/nginx
-mkdir /var/www
+mkdir -p /tmp/nginx
+mkdir -p /tmp/php
 mkdir -p /etc/nginx/conf.d
-wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -zxf - -C /tmp/nginx --strip=1
+mkdir -p /usr/local/etc/php/conf.d
+mkdir -p /var/www
+mkdir -p /var/webgrind
+
+wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -zxf - -C /tmp/nginx --strip-components=1
 cd /tmp/nginx
 ./configure \
     --prefix=/etc/nginx/ \
@@ -29,18 +40,13 @@ cd /tmp/nginx
     --group=www-data \
     --with-http_ssl_module \
     --with-http_v2_module
-make -j"$(nproc)"
+make -j "$(nproc)"
 make install
+# Use host as SERVER_NAME
+sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
+sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
 
-# Create custom dh params
-openssl dhparam -out /etc/ssl/certs/dhparam-reduced.pem 1024
-openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
-
-# Download and install php
-apt-get install -y --no-install-recommends pkg-config libcurl4-openssl-dev libreadline6-dev libmcrypt-dev libxml2-dev libpng-dev libjpeg-turbo8-dev libicu-dev libxslt1-dev
-mkdir /tmp/php
-mkdir -p /usr/local/etc/php/conf.d
-wget http://php.net/get/php-$PHP_VERSION.tar.bz2/from/this/mirror -O - | tar -jxf - -C /tmp/php --strip=1
+wget https://secure.php.net/distributions/php-$PHP_VERSION.tar.bz2 -O - | tar -jxf - -C /tmp/php --strip-components=1
 cd /tmp/php
 ./configure \
     --with-config-file-path=/usr/local/etc/php \
@@ -64,23 +70,16 @@ cd /tmp/php
     --with-mcrypt=shared \
     --with-gd=shared \
     --with-xsl=shared
-make -j"$(nproc)"
+make -j "$(nproc)"
 make install
 
-# Install xdebug and webgrind
-pecl install xdebug
-git clone https://github.com/jokkedk/webgrind.git /var/webgrind
-chown www-data:www-data -R /var/webgrind
-
-# Use host as SERVER_NAME
-sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
-sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
-
-# Install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Cleanup
-apt-get purge -y build-essential g++
-apt-get autoremove -y
-apt-get clean
-rm -rf /tmp/* /var/lib/apt/lists/*
+pecl update-channels
+pecl install xdebug redis
+
+wget https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz -O - | tar -zxf - -C /var/webgrind
+chown www-data:www-data -R /var/webgrind
+
+apk del .build-deps
+rm -rf /tmp/*
