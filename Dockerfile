@@ -12,7 +12,7 @@ RUN apk add --no-cache bash ca-certificates curl msmtp nano python tar unzip wge
 
 ENV PHP_VERSION=7.1.9 \
     NGINX_VERSION=1.13.5 \
-    NODE_VERSION 8.5.0 \
+    NODE_VERSION=8.5.0 \
     ENABLE_CRON=Off \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \

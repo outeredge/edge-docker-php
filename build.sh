@@ -19,6 +19,7 @@ apk add --no-cache --virtual .build-deps \
     libressl-dev \
     libxml2-dev \
     libxslt-dev \
+    linux-headers \
     make \
     pcre-dev \
     py-pip \
