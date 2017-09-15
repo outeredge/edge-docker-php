@@ -1,7 +1,11 @@
 #!/bin/bash -ex
 
+apk add --no-cache --virtual .persistent-deps \
+    libstdc++
+
 apk add --no-cache --virtual .build-deps \
     autoconf \
+    binutils-gold \
     coreutils \
     curl-dev \
     gcc \
@@ -17,7 +21,7 @@ apk add --no-cache --virtual .build-deps \
     libxslt-dev \
     make \
     pcre-dev \
-    readline-dev \
+    py-pip \
     zlib-dev
 
 addgroup -g 82 -S www-data
@@ -25,12 +29,14 @@ adduser -u 82 -D -S -G www-data www-data
 
 mkdir -p /tmp/nginx
 mkdir -p /tmp/php
+mkdir -p /tmp/node
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/etc/php/conf.d
 mkdir -p /var/www
 mkdir -p /var/webgrind
 
-wget http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz -O - | tar -zxf - -C /tmp/nginx --strip-components=1
+# Install nginx
+wget "http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz" -O - | tar -zxf - -C /tmp/nginx --strip-components=1
 cd /tmp/nginx
 ./configure \
     --prefix=/etc/nginx/ \
@@ -46,7 +52,8 @@ make install
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
 sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
 
-wget https://secure.php.net/distributions/php-$PHP_VERSION.tar.bz2 -O - | tar -jxf - -C /tmp/php --strip-components=1
+# Install php
+wget "https://secure.php.net/distributions/php-$PHP_VERSION.tar.xz" -O - | tar -Jxf - -C /tmp/php --strip-components=1
 cd /tmp/php
 ./configure \
     --with-config-file-path=/usr/local/etc/php \
@@ -64,7 +71,6 @@ cd /tmp/php
     --enable-zip \
     --with-curl \
     --with-openssl \
-    --with-readline \
     --with-zlib \
     --with-pdo-mysql \
     --with-mcrypt=shared \
@@ -73,13 +79,27 @@ cd /tmp/php
 make -j "$(nproc)"
 make install
 
+# Install node, npm
+wget "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" -O - | tar -Jxf - -C /tmp/node --strip-components=1
+cd /tmp/node
+./configure
+make -j "$(nproc)"
+make install
+
+# Install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
+# Install xdebug, phpredis
 pecl update-channels
 pecl install xdebug redis
 
-wget https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz -O - | tar -zxf - -C /var/webgrind
+# Install webgrind
+wget "https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz" -O - | tar -zxf - -C /var/webgrind
 chown www-data:www-data -R /var/webgrind
 
+# Install supervisor, shinto-cli
+pip install --no-cache-dir shinto-cli supervisor==3.3.3
+
+# Cleanup
 apk del .build-deps
 rm -rf /tmp/*

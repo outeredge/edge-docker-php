@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -ex
 
 j2 /templates/nginx-default.conf.j2 > /etc/nginx/conf.d/default.conf
 j2 /templates/supervisord.conf.j2 > /supervisord.conf
@@ -10,7 +10,7 @@ umask 002
 
 chown -R www-data:www-data /var/www
 chmod -R g=u /var/www
-chmod -f 644 /etc/crontab
+chmod -f 644 /etc/crontabs/*
 
 env > /etc/environment
 
