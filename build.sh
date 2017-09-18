@@ -1,8 +1,14 @@
 #!/bin/bash -ex
 
 apk add --no-cache --virtual .persistent-deps \
+    icu \
+    libressl \
+    libxslt \
+    libpng \
+    libjpeg-turbo \
     libstdc++ \
-    pcre-dev \
+    libxml2 \
+    pcre \
     py-setuptools
 
 apk add --no-cache --virtual .build-deps \
@@ -17,12 +23,12 @@ apk add --no-cache --virtual .build-deps \
     libjpeg-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
-    libressl \
     libressl-dev \
     libxml2-dev \
     libxslt-dev \
     linux-headers \
     make \
+    pcre-dev \
     py-pip \
     zlib-dev
 
