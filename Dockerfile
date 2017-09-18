@@ -10,7 +10,7 @@ EXPOSE 80
 
 RUN apk add --no-cache bash ca-certificates curl msmtp nano python tar unzip wget xz
 
-ENV PHP_VERSION=7.1.9 \
+ENV PHP_VERSION=7.0.23 \
     NGINX_VERSION=1.13.5 \
     NODE_VERSION=8.5.0 \
     ENABLE_CRON=Off \
