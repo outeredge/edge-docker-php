@@ -1,7 +1,9 @@
 #!/bin/bash -ex
 
 apk add --no-cache --virtual .persistent-deps \
-    libstdc++
+    libstdc++ \
+    pcre-dev \
+    py-setuptools
 
 apk add --no-cache --virtual .build-deps \
     autoconf \
@@ -21,7 +23,6 @@ apk add --no-cache --virtual .build-deps \
     libxslt-dev \
     linux-headers \
     make \
-    pcre-dev \
     py-pip \
     zlib-dev
 
