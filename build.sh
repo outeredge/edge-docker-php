@@ -80,6 +80,7 @@ cd /tmp/php
     --with-xsl=shared
 make -j "$(nproc)"
 make install
+rm -rf /usr/local/bin/phpdbg
 
 # Install node, npm
 wget "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" -O - | tar -Jxf - -C /tmp/node --strip-components=1
