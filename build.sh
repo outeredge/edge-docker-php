@@ -9,7 +9,8 @@ apk add --no-cache --virtual .persistent-deps \
     libstdc++ \
     libxml2 \
     pcre \
-    py-setuptools
+    py-setuptools \
+    readline
 
 apk add --no-cache --virtual .build-deps \
     autoconf \
@@ -30,6 +31,7 @@ apk add --no-cache --virtual .build-deps \
     make \
     pcre-dev \
     py-pip \
+    readline-dev \
     zlib-dev
 
 addgroup -g 82 -S www-data
