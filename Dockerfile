@@ -13,6 +13,7 @@ RUN apk add --no-cache --virtual .persistent bash ca-certificates curl msmtp nan
 ENV PHP_VERSION=7.1.9 \
     NGINX_VERSION=1.13.5 \
     NODE_VERSION=8.5.0 \
+    SUPERVISOR_VERSION=3.3.3 \
     ENABLE_CRON=Off \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
