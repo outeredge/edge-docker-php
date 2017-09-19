@@ -111,6 +111,10 @@ chown www-data:www-data -R /var/webgrind
 # Install supervisor, shinto-cli
 pip install --no-cache-dir shinto-cli supervisor==3.3.3
 
+# Increase musl libc stack size https://github.com/voidlinux/void-packages/issues/4147
+wget https://gist.githubusercontent.com/davidwindell/13a09511117fdd1523b9f31c0bb23dd5/raw/560df4b8ad682d6494dfb85cee2df7b42f63cde2/stack-fix.c -O /lib/stack-fix.c
+gcc -shared -fPIC /lib/stack-fix.c -o /lib/stack-fix.so
+
 # Cleanup
 apk del .build-deps
 rm -rf /tmp/*

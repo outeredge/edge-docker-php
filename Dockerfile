@@ -25,7 +25,8 @@ ENV PHP_VERSION=7.1.9 \
     SMTP_PORT= \
     SMTP_USER= \
     SMTP_PASS= \
-    SMTP_FROM=
+    SMTP_FROM= \
+    LD_PRELOAD=/lib/stack-fix.so
 
 COPY build.sh /
 RUN /build.sh
