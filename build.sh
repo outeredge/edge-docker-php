@@ -2,6 +2,11 @@
 
 apk add --no-cache --virtual .persistent-deps \
     icu \
+    libressl \
+    libxslt \
+    libpng \
+    libjpeg-turbo \
+    libmcrypt \
     libstdc++ \
     libxml2 \
     pcre \
@@ -20,7 +25,6 @@ apk add --no-cache --virtual .build-deps \
     libjpeg-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
-    libressl \
     libressl-dev \
     libxml2-dev \
     libxslt-dev \
@@ -31,14 +35,17 @@ apk add --no-cache --virtual .build-deps \
     readline-dev \
     zlib-dev
 
-addgroup -g 82 -S www-data
-adduser -u 82 -D -S -G www-data www-data
+# We use gid 33 to make life easier for volume mounting in Ubuntu
+deluser xfs
+addgroup -g 33 -S www-data
+adduser -u 33 -D -S -G www-data www-data
 
 mkdir -p /tmp/nginx
 mkdir -p /tmp/php
 mkdir -p /tmp/node
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/etc/php/conf.d
+mkdir -p /etc/supervisor/conf.d
 mkdir -p /var/www
 mkdir -p /var/webgrind
 
@@ -58,6 +65,11 @@ make install
 # Use host as SERVER_NAME
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
 sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
+
+# https://github.com/docker-library/php/issues/272
+export CFLAGS="-fstack-protector-strong -fpic -fpie -O2"
+export CPPFLAGS="$CFLAGS"
+export LDFLAGS="-Wl,-O1 -Wl,--hash-style=both -pie"
 
 # Install php
 wget "https://secure.php.net/distributions/php-$PHP_VERSION.tar.xz" -O - | tar -Jxf - -C /tmp/php --strip-components=1
@@ -106,7 +118,11 @@ wget "https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz" -O - | tar -zxf
 chown www-data:www-data -R /var/webgrind
 
 # Install supervisor, shinto-cli
-pip install --no-cache-dir shinto-cli supervisor==3.3.3
+pip install --no-cache-dir shinto-cli supervisor==$SUPERVISOR_VERSION
+
+# Increase musl libc stack size https://github.com/voidlinux/void-packages/issues/4147
+wget https://gist.githubusercontent.com/davidwindell/13a09511117fdd1523b9f31c0bb23dd5/raw/560df4b8ad682d6494dfb85cee2df7b42f63cde2/stack-fix.c -O /lib/stack-fix.c
+gcc -shared -fPIC /lib/stack-fix.c -o /lib/stack-fix.so
 
 # Cleanup
 apk del .build-deps
