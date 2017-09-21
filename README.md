@@ -1,6 +1,13 @@
 # edge-docker-php
 Alpine running Nginx and PHP. Plays nicely with [dredger](https://github.com/outeredge/dredger).
 
+## Provided Software
+* PHP 7+
+* Nginx
+* Node 8 / NPM 5
+* Composer
+
+
 ## Configuration Options
 Most configuration can be done with environment variables. Here are the available options;
 
@@ -25,4 +32,13 @@ Most configuration can be done with environment variables. Here are the availabl
 
 ### PHP extensions & settings
 
-Create an ini file in `/usr/local/etc/php/conf.d/`. See [here](https://github.com/outeredge/edge-docker-magento/blob/1.9.2.3/usr/local/etc/php/conf.d/magento.ini) for an example that loads the GD and soap extensions.
+This image provides optional PHP extensions ready to enable. Available extensions include:
+
+ * gd
+ * mcrypt
+ * soap
+ * phpredis
+ * ioncube
+
+To enable an extension, simply create an ini file in `/usr/local/etc/php/conf.d/`. See [here](https://github.com/outeredge/edge-docker-magento/blob/1.9.3.6-php7/usr/local/etc/php/conf.d/magento.ini) for an example that loads the GD and Soap extensions.
+
