@@ -31,6 +31,7 @@ apk add --no-cache --virtual .build-deps \
     linux-headers \
     make \
     pcre-dev \
+    pkgconfig \
     py-pip \
     readline-dev \
     zlib-dev
