@@ -43,7 +43,6 @@ adduser -u 33 -D -S -G www-data www-data
 
 mkdir -p /tmp/nginx
 mkdir -p /tmp/php
-mkdir -p /tmp/node
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/etc/php/conf.d
 mkdir -p /etc/supervisor/conf.d
@@ -101,11 +100,7 @@ make install
 rm -rf /usr/local/bin/phpdbg
 
 # Install node, npm
-wget "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" -O - | tar -Jxf - -C /tmp/node --strip-components=1
-cd /tmp/node
-./configure
-make -j "$(nproc)"
-make install
+apk add "nodejs-current-npm>$NODE_VERSION" --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community
 
 # Install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
