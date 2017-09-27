@@ -60,7 +60,7 @@ cd /tmp/nginx
     --group=www-data \
     --with-http_ssl_module \
     --with-http_v2_module
-make -j "$(nproc)"
+make -j "$(nproc --ignore=1)"
 make install
 # Use host as SERVER_NAME
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
@@ -95,12 +95,16 @@ cd /tmp/php
     --with-mcrypt=shared \
     --with-gd=shared \
     --with-xsl=shared
-make -j "$(nproc)"
+make -j "$(nproc --ignore=1)"
 make install
 rm -rf /usr/local/bin/phpdbg
 
 # Install node, npm
-apk add "nodejs-current-npm>$NODE_VERSION" --no-cache --repository http://dl-cdn.alpinelinux.org/alpine/edge/community
+wget "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION.tar.xz" -O - | tar -Jxf - -C /tmp/node --strip-components=1
+cd /tmp/node
+./configure
+make -j "$(nproc --ignore=1)"
+make install
 
 # Install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
