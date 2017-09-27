@@ -43,6 +43,7 @@ adduser -u 33 -D -S -G www-data www-data
 
 mkdir -p /tmp/nginx
 mkdir -p /tmp/php
+mkdir -p /tmp/node
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/etc/php/conf.d
 mkdir -p /etc/supervisor/conf.d
