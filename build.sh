@@ -130,6 +130,9 @@ cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php-config --extension-
 wget https://gist.githubusercontent.com/davidwindell/13a09511117fdd1523b9f31c0bb23dd5/raw/560df4b8ad682d6494dfb85cee2df7b42f63cde2/stack-fix.c -O /lib/stack-fix.c
 gcc -shared -fPIC /lib/stack-fix.c -o /lib/stack-fix.so
 
+# Replace sendmail with msmtp
+ln -sf /usr/bin/msmtp /usr/sbin/sendmail
+
 # Cleanup
 apk del .build-deps
 rm -rf /tmp/*
