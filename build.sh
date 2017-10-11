@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 apk add --no-cache --virtual .persistent-deps \
+    freetype \
     icu \
     libressl \
     libxslt \
@@ -22,6 +23,7 @@ apk add --no-cache --virtual .build-deps \
     g++ \
     icu-dev \
     libc-dev \
+    freetype-dev \
     libjpeg-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
@@ -78,7 +80,9 @@ cd /tmp/php
 ./configure \
     --with-config-file-path=/usr/local/etc/php \
     --with-config-file-scan-dir=/usr/local/etc/php/conf.d \
-    --with-jpeg-dir=/usr \
+    --with-jpeg-dir=/usr/include \
+    --with-png-dir=/usr/include \
+    --with-freetype-dir=/usr/include \
     --with-fpm-user=www-data \
     --with-fpm-group=www-data \
     --disable-cgi \
