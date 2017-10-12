@@ -38,7 +38,7 @@ apk add --no-cache --virtual .build-deps \
 # We use gid 33 to make life easier for volume mounting in Ubuntu
 deluser xfs
 addgroup -g 33 -S www-data
-adduser -u 33 -D -S -G www-data www-data
+adduser -u 33 -DSH -h /var/www -s /sbin/nologin -g www-data -G www-data www-data
 
 mkdir -p /tmp/nginx
 mkdir -p /tmp/php
@@ -114,8 +114,11 @@ pecl update-channels
 pecl install xdebug redis
 
 # Install webgrind
-wget "https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz" -O - | tar -zxf - -C /var/webgrind
-chown www-data:www-data -R /var/webgrind
+wget "https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz" -O - | tar -zxf - -C /var/webgrind --strip-components=1
+
+# Set permissions for web server directories
+chown root:root -R /var/www /var/webgrind
+chmod 755 /var/www /var/webgrind
 
 # Install supervisor, shinto-cli
 pip install --no-cache-dir shinto-cli supervisor==$SUPERVISOR_VERSION
