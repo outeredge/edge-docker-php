@@ -2,6 +2,7 @@
 logfile=/dev/null
 pidfile=/var/run/supervisord.pid
 nodaemon=true
+umask=002
 
 [unix_http_server]
 file=/var/run/supervisor.sock
