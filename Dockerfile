@@ -33,3 +33,5 @@ COPY build.sh /
 RUN /build.sh
 
 COPY . /
+
+USER edge
