@@ -48,7 +48,6 @@ mkdir -p /tmp/node
 mkdir -p /etc/nginx/conf.d
 mkdir -p /usr/local/etc/php/conf.d
 mkdir -p /etc/supervisor/conf.d
-mkdir -p /var/www
 mkdir -p /var/webgrind
 
 # Install nginx
