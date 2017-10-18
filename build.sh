@@ -40,7 +40,7 @@ apk add --no-cache --virtual .build-deps \
 
 # Create user for Nginx & PHP with uid 1000 to make life easier for volume mounting
 addgroup -g 1000 -S edge
-adduser -u 1000 -DSH -h /var/www -s /sbin/nologin -g edge -G edge edge
+adduser -u 1000 -DS -h /var/www -s /sbin/nologin -g edge -G edge edge
 
 mkdir -p /tmp/nginx
 mkdir -p /tmp/php
@@ -119,10 +119,7 @@ pecl install xdebug redis
 
 # Install webgrind
 wget "https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz" -O - | tar -zxf - -C /var/webgrind --strip-components=1
-
-# Set permissions for web server directories
-chown root:root -R /var/www /var/webgrind
-chmod 755 /var/www /var/webgrind
+chown edge:edge -R /var/webgrind
 
 # Install supervisor, shinto-cli
 pip install --no-cache-dir shinto-cli supervisor==$SUPERVISOR_VERSION
