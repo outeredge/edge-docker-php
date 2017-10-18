@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 apk add --no-cache --virtual .persistent-deps \
+    freetype \
     icu \
     libressl \
     libxslt \
@@ -22,6 +23,7 @@ apk add --no-cache --virtual .build-deps \
     g++ \
     icu-dev \
     libc-dev \
+    freetype-dev \
     libjpeg-turbo-dev \
     libmcrypt-dev \
     libpng-dev \
@@ -31,14 +33,14 @@ apk add --no-cache --virtual .build-deps \
     linux-headers \
     make \
     pcre-dev \
+    pkgconfig \
     py-pip \
     readline-dev \
     zlib-dev
 
-# We use gid 33 to make life easier for volume mounting in Ubuntu
-deluser xfs
-addgroup -g 33 -S www-data
-adduser -u 33 -DSH -h /var/www -s /sbin/nologin -g www-data -G www-data www-data
+# Create user for Nginx & PHP with uid 1000 to make life easier for volume mounting
+addgroup -g 1000 -S edge
+adduser -u 1000 -DSH -h /var/www -s /sbin/nologin -g edge -G edge edge
 
 mkdir -p /tmp/nginx
 mkdir -p /tmp/php
@@ -56,8 +58,8 @@ cd /tmp/nginx
     --prefix=/etc/nginx/ \
     --conf-path=/etc/nginx/nginx.conf \
     --sbin-path=/usr/sbin/nginx \
-    --user=www-data \
-    --group=www-data \
+    --user=edge \
+    --group=edge \
     --with-http_ssl_module \
     --with-http_v2_module
 make -j "$(nproc --ignore=1)"
@@ -77,9 +79,11 @@ cd /tmp/php
 ./configure \
     --with-config-file-path=/usr/local/etc/php \
     --with-config-file-scan-dir=/usr/local/etc/php/conf.d \
-    --with-jpeg-dir=/usr \
-    --with-fpm-user=www-data \
-    --with-fpm-group=www-data \
+    --with-jpeg-dir=/usr/include \
+    --with-png-dir=/usr/include \
+    --with-freetype-dir=/usr/include \
+    --with-fpm-user=edge \
+    --with-fpm-group=edge \
     --disable-cgi \
     --enable-fpm \
     --enable-intl \
