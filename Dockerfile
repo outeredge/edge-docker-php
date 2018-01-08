@@ -1,4 +1,4 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
 WORKDIR /var/www
 
@@ -10,9 +10,9 @@ EXPOSE 80
 
 RUN apk add --no-cache --virtual .persistent bash ca-certificates curl git msmtp nano python tar unzip wget xz
 
-ENV PHP_VERSION=7.1.10 \
-    NGINX_VERSION=1.13.6 \
-    NODE_VERSION=8.7.0 \
+ENV PHP_VERSION=7.1.12 \
+    NGINX_VERSION=1.13.8 \
+    NODE_VERSION=8.9.4 \
     SUPERVISOR_VERSION=3.3.3 \
     ENABLE_CRON=Off \
     PHP_DISPLAY_ERRORS=Off \
@@ -26,8 +26,7 @@ ENV PHP_VERSION=7.1.10 \
     SMTP_PORT= \
     SMTP_USER= \
     SMTP_PASS= \
-    SMTP_FROM= \
-    LD_PRELOAD=/lib/stack-fix.so
+    SMTP_FROM=
 
 COPY build.sh /
 RUN /build.sh
