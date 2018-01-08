@@ -1,4 +1,4 @@
-##!/bin/bash -ex
+#!/bin/bash -ex
 
 apk add --no-cache --virtual .persistent-deps \
     freetype \
