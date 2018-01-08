@@ -1,4 +1,4 @@
-#!/bin/bash -ex
+##!/bin/bash -ex
 
 apk add --no-cache --virtual .persistent-deps \
     freetype \
@@ -128,10 +128,6 @@ SV=(${PHP_VERSION//./ })
 IONCUBE_VERSION="${SV[0]}.${SV[1]}"
 wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
 cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php-config --extension-dir)/ioncube.so
-
-# Increase musl libc stack size https://github.com/voidlinux/void-packages/issues/4147
-wget https://gist.githubusercontent.com/davidwindell/13a09511117fdd1523b9f31c0bb23dd5/raw/560df4b8ad682d6494dfb85cee2df7b42f63cde2/stack-fix.c -O /lib/stack-fix.c
-gcc -shared -fPIC /lib/stack-fix.c -o /lib/stack-fix.so
 
 # Replace sendmail with msmtp
 ln -sf /usr/bin/msmtp /usr/sbin/sendmail
