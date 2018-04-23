@@ -8,6 +8,7 @@ apk add --no-cache --virtual .persistent-deps \
     libpng \
     libjpeg-turbo \
     libmcrypt \
+    libsodium \
     libstdc++ \
     libxml2 \
     pcre \
