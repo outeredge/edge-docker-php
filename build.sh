@@ -28,6 +28,7 @@ apk add --no-cache --virtual .build-deps \
     libmcrypt-dev \
     libpng-dev \
     libressl-dev \
+    libsodium-dev \
     libxml2-dev \
     libxslt-dev \
     linux-headers \
@@ -93,6 +94,7 @@ cd /tmp/php
     --enable-soap=shared \
     --enable-zip \
     --with-curl \
+    --with-sodium \
     --with-openssl \
     --with-zlib \
     --with-pdo-mysql \
