@@ -1,5 +1,12 @@
 # edge-docker-php
-Ubuntu 16.04 running Nginx and PHP 7. Plays nicely with [dredger](https://github.com/outeredge/dredger).
+Alpine running Nginx and PHP. Plays nicely with [dredger](https://github.com/outeredge/dredger).
+
+## Provided Software
+* PHP 5.6
+* Nginx
+* Node 8 / NPM 5
+* Composer
+
 
 ## Configuration Options
 Most configuration can be done with environment variables. Here are the available options;
@@ -12,6 +19,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
 | PHP_MAX_CHILDREN  | 10      | Specify the maximum number of concurrent PHP processes |
 | XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension with Webgrind at `/webgrind` |
+| XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | NGINX_SSL         | Off     | *On* - Enables HTTP/2 in Nginx |
 |                   |         | *High* - Enables HTTP/2 without TLS v1.0 (for PCI DSS 3.1 Compliance) |
 | NGINX_HSTS        | Off     | Enable [HSTS] (http://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security) |
@@ -25,4 +33,12 @@ Most configuration can be done with environment variables. Here are the availabl
 
 ### PHP extensions & settings
 
-Create an ini file in `/usr/local/etc/php/conf.d/`. See [here](https://github.com/outeredge/edge-docker-magento/blob/1.9.2.3/usr/local/etc/php/conf.d/magento.ini) for an example that loads the GD and soap extensions.
+This image provides optional PHP extensions ready to enable. Available extensions include:
+
+ * gd
+ * mcrypt
+ * soap
+ * phpredis
+ * ioncube
+
+To enable an extension, simply create an ini file in `/usr/local/etc/php/conf.d/`. See [here](https://github.com/outeredge/edge-docker-magento/blob/1.9.3.6-php7/usr/local/etc/php/conf.d/magento.ini) for an example that loads the GD and Soap extensions.
