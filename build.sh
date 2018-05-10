@@ -84,6 +84,7 @@ cd /tmp/php
     --with-fpm-user=edge \
     --with-fpm-group=edge \
     --disable-cgi \
+    --enable-bcmath \
     --enable-fpm \
     --enable-intl \
     --enable-mbstring \

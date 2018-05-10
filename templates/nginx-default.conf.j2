@@ -32,7 +32,7 @@ server {
         fastcgi_param HTTPS 'on';
         {% endif %}
         fastcgi_read_timeout 300;
-        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_pass 127.0.0.1:8000;
     }
 
     location = /robots.txt { log_not_found off; }
