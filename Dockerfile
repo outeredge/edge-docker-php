@@ -22,6 +22,7 @@ ENV PHP_VERSION=7.2.4 \
     NGINX_SSL=Off \
     NGINX_HSTS=Off \
     XDEBUG_ENABLE=Off \
+    XDEBUG_HOST= \
     SMTP_HOST= \
     SMTP_PORT= \
     SMTP_USER= \
