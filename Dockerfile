@@ -8,7 +8,7 @@ CMD ["/usr/bin/supervisord"]
 
 EXPOSE 80
 
-RUN apk add --no-cache bash ca-certificates curl msmtp nano python tar unzip wget xz
+RUN apk add --no-cache --virtual .persistent bash ca-certificates curl git msmtp nano python tar unzip wget xz
 
 ENV PHP_VERSION=5.6.36 \
     NGINX_VERSION=1.13.12 \
