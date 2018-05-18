@@ -115,7 +115,7 @@ curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin
 
 # Install xdebug, phpredis
 pecl update-channels
-pecl install xdebug redis
+pecl install xdebug-2.5.5 redis
 
 # Install webgrind
 wget "https://github.com/jokkedk/webgrind/archive/v1.5.0.tar.gz" -O - | tar -zxf - -C /var/webgrind --strip-components=1
