@@ -58,9 +58,7 @@ cd /tmp/nginx
     --conf-path=/etc/nginx/nginx.conf \
     --sbin-path=/usr/sbin/nginx \
     --user=edge \
-    --group=edge \
-    --with-http_ssl_module \
-    --with-http_v2_module
+    --group=edge
 make -j "$(nproc --ignore=1)"
 make install
 # Use host as SERVER_NAME

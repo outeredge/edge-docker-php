@@ -1,4 +1,4 @@
-FROM alpine:3.7
+FROM alpine:3.8
 
 WORKDIR /var/www
 
@@ -10,17 +10,15 @@ EXPOSE 80
 
 RUN apk add --no-cache --virtual .persistent bash ca-certificates curl git msmtp nano python tar unzip wget xz
 
-ENV PHP_VERSION=7.1.17 \
-    NGINX_VERSION=1.13.12 \
-    NODE_VERSION=8.11.1 \
+ENV PHP_VERSION=7.1.24 \
+    NGINX_VERSION=1.15.6 \
+    NODE_VERSION=10.13.0 \
     SUPERVISOR_VERSION=3.3.4 \
     ENABLE_CRON=Off \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=10 \
     PHP_TIMEZONE=Europe/London \
-    NGINX_SSL=Off \
-    NGINX_HSTS=Off \
     XDEBUG_ENABLE=Off \
     XDEBUG_HOST= \
     SMTP_HOST= \
