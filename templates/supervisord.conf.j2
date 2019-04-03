@@ -3,6 +3,7 @@ logfile=/dev/null
 pidfile=/var/run/supervisord.pid
 nodaemon=true
 umask=002
+user=root
 
 [unix_http_server]
 file=/var/run/supervisor.sock
@@ -24,7 +25,7 @@ stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 
 [program:php-fpm]
-command=php-fpm
+command=php-fpm7
 autostart=true
 redirect_stderr=true
 stdout_logfile=/dev/stdout
