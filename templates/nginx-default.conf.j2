@@ -1,14 +1,6 @@
 server {
     listen 80 default_server reuseport;
 
-    {% if NGINX_HSTS == 'On' %}
-    add_header Strict-Transport-Security max-age=15768000;
-
-    if ($scheme != "https") {
-        return 301 https://$host$request_uri;
-    }
-    {% endif %}
-
     root /var/www;
 
     location / {
@@ -19,18 +11,13 @@ server {
         try_files $uri =404;
 
         include fastcgi.conf;
-        {% if NGINX_HSTS == 'On' %}
-        fastcgi_param HTTPS 'on';
-        {% endif %}
+
         fastcgi_read_timeout 300;
-        fastcgi_pass 127.0.0.1:8000;
+        fastcgi_pass fastcgi_backend;
     }
 
     location = /robots.txt { log_not_found off; }
     location = /favicon.ico { log_not_found off; }
 
     include security.conf;
-    {% if XDEBUG_ENABLE == 'On' %}
-    include webgrind.conf;
-    {% endif %}
 }
