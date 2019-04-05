@@ -44,6 +44,7 @@ RUN apk add --no-cache \
             php7-pecl-redis \
         nginx=~${NGINX_VERSION} \
         nodejs=~${NODE_VERSION} \
+        npm \
         composer && \
     rm -Rf /var/www/*
 
