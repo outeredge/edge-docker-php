@@ -28,6 +28,7 @@ ENV PHP_VERSION=7.2.14 \
 
 RUN apk add --no-cache \
         php7=~${PHP_VERSION} \
+            php7-ctype \
             php7-fpm \
             php7-opcache \
             php7-bcmath \
