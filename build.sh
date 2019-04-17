@@ -11,6 +11,10 @@ ln -sf /usr/bin/msmtp /usr/sbin/sendmail
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
 sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
 
+# Set HTTPS according to forwarded protocol
+sed -i "s/https/fe_https/" /etc/nginx/fastcgi_params
+sed -i "s/https/fe_https/" /etc/nginx/fastcgi.conf
+
 apk add --no-cache --virtual .build-deps \
     py-pip \
     php7-dev
