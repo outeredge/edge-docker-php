@@ -26,23 +26,28 @@ ENV PHP_VERSION=7.2.17 \
 
 RUN apk add --no-cache \
         php7=~${PHP_VERSION} \
-            php7-ctype \
-            php7-dom \
-            php7-fpm \
-            php7-fileinfo \
-            php7-opcache \
             php7-bcmath \
+            php7-ctype \
+            php7-curl \
+            php7-dom \
+            php7-fileinfo \
+            php7-fpm \
             php7-intl \
             php7-mbstring \
-            php7-pdo_mysql \
-            php7-mysqlnd \
             php7-mysqli \
-            php7-curl \
-            php7-zip \
-            php7-sodium \
+            php7-mysqlnd \
+            php7-opcache \
             php7-openssl \
-            php7-pecl-xdebug \
+            php7-pdo_mysql \
             php7-pecl-redis \
+            php7-pecl-xdebug \
+            php7-simplexml \
+            php7-sodium \
+            php7-tokenizer \
+            php7-xml \
+            php7-xmlreader \
+            php7-xmlwriter \
+            php7-zip \            
         nginx \
         nodejs \
         npm \
