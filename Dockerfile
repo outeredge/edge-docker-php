@@ -28,6 +28,7 @@ RUN apk add --no-cache \
         php7=~${PHP_VERSION} \
             php7-ctype \
             php7-fpm \
+            php7-fileinfo \
             php7-opcache \
             php7-bcmath \
             php7-intl \
