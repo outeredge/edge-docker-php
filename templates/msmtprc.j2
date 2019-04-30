@@ -1,6 +1,6 @@
 defaults
 {% if SMTP_PASS is defined and SMTP_PASS %}
-auth            on
+auth            plain
 {% endif %}
 
 {% if SMTP_TLS is defined and SMTP_TLS == 'On' %}
