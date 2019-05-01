@@ -1,4 +1,6 @@
-#!/bin/bash -ex
+#!/bin/bash -e
+
+echo "Preparing to launch image"
 
 env > /etc/environment
 
@@ -13,6 +15,17 @@ chmod -f 644 /etc/crontabs/*
 if [[ $ENABLE_SSH = "On" ]]
 then
     echo "edge:$SSH_PASSWORD" | chpasswd
+fi
+
+DOCKER_UID=`stat -c "%u" /var/www`
+DOCKER_GID=`stat -c "%g" /var/www`
+UID_EXISTS=`getent passwd $DOCKER_UID | cut -d: -f1`
+
+if [ -z "${UID_EXISTS}" ]
+then
+    echo "Matching uid and gid to host volume"
+    usermod -u $DOCKER_UID edge
+    groupmod -g $DOCKER_GID edge
 fi
 
 umask 002
