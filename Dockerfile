@@ -8,10 +8,11 @@ CMD ["/usr/bin/supervisord"]
 
 EXPOSE 80
 
-RUN apk add --no-cache bash ca-certificates curl git msmtp nano python supervisor tar unzip wget
+RUN apk add --no-cache bash ca-certificates curl git msmtp nano openssh openssh-sftp-server python supervisor tar unzip wget
 
 ENV PHP_VERSION=7.2.17 \
     ENABLE_CRON=Off \
+    ENABLE_SSH=Off \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=10 \

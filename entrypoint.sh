@@ -10,6 +10,11 @@ j2 /templates/msmtprc.j2 > /etc/msmtprc
 
 chmod -f 644 /etc/crontabs/*
 
+if [[ $ENABLE_SSH = "On" ]]
+then
+    echo "edge:$SSH_PASSWORD" | chpasswd
+fi
+
 umask 002
 
 exec "$@"

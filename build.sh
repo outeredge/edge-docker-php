@@ -2,7 +2,10 @@
 
 # Create user for Nginx & PHP with uid 1000 to make life easier for volume mounting
 addgroup -g 1000 -S edge
-adduser -u 1000 -DS -h /var/www -s /sbin/nologin -g edge -G edge edge
+adduser -u 1000 -DS -h /var/www -s /bin/bash -g edge -G edge edge
+
+# Create default host keys
+ssh-keygen -A
 
 # Replace sendmail with msmtp
 ln -sf /usr/bin/msmtp /usr/sbin/sendmail

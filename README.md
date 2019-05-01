@@ -14,6 +14,8 @@ Most configuration can be done with environment variables. Here are the availabl
 | Environment       | Default | Description |
 | -------------     | ------- | --- |
 | ENABLE_CRON       | Off     | Enables crond, add your cron jobs to /etc/crontabs/edge. Remember to add an empty line at the end! |
+| ENABLE_SSH        | Off     | Enables SSH/SFTP access to the container with user `edge` (for test purposes only) |
+| SSH_PASSWORD      | -       | Set SSH password for user `edge`, required for SSH access to work |
 | PHP_DISPLAY_ERRORS | Off    | Display PHP errors in the browser, *not* recommended for production |
 | PHP_OPCACHE_VALIDATE | On   | Forces OPcache to check for updates on every request, turn Off for production |
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
