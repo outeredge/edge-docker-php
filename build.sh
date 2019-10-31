@@ -1,8 +1,11 @@
 #!/bin/bash -ex
 
-# Create user for Nginx & PHP with uid 1000 to make life easier for volume mounting
+# Create user for Nginx & PHP and add to sudoers
 addgroup -g 1000 -S edge
 adduser -u 1000 -DS -h /var/www -s /bin/bash -g edge -G edge edge
+addgroup edge wheel
+echo "edge ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/edge
+chmod 0440 /etc/sudoers.d/edge
 
 # Create default host keys
 ssh-keygen -A

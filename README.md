@@ -1,6 +1,6 @@
 # edge-docker-php
 
-Alpine running Nginx and PHP. Plays nicely with [dredger](https://github.com/outeredge/dredger).
+Alpine running Nginx and PHP. Plays nicely with [dredger](https://github.com/outeredge/dredger). Designed for development use only.
 
 ## Provided Software
 * PHP 7

@@ -4,18 +4,18 @@ WORKDIR /var/www
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["/usr/bin/supervisord"]
+CMD ["/launch.sh"]
 
 EXPOSE 80
 
-RUN apk add --no-cache bash ca-certificates curl git msmtp nano openssh openssh-sftp-server python supervisor shadow tar unzip wget
+RUN apk add --no-cache bash ca-certificates curl git msmtp nano openssh openssh-sftp-server python sudo supervisor shadow tar unzip wget
 
-ENV PHP_VERSION=7.2.17 \
+ENV PHP_VERSION=7.2 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
-    PHP_MAX_CHILDREN=10 \
+    PHP_MAX_CHILDREN=20 \
     PHP_TIMEZONE=Europe/London \
     XDEBUG_ENABLE=Off \
     XDEBUG_HOST= \
@@ -48,14 +48,16 @@ RUN apk add --no-cache \
             php7-xml \
             php7-xmlreader \
             php7-xmlwriter \
-            php7-zip \            
+            php7-zip \
         nginx \
         nodejs \
-        npm \
-        composer && \
+        npm && \
     rm -Rf /var/www/*
 
-COPY build.sh /
-RUN /build.sh
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . /
+
+RUN /build.sh
+
+USER edge
