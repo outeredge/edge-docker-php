@@ -13,6 +13,7 @@ if [ -z "${UID_EXISTS}" ]
 then
     sudo usermod -u $DOCKER_UID edge
     sudo groupmod -g $DOCKER_GID edge
+    chown -R edge:edge /var/www /home/edge
 fi
 
 umask 002

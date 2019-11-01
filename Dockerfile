@@ -49,12 +49,11 @@ RUN apk add --no-cache \
             php7-xmlreader \
             php7-xmlwriter \
             php7-zip \
+        composer \
         nginx \
         nodejs \
         npm && \
     rm -Rf /var/www/*
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . /
 
