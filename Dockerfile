@@ -48,6 +48,7 @@ RUN apk add --no-cache \
             php7-xml \
             php7-xmlreader \
             php7-xmlwriter \
+            php7-xsl \
             php7-zip \
         composer \
         nginx \
