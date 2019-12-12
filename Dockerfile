@@ -43,6 +43,7 @@ RUN apk add --no-cache \
             php7-pecl-redis \
             php7-pecl-xdebug \
             php7-simplexml \
+            php7-soap \
             php7-sodium \
             php7-tokenizer \
             php7-xml \
