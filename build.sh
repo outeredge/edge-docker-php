@@ -29,6 +29,10 @@ apk add --no-cache --virtual .build-deps \
 # Install shinto-cli
 pip install --no-cache-dir shinto-cli
 
+# Install prestissimo for parallel composer installs (until v2 is out)
+sudo -u edge composer global require hirak/prestissimo
+sudo -u edge composer clear-cache
+
 # Download ioncube loaders
 SV=(${PHP_VERSION//./ })
 IONCUBE_VERSION="${SV[0]}.${SV[1]}"
