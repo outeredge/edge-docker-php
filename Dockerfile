@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.7
 
 WORKDIR /var/www
 
@@ -10,7 +10,7 @@ EXPOSE 80
 
 RUN apk add --no-cache bash bash-completion ca-certificates curl git msmtp nano openssh openssh-sftp-server python sudo supervisor shadow tar unzip wget
 
-ENV PHP_VERSION=7.2 \
+ENV PHP_VERSION=7.1 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     PHP_DISPLAY_ERRORS=Off \
@@ -34,28 +34,30 @@ RUN apk add --no-cache \
             php7-fileinfo \
             php7-fpm \
             php7-intl \
+            php7-json \
             php7-mbstring \
             php7-mysqli \
             php7-mysqlnd \
             php7-opcache \
             php7-openssl \
+            php7-phar \
             php7-pdo_mysql \
-            php7-pecl-redis \
-            php7-pecl-xdebug \
+            php7-redis \
+            php7-xdebug \
             php7-simplexml \
             php7-soap \
-            php7-sodium \
             php7-tokenizer \
             php7-xml \
             php7-xmlreader \
             php7-xmlwriter \
             php7-xsl \
             php7-zip \
-        composer \
         nginx \
         nodejs \
-        npm && \
+        nodejs-npm && \
     rm -Rf /var/www/*
+
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . /
 
