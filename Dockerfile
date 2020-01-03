@@ -36,6 +36,7 @@ RUN apk add --no-cache \
             php7-intl \
             php7-json \
             php7-mbstring \
+            php7-mcrypt \
             php7-mysqli \
             php7-mysqlnd \
             php7-opcache \
