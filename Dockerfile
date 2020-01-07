@@ -8,7 +8,24 @@ CMD ["/launch.sh"]
 
 EXPOSE 80
 
-RUN apk add --no-cache bash bash-completion ca-certificates curl git msmtp nano openssh openssh-sftp-server python sudo supervisor shadow tar unzip wget
+RUN apk add --no-cache \
+        bash \
+        bash-completion \
+        ca-certificates \
+        curl \
+        git \
+        git-bash-completion \
+        msmtp \
+        nano \
+        openssh \
+        openssh-sftp-server \
+        python \
+        sudo \
+        supervisor \
+        shadow \
+        tar \
+        unzip \
+        wget
 
 ENV PHP_VERSION=7.2 \
     ENABLE_CRON=Off \
