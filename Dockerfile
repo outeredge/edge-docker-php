@@ -50,6 +50,7 @@ RUN apk add --no-cache \
             php7-dom \
             php7-fileinfo \
             php7-fpm \
+            php7-iconv \
             php7-intl \
             php7-json \
             php7-mbstring \
