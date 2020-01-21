@@ -1,4 +1,4 @@
-FROM alpine:3.9
+FROM alpine:3.11
 
 WORKDIR /var/www
 
@@ -27,13 +27,14 @@ RUN apk add --no-cache \
         unzip \
         wget
 
-ENV PHP_VERSION=7.2 \
+ENV PHP_VERSION=7.3 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=20 \
     PHP_TIMEZONE=Europe/London \
+    PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     XDEBUG_ENABLE=Off \
     XDEBUG_HOST= \
     SMTP_HOST= \
