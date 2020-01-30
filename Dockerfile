@@ -27,7 +27,7 @@ RUN apk add --no-cache \
         unzip \
         wget
 
-ENV PHP_VERSION=7.1 \
+ENV PHP_VERSION=5.6 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     PHP_DISPLAY_ERRORS=Off \
@@ -43,42 +43,32 @@ ENV PHP_VERSION=7.1 \
     SMTP_FROM=
 
 RUN apk add --no-cache \
-        php7=~${PHP_VERSION} \
-            php7-bcmath \
-            php7-ctype \
-            php7-curl \
-            php7-dom \
-            php7-fileinfo \
-            php7-fpm \
-            php7-iconv \
-            php7-intl \
-            php7-json \
-            php7-mbstring \
-            php7-mcrypt \
-            php7-mysqli \
-            php7-mysqlnd \
-            php7-opcache \
-            php7-openssl \
-            php7-phar \
-            php7-pdo_mysql \
-            php7-redis \
-            php7-xdebug \
-            php7-simplexml \
-            php7-soap \
-            php7-tokenizer \
-            php7-xml \
-            php7-xmlreader \
-            php7-xmlwriter \
-            php7-xsl \
-            php7-zip \
+        php5=~${PHP_VERSION} \
+            php5-bcmath \
+            php5-ctype \
+            php5-curl \
+            php5-dom \
+            php5-fpm \
+            php5-iconv \
+            php5-intl \
+            php5-json \
+            php5-mcrypt \
+            php5-mysqli \
+            php5-opcache \
+            php5-openssl \
+            php5-phar \
+            php5-pdo_mysql \
+            php5-soap \
+            php5-xml \
+            php5-xmlreader \
+            php5-xsl \
+            php5-zip \
         nginx \
         nodejs \
         nodejs-npm && \
     npm install gulp-cli -g && \
     rm -Rf /var/www/* && \
     chmod g=u /etc/passwd
-
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 COPY . /
 

@@ -24,10 +24,14 @@ sed -i "s/https/fe_https/" /etc/nginx/fastcgi.conf
 
 apk add --no-cache --virtual .build-deps \
     py-pip \
-    php7-dev
+    php5-dev
 
 # Install shinto-cli
 pip install --no-cache-dir shinto-cli
+
+# Install composer
+ln -s /usr/bin/php5 /usr/bin/php
+curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install prestissimo for parallel composer installs (until v2 is out)
 sudo -u edge composer global require hirak/prestissimo
