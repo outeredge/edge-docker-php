@@ -26,11 +26,14 @@ apk add --no-cache --virtual .build-deps \
     py-pip \
     php5-dev
 
+# Add php aliases
+ln -s /usr/bin/php5 /usr/bin/php
+ln -s /usr/bin/php-config5 /usr/bin/php-config
+
 # Install shinto-cli
 pip install --no-cache-dir shinto-cli
 
 # Install composer
-ln -s /usr/bin/php5 /usr/bin/php
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Install prestissimo for parallel composer installs (until v2 is out)
@@ -42,6 +45,7 @@ SV=(${PHP_VERSION//./ })
 IONCUBE_VERSION="${SV[0]}.${SV[1]}"
 wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
 cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php-config --extension-dir)/ioncube.so
+sudo sed -i 1i"zend_extension = ioncube.so" /etc/php5/php.ini
 
 # Cleanup
 apk del .build-deps

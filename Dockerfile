@@ -63,6 +63,7 @@ RUN apk add --no-cache \
             php5-xmlreader \
             php5-xsl \
             php5-zip \
+            php5-zlib \
         nginx \
         nodejs \
         nodejs-npm && \
