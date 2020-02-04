@@ -22,6 +22,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | PHP_MAX_CHILDREN  | 10      | Specify the maximum number of concurrent PHP processes |
 | XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
 | XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
+| WEB_ROOT          | /var/www | Set's the web server root directory |
 | SMTP_HOST         | -       | Set SMTP hostname (uses MSMTP for sendmail) |
 | SMTP_PORT         | -       | Set SMTP port |
 | SMTP_USER         | -       | Set SMTP username |
