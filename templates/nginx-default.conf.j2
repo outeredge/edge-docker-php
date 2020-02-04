@@ -1,7 +1,4 @@
-server {
-    listen 80 default_server reuseport;
-
-    root /var/www;
+    root {{ WEB_ROOT }};
 
     location / {
         try_files $uri $uri/ /index.php$is_args$args;
@@ -18,6 +15,3 @@ server {
 
     location = /robots.txt { log_not_found off; }
     location = /favicon.ico { log_not_found off; }
-
-    include security.conf;
-}
