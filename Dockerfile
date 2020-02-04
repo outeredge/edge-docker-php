@@ -35,6 +35,7 @@ ENV PHP_VERSION=7.3 \
     PHP_MAX_CHILDREN=20 \
     PHP_TIMEZONE=Europe/London \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
+    WEB_ROOT=/var/www \
     XDEBUG_ENABLE=Off \
     XDEBUG_HOST= \
     SMTP_HOST= \
