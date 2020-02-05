@@ -22,6 +22,7 @@ sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
 sed -i "s/https/fe_https/" /etc/nginx/fastcgi_params
 sed -i "s/https/fe_https/" /etc/nginx/fastcgi.conf
 
+<<<<<<< HEAD
 apk add --no-cache --virtual .build-deps \
     py-pip \
     php5-dev
@@ -30,6 +31,8 @@ apk add --no-cache --virtual .build-deps \
 ln -s /usr/bin/php5 /usr/bin/php
 ln -s /usr/bin/php-config5 /usr/bin/php-config
 
+=======
+>>>>>>> 3f7240c... Add NGINX_CONF option
 # Install shinto-cli
 pip install --no-cache-dir shinto-cli
 
@@ -41,12 +44,13 @@ sudo -u edge composer global require hirak/prestissimo
 sudo -u edge composer clear-cache
 
 # Download ioncube loaders
+apk add --no-cache --virtual .build-deps php7-dev
 SV=(${PHP_VERSION//./ })
 IONCUBE_VERSION="${SV[0]}.${SV[1]}"
 wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
 cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php-config --extension-dir)/ioncube.so
 sudo sed -i 1i"zend_extension = ioncube.so" /etc/php5/php.ini
+apk del .build-deps
 
 # Cleanup
-apk del .build-deps
 rm -rf /tmp/*
