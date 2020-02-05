@@ -19,7 +19,7 @@ RUN apk add --no-cache \
         nano \
         openssh \
         openssh-sftp-server \
-        python \
+        py2-pip \
         sudo \
         supervisor \
         shadow \
@@ -30,6 +30,7 @@ RUN apk add --no-cache \
 ENV PHP_VERSION=7.1 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
+    NGINX_CONF=default \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=20 \
