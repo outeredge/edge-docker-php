@@ -1,6 +1,6 @@
 # edge-docker-php
 
-Alpine running Nginx and PHP. Plays nicely with [dredger](https://github.com/outeredge/dredger). Designed for development use only.
+Alpine running Nginx and PHP. Designed for development use only.
 
 ## Provided Software
 * PHP 7
@@ -9,7 +9,7 @@ Alpine running Nginx and PHP. Plays nicely with [dredger](https://github.com/out
 * Composer
 
 ## Configuration Options
-Most configuration can be done with environment variables. Here are the available options;
+Most configuration can be done with environment variables. Here are the available options:
 
 | Environment       | Default | Description |
 | -------------     | ------- | --- |
@@ -23,6 +23,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
 | XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
+| NGINX_CONF        | default | Specify the Nginx conf file to use from `/etc/nginx/conf.d/`, uses `default(.conf)` by default |
 | SMTP_HOST         | -       | Set SMTP hostname (uses MSMTP for sendmail) |
 | SMTP_PORT         | -       | Set SMTP port |
 | SMTP_USER         | -       | Set SMTP username |
@@ -30,3 +31,6 @@ Most configuration can be done with environment variables. Here are the availabl
 | SMTP_PASS         | -       | Set SMTP password |
 | SMTP_TLS          | Off     | Enable TLS support, by default STARTTLS is enabled on port 587 |
 | SMTP_CHECK_CERTS  | On      | Specifying *Off* will disable SMTP TLS certificate checks |
+
+### Nginx configuration
+To add custom Nginx rules, specify these in `$WEB_ROOT/nginx.conf`

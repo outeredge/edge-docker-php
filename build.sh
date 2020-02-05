@@ -22,10 +22,6 @@ sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
 sed -i "s/https/fe_https/" /etc/nginx/fastcgi_params
 sed -i "s/https/fe_https/" /etc/nginx/fastcgi.conf
 
-apk add --no-cache --virtual .build-deps \
-    py-pip \
-    php7-dev
-
 # Install shinto-cli
 pip install --no-cache-dir shinto-cli
 
@@ -34,11 +30,12 @@ sudo -u edge composer global require hirak/prestissimo
 sudo -u edge composer clear-cache
 
 # Download ioncube loaders
+apk add --no-cache --virtual .build-deps php7-dev
 SV=(${PHP_VERSION//./ })
 IONCUBE_VERSION="${SV[0]}.${SV[1]}"
 wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
 cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php-config --extension-dir)/ioncube.so
+apk del .build-deps
 
 # Cleanup
-apk del .build-deps
 rm -rf /tmp/*
