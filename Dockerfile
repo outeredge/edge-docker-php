@@ -19,7 +19,7 @@ RUN apk add --no-cache \
         nano \
         openssh \
         openssh-sftp-server \
-        python \
+        py-pip \
         sudo \
         supervisor \
         shadow \
@@ -77,7 +77,8 @@ RUN apk add --no-cache \
         npm && \
     npm install gulp-cli -g && \
     rm -Rf /var/www/* && \
-    chmod g=u /etc/passwd
+    chmod g=u /etc/passwd && \
+    echo 'Set disable_coredump false' > /etc/sudo.conf
 
 COPY . /
 
