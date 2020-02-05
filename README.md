@@ -23,7 +23,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
 | XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
-| NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf` |
+| NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf.j2` |
 | SMTP_HOST         | -       | Set SMTP hostname (uses MSMTP for sendmail) |
 | SMTP_PORT         | -       | Set SMTP port |
 | SMTP_USER         | -       | Set SMTP username |
