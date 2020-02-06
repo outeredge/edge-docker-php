@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 env | sudo dd status=none of=/etc/environment
 
