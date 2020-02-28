@@ -3,7 +3,7 @@
 Alpine running Nginx and PHP. Designed for development use only.
 
 ## Provided Software
-* PHP 7
+* PHP 5
 * Nginx
 * Node & NPM
 * Composer
