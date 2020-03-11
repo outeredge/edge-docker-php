@@ -19,6 +19,7 @@ RUN apk add --no-cache \
         nano \
         openssh \
         openssh-sftp-server \
+        patch \
         py-pip \
         sudo \
         supervisor \
