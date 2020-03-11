@@ -61,6 +61,7 @@ RUN apk add --no-cache \
             php7-mysqlnd \
             php7-opcache \
             php7-openssl \
+            php7-pcntl \
             php7-pdo_mysql \
             php7-pecl-redis \
             php7-pecl-xdebug \
