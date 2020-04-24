@@ -29,6 +29,10 @@ apk add --no-cache --virtual .build-deps \
 # Install shinto-cli
 pip install --no-cache-dir shinto-cli
 
+# Don't time out SSH connections
+echo "ClientAliveInterval 120" >> /etc/ssh/sshd_config
+echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
+
 # Install prestissimo for parallel composer installs (until v2 is out)
 sudo -u edge composer global require hirak/prestissimo
 sudo -u edge composer clear-cache
