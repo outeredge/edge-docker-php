@@ -5,6 +5,8 @@ if ! whoami &> /dev/null; then
      sed "s/^edge:x:1000:1000:/edge:x:$(id -u):1000:/" /etc/passwd > /tmp/passwd
      cat /tmp/passwd > /etc/passwd
      rm /tmp/passwd
+     sudo groupadd arbitary -g $(id -u)
+     sudo usermod -aG arbitary edge
      sudo chown -R edge /home/edge /var/www
   fi
 fi
