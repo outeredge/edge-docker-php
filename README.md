@@ -9,7 +9,7 @@ Alpine running Nginx and PHP. Plays nicely with [dredger](https://github.com/out
 * Composer
 
 ## Configuration Options
-Most configuration can be done with environment variables. Here are the available options;
+Most configuration can be done with environment variables. Here are the available options:
 
 | Environment       | Default | Description |
 | -------------     | ------- | --- |
@@ -23,10 +23,15 @@ Most configuration can be done with environment variables. Here are the availabl
 | XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
 | XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
-| SMTP_HOST         | -       | Set SMTP hostname (uses MSMTP for sendmail) |
-| SMTP_PORT         | -       | Set SMTP port |
+| NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf.j2` |
+| SMTP_HOST         | smtp.mailtrap.io | Set SMTP hostname (uses MSMTP for sendmail) |
+| SMTP_PORT         | 25      | Set SMTP port |
 | SMTP_USER         | -       | Set SMTP username |
 | SMTP_FROM         | -       | Set SMTP envelope-from header |
 | SMTP_PASS         | -       | Set SMTP password |
 | SMTP_TLS          | Off     | Enable TLS support, by default STARTTLS is enabled on port 587 |
 | SMTP_CHECK_CERTS  | On      | Specifying *Off* will disable SMTP TLS certificate checks |
+
+### Nginx configuration
+To add custom Nginx rules, specify these in `$WEB_ROOT/nginx.conf`
+

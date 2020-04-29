@@ -20,7 +20,7 @@ RUN apk add --no-cache \
         openssh \
         openssh-sftp-server \
         patch \
-        py-pip \
+        py2-pip \
         sudo \
         supervisor \
         shadow \
@@ -31,6 +31,7 @@ RUN apk add --no-cache \
 ENV PHP_VERSION=7.3 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
+    NGINX_CONF=default \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=20 \
@@ -39,8 +40,8 @@ ENV PHP_VERSION=7.3 \
     WEB_ROOT=/var/www \
     XDEBUG_ENABLE=Off \
     XDEBUG_HOST= \
-    SMTP_HOST= \
-    SMTP_PORT= \
+    SMTP_HOST=smtp.mailtrap.io \
+    SMTP_PORT=25 \
     SMTP_USER= \
     SMTP_PASS= \
     SMTP_FROM=
