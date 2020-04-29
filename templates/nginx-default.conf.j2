@@ -1,6 +1,9 @@
     root {{ WEB_ROOT }};
 
     location / {
+        # strip trailing slashes
+        rewrite ^/(.+)/$ /$1 permanent;
+
         try_files $uri $uri/ /index.php$is_args$args;
     }
 
@@ -13,5 +16,4 @@
         fastcgi_pass fastcgi_backend;
     }
 
-    location = /robots.txt { log_not_found off; }
-    location = /favicon.ico { log_not_found off; }
+    include {{ WEB_ROOT }}/nginx[.]conf;

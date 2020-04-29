@@ -53,7 +53,12 @@ http {
     gzip_types text/plain;
     gzip_types text/xml;
 
-    include /etc/nginx/conf.d/*.conf;
+    server {
+      listen 80 default_server reuseport;
+ 
+      include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
+      include security.conf;
+    }
 
     upstream fastcgi_backend {
         server 127.0.0.1:8000;
