@@ -20,7 +20,7 @@ RUN apk add --no-cache \
         openssh \
         openssh-sftp-server \
         patch \
-        py2-pip \
+        py3-pip \
         sudo \
         supervisor \
         shadow \

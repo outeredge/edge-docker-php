@@ -26,8 +26,9 @@ sed -i "s/https/fe_https/" /etc/nginx/fastcgi.conf
 echo "ClientAliveInterval 120" >> /etc/ssh/sshd_config
 echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 
-# Install shinto-cli
-pip install --no-cache-dir shinto-cli
+# Upgrade pip and install shinto-cli
+pip3 install --upgrade pip
+pip3 install --no-cache-dir shinto-cli
 
 # Install prestissimo for parallel composer installs (until v2 is out)
 sudo -u edge composer global require hirak/prestissimo
