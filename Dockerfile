@@ -38,6 +38,7 @@ ENV PHP_VERSION=7.2 \
     PHP_TIMEZONE=Europe/London \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     WEB_ROOT=/var/www \
+    COMPOSER_MEMORY_LIMIT=-1 \
     XDEBUG_ENABLE=Off \
     XDEBUG_HOST= \
     SMTP_HOST=smtp.mailtrap.io \
