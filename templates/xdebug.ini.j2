@@ -1,11 +1,14 @@
 [xdebug]
 {% if XDEBUG_ENABLE == 'On' %}
 zend_extension = xdebug.so
-xdebug.remote_enable = On
-xdebug.remote_autostart = On
-xdebug.profiler_enable = Off
-xdebug.profiler_enable_trigger = On
-xdebug.max_nesting_level = 200
+xdebug.remote_enable = 1
+xdebug.remote_autostart = 0
+xdebug.profiler_enable = 0
+xdebug.profiler_enable_trigger = 1
+xdebug.max_nesting_level = 300
+xdebug.cli_color = 1
+xdebug.coverage_enable = 0
+xdebug.filename_format = %f
 {% endif %}
 {% if XDEBUG_HOST is defined and XDEBUG_HOST %}
 xdebug.remote_host = {{ XDEBUG_HOST }}
