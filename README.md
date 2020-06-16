@@ -19,7 +19,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | PHP_DISPLAY_ERRORS | Off    | Display PHP errors in the browser, *not* recommended for production |
 | PHP_OPCACHE_VALIDATE | On   | Forces OPcache to check for updates on every request, turn Off for production |
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
-| PHP_MAX_CHILDREN  | 10      | Specify the maximum number of concurrent PHP processes |
+| PHP_MAX_CHILDREN  | 30      | Specify the maximum number of concurrent PHP processes |
 | XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
 | XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
