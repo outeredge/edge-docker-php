@@ -30,6 +30,7 @@ RUN apk add --no-cache \
         wget
 
 ENV PHP_VERSION=7.2 \
+    ENABLE_REDIS=Off \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     NGINX_CONF=default \
