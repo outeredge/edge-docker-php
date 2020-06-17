@@ -1,3 +1,4 @@
+FROM redis:5-alpine3.12 AS redis
 FROM alpine:3.12
 
 WORKDIR /var/www
@@ -87,5 +88,7 @@ RUN apk add --no-cache \
 COPY . /
 
 RUN /build.sh
+
+COPY --from=redis /usr/local/bin/redis-* /usr/local/bin/
 
 USER edge

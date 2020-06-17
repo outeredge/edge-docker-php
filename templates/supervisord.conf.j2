@@ -44,3 +44,10 @@ autostart={% if ENABLE_SSH == 'On' %}true{% else %}false{% endif %}
 redirect_stderr=true
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
+
+[program:redis]
+command=redis-server --save "" --appendonly no
+autostart={% if ENABLE_REDIS == 'On' %}true{% else %}false{% endif %}
+redirect_stderr=true
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
