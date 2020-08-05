@@ -4,7 +4,7 @@
         # strip trailing slashes
         rewrite ^/(.+)/$ /$1 permanent;
 
-        try_files $uri $uri/ /index.php$is_args$args /index.html;
+        try_files $uri $uri/ /index.html /index.php$is_args$args;
     }
 
     location ~ \.php$ {
