@@ -1,5 +1,5 @@
 FROM redis:5-alpine3.12 AS redis
-FROM alpine:3.12
+FROM alpine:3.13
 
 WORKDIR /var/www
 
@@ -29,7 +29,7 @@ RUN apk add --no-cache \
         unzip \
         wget
 
-ENV PHP_VERSION=7.3 \
+ENV PHP_VERSION=7.4 \
     ENABLE_REDIS=Off \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
@@ -82,7 +82,8 @@ RUN apk add --no-cache \
         composer \
         nginx \
         nodejs \
-        npm && \
+        npm \
+        yarn && \
     npm install gulp-cli -g && \
     rm -Rf /var/www/* && \
     chmod g=u /etc/passwd && \

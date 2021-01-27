@@ -30,9 +30,9 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 pip3 install --upgrade pip
 pip3 install --no-cache-dir shinto-cli
 
-# Install prestissimo for parallel composer installs (until v2 is out)
-sudo -u edge composer global require hirak/prestissimo
-sudo -u edge composer clear-cache
+# Install older Composer 1
+wget -O /usr/local/bin/composer1 "https://getcomposer.org/composer-1.phar"
+chmod a+x /usr/local/bin/composer1
 
 # Download ioncube loaders
 apk add --no-cache --virtual .build-deps php7-dev
