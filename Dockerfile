@@ -16,6 +16,7 @@ RUN apk add --no-cache \
         curl \
         git \
         git-bash-completion \
+        git-subtree \
         msmtp \
         nano \
         openssh \
