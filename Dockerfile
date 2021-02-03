@@ -1,4 +1,4 @@
-FROM redis:5-alpine3.12 AS redis
+FROM redis:5-alpine3.13 AS redis
 FROM alpine:3.13
 
 WORKDIR /var/www
