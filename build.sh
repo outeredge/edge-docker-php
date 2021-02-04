@@ -6,7 +6,8 @@ adduser -u 1000 -DS -s /bin/bash -g edge -G edge edge
 addgroup edge wheel
 echo "edge ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/edge
 chmod 0440 /etc/sudoers.d/edge
-chown -R edge:edge /var/www
+chown -Rf edge:edge /var/www
+chown -Rf edge:edge /var/lib/nginx
 
 # Create default host keys
 ssh-keygen -A
