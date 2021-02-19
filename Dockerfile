@@ -16,6 +16,7 @@ RUN apk add --no-cache \
         curl \
         git \
         git-bash-completion \
+        git-subtree \
         msmtp \
         nano \
         openssh \
@@ -82,7 +83,8 @@ RUN apk add --no-cache \
         composer \
         nginx \
         nodejs \
-        npm && \
+        npm \
+        yarn && \
     npm install gulp-cli -g && \
     rm -Rf /var/www/* && \
     chmod g=u /etc/passwd && \
