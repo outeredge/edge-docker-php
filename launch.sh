@@ -15,4 +15,6 @@ j2 /templates/php-fpm.conf.j2 | sudo dd status=none of=/etc/php7/php-fpm.conf
 j2 /templates/xdebug.ini.j2 | sudo dd status=none of=/etc/php7/conf.d/xdebug.ini
 j2 /templates/msmtprc.j2 | sudo dd status=none of=/etc/msmtprc
 
+chmod o+w /dev/stdout
+
 sudo /usr/bin/supervisord
