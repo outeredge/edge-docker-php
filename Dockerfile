@@ -85,9 +85,7 @@ RUN apk add --no-cache \
         npm \
         yarn && \
     npm install gulp-cli -g && \
-    rm -Rf /var/www/* && \
-    chmod g=u /etc/passwd && \
-    echo 'Set disable_coredump false' > /etc/sudo.conf
+    rm -Rf /var/www/*
 
 COPY . /
 
