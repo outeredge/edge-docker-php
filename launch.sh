@@ -1,5 +1,9 @@
 #!/bin/bash
 
+if [[ -f "$WEB_ROOT/.env" ]]; then
+    export $(grep -v '^#' $WEB_ROOT/.env | xargs -d '\n')
+fi
+
 env | sudo dd status=none of=/etc/environment
 
 sudo chmod -f 644 /etc/crontabs/*

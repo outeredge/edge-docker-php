@@ -12,6 +12,7 @@ RUN apk add --no-cache \
         bash-completion \
         ca-certificates \
         curl \
+        findutils \
         git \
         git-bash-completion \
         git-subtree \
