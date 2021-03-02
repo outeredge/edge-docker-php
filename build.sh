@@ -13,6 +13,8 @@ sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /et
 addgroup -g 1000 -S edge
 adduser -u 1000 -D -S -s /bin/bash -g edge -G edge edge
 addgroup edge wheel
+addgroup nginx edge
+addgroup www-data edge
 chown -Rf edge:edge /var/www
 
 # Create default host keys
