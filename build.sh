@@ -1,13 +1,16 @@
 #!/bin/bash -ex
 
-# Create user for Nginx & PHP and add to sudoers
+# Create user for php-fpm
+adduser -u 82 -D -S -s /sbin/nologin -h /var/www -G www-data www-data
+chown -Rf www-data:www-data /var/log/php7
+
+# Create default user and add to sudoers
 addgroup -g 1000 -S edge
-adduser -u 1000 -DS -s /bin/bash -g edge -G edge edge
+adduser -u 1000 -D -S -s /bin/bash -g edge -G edge edge
 addgroup edge wheel
 echo "edge ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/edge
 chmod 0440 /etc/sudoers.d/edge
 chown -Rf edge:edge /var/www
-chown -Rf edge:edge /var/lib/nginx
 
 # Create default host keys
 ssh-keygen -A

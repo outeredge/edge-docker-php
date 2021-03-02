@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# Change user ID of edge to match the arbitrary ID given to the container with -u
 if ! whoami &> /dev/null; then
   if [ -w /etc/passwd ]; then
      sed "s/^edge:x:1000:1000:/edge:x:$(id -u):1000:/" /etc/passwd > /tmp/passwd
@@ -11,6 +12,9 @@ if ! whoami &> /dev/null; then
   fi
 fi
 
+sudo chmod g=r /etc/passwd
+
+# Set SSH password
 if [[ $ENABLE_SSH = "On" ]]
 then
     echo "edge:$SSH_PASSWORD" | sudo chpasswd

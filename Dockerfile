@@ -7,8 +7,6 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/launch.sh"]
 
-EXPOSE 80
-
 RUN apk add --no-cache \
         bash \
         bash-completion \
@@ -35,6 +33,7 @@ ENV PHP_VERSION=7.4 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     NGINX_CONF=default \
+    NGINX_PORT=80 \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=30 \
@@ -97,3 +96,5 @@ RUN /build.sh
 COPY --from=redis /usr/local/bin/redis-* /usr/local/bin/
 
 USER edge
+
+EXPOSE $NGINX_PORT
