@@ -33,6 +33,7 @@ ENV PHP_VERSION=7.4 \
     ENABLE_REDIS=Off \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
+    ENABLE_DEV=Off \
     NGINX_CONF=default \
     NGINX_PORT=80 \
     PHP_DISPLAY_ERRORS=Off \

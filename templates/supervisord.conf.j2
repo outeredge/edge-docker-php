@@ -29,7 +29,7 @@ stderr_logfile_maxbytes=0
 [program:php-fpm]
 command=php-fpm7
 autostart=true
-user=www-data
+user={% if ENABLE_DEV == 'Off' %}www-data{% else %}{{ USER }}{% endif %}
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr

@@ -1,5 +1,19 @@
 #!/bin/bash
 
+export USER=$(id -u -n)
+
+if [[ $ENABLE_DEV = "On" ]]; then
+    sudo chown -R $USER:$USER /var/log/php7
+else
+    sudo chmod g=r /etc/passwd
+fi
+
+# Set SSH password
+if [[ $ENABLE_SSH = "On" ]]; then
+    echo "edge:$SSH_PASSWORD" | sudo chpasswd
+fi
+
+# Load custom environment variables from .env
 if [[ -f "$WEB_ROOT/.env" ]]; then
     export $(grep -v '^#' $WEB_ROOT/.env | xargs -d '\n')
 fi

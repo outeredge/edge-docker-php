@@ -11,12 +11,6 @@ if ! whoami &> /dev/null; then
      sudo chown -R edge /home/edge /var/www
   fi
 fi
-sudo chmod g=r /etc/passwd
-
-# Set SSH password
-if [[ $ENABLE_SSH = "On" ]]; then
-    echo "edge:$SSH_PASSWORD" | sudo chpasswd
-fi
 
 umask 002
 
