@@ -1,3 +1,4 @@
+user nginx;
 worker_processes auto;
 daemon off;
 error_log stderr notice;
@@ -64,7 +65,7 @@ http {
 
     server {
       listen {{ NGINX_PORT }} default_server reuseport;
- 
+
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
       include security.conf;
     }
@@ -72,7 +73,7 @@ http {
     upstream fastcgi_backend {
         server 127.0.0.1:8000;
     }
-        
+
     map $http_x_forwarded_proto $fe_https {
         default $https;
         http '';
