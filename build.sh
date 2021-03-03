@@ -4,9 +4,11 @@
 adduser -u 82 -D -S -s /sbin/nologin -h /var/www -G www-data www-data
 chown -Rf www-data:www-data /var/log/php7
 
-# Set up sudo for passwordless access to wheel users
+# Set up sudo for passwordless access to edge and wheel users
 chmod g=u /etc/passwd
 echo 'Set disable_coredump false' > /etc/sudo.conf
+echo "edge ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/edge
+chmod 0440 /etc/sudoers.d/edge
 sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
 
 # Create default user
