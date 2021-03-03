@@ -87,6 +87,7 @@ RUN apk add --no-cache \
         npm \
         yarn && \
     npm install gulp-cli -g && \
+    npm cache clean --force && \
     rm -Rf /var/www/*
 
 COPY . /

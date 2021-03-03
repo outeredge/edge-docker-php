@@ -38,7 +38,7 @@ echo "ClientAliveInterval 120" >> /etc/ssh/sshd_config
 echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 
 # Upgrade pip and install shinto-cli
-pip3 install --upgrade pip
+pip3 install --no-cache-dir --upgrade pip
 pip3 install --no-cache-dir shinto-cli
 
 # Install older Composer 1
