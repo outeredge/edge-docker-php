@@ -83,8 +83,6 @@ RUN apk add --no-cache \
     npm cache clean --force && \
     rm -Rf /var/www/*
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
 COPY . /
 
 RUN /build.sh

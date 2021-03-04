@@ -43,6 +43,10 @@ pip install --no-cache-dir shinto-cli
 # Install Chisel TCP/UDP tunnel
 curl https://i.jpillora.com/chisel! | bash
 
+# Install older Composer 1
+wget -O /usr/local/bin/composer "https://getcomposer.org/composer-1.phar"
+chmod a+x /usr/local/bin/composer
+
 # Install prestissimo for parallel composer installs (until v2 is out)
 sudo -u edge composer global require hirak/prestissimo
 sudo -u edge composer clear-cache
