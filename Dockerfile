@@ -6,13 +6,12 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/launch.sh"]
 
-EXPOSE 80
-
 RUN apk add --no-cache \
         bash \
         bash-completion \
         ca-certificates \
         curl \
+        findutils \
         git \
         git-bash-completion \
         msmtp \
@@ -31,7 +30,9 @@ RUN apk add --no-cache \
 ENV PHP_VERSION=7.1 \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
+    ENABLE_DEV=Off \
     NGINX_CONF=default \
+    NGINX_PORT=80 \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=20 \
@@ -79,8 +80,8 @@ RUN apk add --no-cache \
         nodejs \
         nodejs-npm && \
     npm install gulp-cli -g && \
-    rm -Rf /var/www/* && \
-    chmod g=u /etc/passwd
+    npm cache clean --force && \
+    rm -Rf /var/www/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
@@ -89,3 +90,5 @@ COPY . /
 RUN /build.sh
 
 USER edge
+
+EXPOSE $NGINX_PORT
