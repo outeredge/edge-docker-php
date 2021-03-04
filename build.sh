@@ -2,7 +2,8 @@
 
 # Create user for php-fpm
 adduser -u 82 -D -S -s /sbin/nologin -h /var/www -G www-data www-data
-chown -Rf www-data:www-data /var/log/php7
+mkdir -p /var/log/php5
+chown -Rf www-data:www-data /var/log/php5
 
 # Set up sudo for passwordless access to edge and wheel users
 chmod g=u /etc/passwd
@@ -44,8 +45,9 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 # Install shinto-cli
 pip install --no-cache-dir shinto-cli
 
-# Install composer
-curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+# Install older Composer 1
+wget -O /usr/local/bin/composer "https://getcomposer.org/composer-1.phar"
+chmod a+x /usr/local/bin/composer
 
 # Install Chisel TCP/UDP tunnel
 curl https://i.jpillora.com/chisel! | bash
