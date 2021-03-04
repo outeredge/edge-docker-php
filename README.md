@@ -1,10 +1,6 @@
 # edge-docker-php
 
-<<<<<<< HEAD
-Alpine running Nginx and PHP. Designed for development use only.
-=======
 Alpine running Nginx and PHP. Plays nicely with Gitpod, Eclipse Che & [Dredger](https://github.com/outeredge/dredger). Designed for development use only.
->>>>>>> ed8c4cc... Improve security, match with 7.4 changes
 
 ## Provided Software
 * PHP 5

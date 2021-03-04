@@ -9,9 +9,6 @@ chmod g=u /etc/passwd
 echo 'Set disable_coredump false' > /etc/sudo.conf
 echo "edge ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/edge
 chmod 0440 /etc/sudoers.d/edge
-<<<<<<< HEAD
-chown -R edge:edge /var/www
-=======
 sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
 
 # Create default user
@@ -21,7 +18,6 @@ addgroup edge wheel
 addgroup nginx edge
 addgroup www-data edge
 chown -Rf edge:edge /var/www
->>>>>>> ed8c4cc... Improve security, match with 7.4 changes
 
 # Create default host keys
 ssh-keygen -A
