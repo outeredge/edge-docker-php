@@ -1,12 +1,27 @@
 #!/bin/bash -ex
 
-# Create user for Nginx & PHP and add to sudoers
-addgroup -g 1000 -S edge
-adduser -u 1000 -DS -s /bin/bash -g edge -G edge edge
-addgroup edge wheel
+# Create user for php-fpm
+adduser -u 82 -D -S -s /sbin/nologin -h /var/www -G www-data www-data
+chown -Rf www-data:www-data /var/log/php7
+
+# Set up sudo for passwordless access to edge and wheel users
+chmod g=u /etc/passwd
+echo 'Set disable_coredump false' > /etc/sudo.conf
 echo "edge ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/edge
 chmod 0440 /etc/sudoers.d/edge
+<<<<<<< HEAD
 chown -R edge:edge /var/www
+=======
+sed -i 's/# %wheel ALL=(ALL) NOPASSWD: ALL/%wheel ALL=(ALL) NOPASSWD: ALL/g' /etc/sudoers
+
+# Create default user
+addgroup -g 1000 -S edge
+adduser -u 1000 -D -S -s /bin/bash -g edge -G edge edge
+addgroup edge wheel
+addgroup nginx edge
+addgroup www-data edge
+chown -Rf edge:edge /var/www
+>>>>>>> ed8c4cc... Improve security, match with 7.4 changes
 
 # Create default host keys
 ssh-keygen -A
@@ -35,6 +50,9 @@ pip install --no-cache-dir shinto-cli
 
 # Install composer
 curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
+
+# Install Chisel TCP/UDP tunnel
+curl https://i.jpillora.com/chisel! | bash
 
 # Install prestissimo for parallel composer installs (until v2 is out)
 sudo -u edge composer global require hirak/prestissimo
