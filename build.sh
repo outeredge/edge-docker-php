@@ -37,6 +37,9 @@ sed -i "s/https/fe_https/" /etc/nginx/fastcgi.conf
 echo "ClientAliveInterval 120" >> /etc/ssh/sshd_config
 echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 
+# Install Chisel TCP/UDP tunnel
+curl https://i.jpillora.com/chisel! | bash
+
 # Upgrade pip and install shinto-cli
 pip3 install --no-cache-dir --upgrade pip
 pip3 install --no-cache-dir shinto-cli
