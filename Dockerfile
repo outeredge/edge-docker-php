@@ -1,5 +1,4 @@
-FROM redis:5-alpine3.13 AS redis
-FROM alpine:3.13
+FROM ubuntu:20.04
 
 WORKDIR /var/www
 
@@ -7,35 +6,16 @@ ENTRYPOINT ["/entrypoint.sh"]
 
 CMD ["/launch.sh"]
 
-RUN apk add --no-cache \
-        bash \
-        bash-completion \
-        ca-certificates \
-        curl \
-        findutils \
-        git \
-        git-bash-completion \
-        git-subtree \
-        msmtp \
-        nano \
-        openssh \
-        openssh-sftp-server \
-        patch \
-        py3-pip \
-        sudo \
-        supervisor \
-        shadow \
-        tar \
-        unzip \
-        wget
+ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PHP_VERSION=7.4 \
+    NODE_VERSION=14 \
     ENABLE_REDIS=Off \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     ENABLE_DEV=Off \
     NGINX_CONF=default \
-    NGINX_PORT=80 \
+    NGINX_PORT=8080 \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=On \
     PHP_MAX_CHILDREN=30 \
@@ -52,49 +32,72 @@ ENV PHP_VERSION=7.4 \
     SMTP_PASS= \
     SMTP_FROM=
 
-RUN apk add --no-cache \
-        php7=~${PHP_VERSION} \
-            php7-bcmath \
-            php7-ctype \
-            php7-curl \
-            php7-dom \
-            php7-fileinfo \
-            php7-fpm \
-            php7-iconv \
-            php7-intl \
-            php7-mbstring \
-            php7-mysqli \
-            php7-mysqlnd \
-            php7-opcache \
-            php7-openssl \
-            php7-pcntl \
-            php7-pdo_mysql \
-            php7-pecl-redis \
-            php7-pecl-xdebug \
-            php7-simplexml \
-            php7-soap \
-            php7-sockets \
-            php7-sodium \
-            php7-tokenizer \
-            php7-xml \
-            php7-xmlreader \
-            php7-xmlwriter \
-            php7-xsl \
-            php7-zip \
-        composer \
+RUN apt-get update \
+    && apt-get install --no-install-recommends --yes \
+        bash-completion \
+        ca-certificates \
+        curl \
+        git \
+        gnupg \
+        less \
+        msmtp \
+        nano \
+        patch \
+        python3 \
+        python3-pip \
+        ssh \
+        sudo \
+        supervisor \
+        unzip \
+        wget
+
+#&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+# echo "source /usr/share/bash-completion/completions/git" >> ~/.bashrc
+#rm -rf /tmp/* /var/lib/apt/lists/*
+
+RUN apt-get install --no-install-recommends --yes gnupg
+
+RUN . /etc/lsb-release \
+    && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && echo "deb http://ppa.launchpad.net/ondrej/nginx-mainline/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && echo "deb-src http://ppa.launchpad.net/ondrej/nginx-mainline/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && echo "deb https://deb.nodesource.com/node_$NODE_VERSION.x $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && echo "deb-src https://deb.nodesource.com/node_$NODE_VERSION.x $DISTRIB_CODENAME main" >> /etc/apt/sources.list
+
+RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C 1655A0AB68576280 \
+    && apt-get update
+
+RUN apt-get install --no-install-recommends --yes \
+        # PHP
+        php${PHP_VERSION}-fpm \
+        php${PHP_VERSION}-bcmath \
+        php${PHP_VERSION}-common \
+        php${PHP_VERSION}-curl \
+        php${PHP_VERSION}-intl \
+        php${PHP_VERSION}-mbstring \
+        php${PHP_VERSION}-mysql \
+        php${PHP_VERSION}-opcache \
+        php${PHP_VERSION}-soap \
+        php${PHP_VERSION}-xml \
+        php${PHP_VERSION}-xsl \
+        php${PHP_VERSION}-zip \
+        php${PHP_VERSION}-xdebug \
+        php${PHP_VERSION}-redis \
+        # Other key packages
         nginx \
         nodejs \
-        npm \
-        yarn && \
-    npm install gulp-cli -g && \
-    npm cache clean --force && \
-    rm -Rf /var/www/*
+        redis-server \
+        # Cleanup
+        && rm -Rf /var/www/*
 
-COPY . /
+#touch ~/.hushlogin
+#symlink cli config to fpm config
 
+COPY build.sh /
 RUN /build.sh
 
-COPY --from=redis /usr/local/bin/redis-* /usr/local/bin/
+COPY . /
 
 USER edge
 

@@ -2,7 +2,7 @@ user nginx;
 worker_processes auto;
 daemon off;
 error_log stderr notice;
-error_log logs/error.log notice;
+error_log /var/log/nginx/error.log notice;
 pcre_jit on;
 pid /tmp/nginx.pid;
 
@@ -67,7 +67,12 @@ http {
       listen {{ NGINX_PORT }} default_server reuseport;
 
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
-      include security.conf;
+
+      location ^~ /\.                     { deny all; log_not_found off; }
+      location ~\.(ini|log|conf)$         { deny all; }
+      location = /Dockerfile              { deny all; }
+      location = /robots.txt              { log_not_found off; }
+      location = /favicon.ico             { log_not_found off; }
     }
 
     upstream fastcgi_backend {

@@ -27,7 +27,7 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
 [program:php-fpm]
-command=php-fpm7
+command=php-fpm{{ PHP_VERSION }}
 autostart=true
 user={% if ENABLE_DEV == 'Off' %}www-data{% else %}{{ USER }}{% endif %}
 stdout_logfile=/dev/stdout
@@ -36,7 +36,7 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
 [program:cron]
-command=crond -l 2 -f
+command=cron -l 2 -f
 autostart={% if ENABLE_CRON == 'On' %}true{% else %}false{% endif %}
 user=root
 stdout_logfile=/dev/stdout

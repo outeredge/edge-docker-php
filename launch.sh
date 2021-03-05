@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export USER=$(id -u -n)
+export USER=$(whoami)
 
 if [[ $ENABLE_DEV = "On" ]]; then
-    sudo chown -R $USER:$USER /var/log/php7
+    sudo chown -Rf $USER:$USER /var/log/php
 else
     sudo chmod g=r /etc/passwd
 fi
@@ -25,8 +25,9 @@ sudo chmod -f 644 /etc/crontabs/*
 j2 /templates/nginx.conf.j2 | sudo dd status=none of=/etc/nginx/nginx.conf
 j2 /templates/nginx-${NGINX_CONF}.conf.j2 | sudo dd status=none of=/etc/nginx/conf.d/${NGINX_CONF}.conf
 j2 /templates/supervisord.conf.j2 | sudo dd status=none of=/etc/supervisord.conf
-j2 /templates/php-fpm.conf.j2 | sudo dd status=none of=/etc/php7/php-fpm.conf
-j2 /templates/xdebug.ini.j2 | sudo dd status=none of=/etc/php7/conf.d/xdebug.ini
+j2 /templates/php.ini.j2 | sudo dd status=none of=/etc/php/${PHP_VERSION}/fpm/php.ini
+j2 /templates/xdebug.ini.j2 | sudo dd status=none of=/etc/php/${PHP_VERSION}/fpm/conf.d/xdebug.ini
+j2 /templates/php-fpm.conf.j2 | sudo dd status=none of=/etc/php/${PHP_VERSION}/fpm/php-fpm.conf
 j2 /templates/msmtprc.j2 | sudo dd status=none of=/etc/msmtprc
 
 chmod o+w /dev/stdout
