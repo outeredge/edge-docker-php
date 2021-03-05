@@ -26,7 +26,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
 | NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf.j2` |
-| NGINX_PORT        | 80      | Set the Nginx listening port |
+| NGINX_PORT        | 8080    | Set the Nginx listening port |
 | SMTP_HOST         | smtp.mailtrap.io | Set SMTP hostname (uses MSMTP for sendmail) |
 | SMTP_PORT         | 25      | Set SMTP port |
 | SMTP_USER         | -       | Set SMTP username |
