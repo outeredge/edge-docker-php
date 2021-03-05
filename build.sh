@@ -62,11 +62,13 @@ npm cache clean --force
 wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
 chmod a+x /usr/local/bin/composer
 
-# Download ioncube loaders
-SV=(${PHP_VERSION//./ })
-IONCUBE_VERSION="${SV[0]}.${SV[1]}"
-wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
-cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php -i | grep ^extension_dir | cut -d '>' -f3)/ioncube.so
+# Download ioncube loaders for PHP < 8
+if [[ "$PHP_VERSION" < "8.0" ]]; then
+    SV=(${PHP_VERSION//./ })
+    IONCUBE_VERSION="${SV[0]}.${SV[1]}"
+    wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
+    cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php -i | grep ^extension_dir | cut -d '>' -f3)/ioncube.so
+fi
 
 # Cleanup
 rm -rf /tmp/*
