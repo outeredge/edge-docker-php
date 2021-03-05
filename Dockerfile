@@ -49,26 +49,20 @@ RUN apt-get update \
         sudo \
         supervisor \
         unzip \
-        wget
-
-#&& apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-# echo "source /usr/share/bash-completion/completions/git" >> ~/.bashrc
-#rm -rf /tmp/* /var/lib/apt/lists/*
-
-RUN apt-get install --no-install-recommends --yes gnupg
-
-RUN . /etc/lsb-release \
+        wget \
+    && . /etc/lsb-release \
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb http://ppa.launchpad.net/ondrej/nginx-mainline/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb-src http://ppa.launchpad.net/ondrej/nginx-mainline/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb https://deb.nodesource.com/node_$NODE_VERSION.x $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
-    && echo "deb-src https://deb.nodesource.com/node_$NODE_VERSION.x $DISTRIB_CODENAME main" >> /etc/apt/sources.list
-
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C 1655A0AB68576280 \
-    && apt-get update
-
-RUN apt-get install --no-install-recommends --yes \
+    && echo "deb-src https://deb.nodesource.com/node_$NODE_VERSION.x $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C 1655A0AB68576280 \
+    && apt-get update \
+    && apt-get install --no-install-recommends --yes \
+        nginx \
+        nodejs \
+        redis-server \
         # PHP
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-bcmath \
@@ -84,20 +78,13 @@ RUN apt-get install --no-install-recommends --yes \
         php${PHP_VERSION}-zip \
         php${PHP_VERSION}-xdebug \
         php${PHP_VERSION}-redis \
-        # Other key packages
-        nginx \
-        nodejs \
-        redis-server \
         # Cleanup
-        && rm -Rf /var/www/*
-
-#touch ~/.hushlogin
-#symlink cli config to fpm config
-
-COPY build.sh /
-RUN /build.sh
+    && rm -Rf /var/www/* \
+    && rm -rf /var/lib/apt/lists/*
 
 COPY . /
+
+RUN /build.sh
 
 USER edge
 
