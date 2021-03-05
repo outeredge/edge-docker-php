@@ -58,9 +58,15 @@ pip3 install --no-cache-dir shinto-cli
 npm install --global yarn gulp-cli
 npm cache clean --force
 
-# Install Composer 1 & 2
+# Install Composer
 wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
 chmod a+x /usr/local/bin/composer
+
+# Install prestissimo for parallel composer installs (v1 only)
+if [[ "${COMPOSER_VERSION}" = "1" ]]; then
+    sudo -u edge composer global require hirak/prestissimo
+    sudo -u edge composer clear-cache
+fi
 
 # Download ioncube loaders for PHP < 8
 if [[ "$PHP_VERSION" < "8.0" ]]; then
