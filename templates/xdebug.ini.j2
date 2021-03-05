@@ -1,12 +1,25 @@
 [xdebug]
 {% if XDEBUG_ENABLE == 'On' %}
 zend_extension = xdebug.so
+{% endif %}
+
+{% if PHP_VERSION > '7.3' %}
 xdebug.mode=debug
+{% if XDEBUG_HOST is defined and XDEBUG_HOST %}
+xdebug.client_host = {{ XDEBUG_HOST }}
+{% endif %}
+{% else %}
+xdebug.remote_enable = 1
+xdebug.remote_autostart = 0
+xdebug.profiler_enable = 0
+xdebug.profiler_enable_trigger = 1
+xdebug.coverage_enable = 0
+{% if XDEBUG_HOST is defined and XDEBUG_HOST %}
+xdebug.remote_host = {{ XDEBUG_HOST }}
+{% endif %}
+{% endif %}
+
 xdebug.max_nesting_level = 300
 xdebug.cli_color = 1
 xdebug.filename_format = %f
 xdebug.client_port = 9000
-{% endif %}
-{% if XDEBUG_HOST is defined and XDEBUG_HOST %}
-xdebug.client_host = {{ XDEBUG_HOST }}
-{% endif %}

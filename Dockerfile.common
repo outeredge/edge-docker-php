@@ -1,5 +1,3 @@
-FROM ubuntu:20.04
-
 WORKDIR /var/www
 
 ENTRYPOINT ["/entrypoint.sh"]
@@ -8,8 +6,9 @@ CMD ["/launch.sh"]
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PHP_VERSION=7.4 \
-    NODE_VERSION=14 \
+ENV PHP_VERSION=${PHP_VERSION} \
+    NODE_VERSION=${NODE_VERSION} \
+    COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     ENABLE_REDIS=Off \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \

@@ -59,10 +59,8 @@ npm install --global yarn gulp-cli
 npm cache clean --force
 
 # Install Composer 1 & 2
-wget -O /usr/local/bin/composer "https://getcomposer.org/composer-2.phar"
-wget -O /usr/local/bin/composer1 "https://getcomposer.org/composer-1.phar"
+wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
 chmod a+x /usr/local/bin/composer
-chmod a+x /usr/local/bin/composer1
 
 # Download ioncube loaders
 SV=(${PHP_VERSION//./ })

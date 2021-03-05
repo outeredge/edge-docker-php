@@ -3,7 +3,7 @@
 Ubuntu running Nginx and PHP. Plays nicely with Gitpod, Eclipse Che & [Dredger](https://github.com/outeredge/dredger). Designed for development use only.
 
 ## Provided Software
-* PHP 7
+* PHP
 * Nginx
 * Node & NPM
 * Composer
