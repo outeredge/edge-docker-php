@@ -3,7 +3,7 @@
 zend_extension = xdebug.so
 {% endif %}
 
-{% if PHP_VERSION > '7.3' %}
+{% if PHP_VERSION > '7.1' %}
 xdebug.mode=debug
 {% if XDEBUG_HOST is defined and XDEBUG_HOST %}
 xdebug.client_host = {{ XDEBUG_HOST }}
