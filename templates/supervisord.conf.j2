@@ -45,7 +45,16 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
 [program:sshd]
-command=/usr/sbin/sshd -D -e
+command=/usr/sbin/sshd -D -p {{ SSH_PORT }} -e
+autostart={% if ENABLE_SSH == 'On' %}true{% else %}false{% endif %}
+user=root
+stdout_logfile=/dev/stdout
+stdout_logfile_maxbytes=0
+stderr_logfile=/dev/stderr
+stderr_logfile_maxbytes=0
+
+[program:chisel]
+command=chisel server --socks5 --port {{ CHISEL_PORT }}
 autostart={% if ENABLE_SSH == 'On' %}true{% else %}false{% endif %}
 user=root
 stdout_logfile=/dev/stdout

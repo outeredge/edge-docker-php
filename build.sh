@@ -15,6 +15,7 @@ sed -i 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sud
 addgroup --gid 1000 --system edge
 adduser --uid 1000 --system --shell /bin/bash --ingroup edge edge
 addgroup edge sudo
+addgroup edge tty
 addgroup www-data edge
 touch /home/edge/.hushlogin
 chown -Rf edge:edge /var/www
