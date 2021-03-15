@@ -13,9 +13,8 @@ sed -i 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sud
 
 # Create default user
 addgroup --gid 1000 --system edge
-adduser --uid 1000 --system --shell /bin/bash --ingroup edge edge
+adduser --uid 1000 --system --home /home/edge --shell /bin/bash --ingroup edge edge
 addgroup edge sudo
-addgroup edge tty
 addgroup www-data edge
 touch /home/edge/.hushlogin
 chown -Rf edge:edge /var/www
@@ -52,7 +51,7 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 curl https://i.jpillora.com/chisel! | bash
 
 # Upgrade pip and install shinto-cli
-pip3 install --no-cache-dir --upgrade pip
+pip3 install --no-cache-dir --upgrade pip setuptools
 pip3 install --no-cache-dir shinto-cli
 
 # Install yarn & gulp-cli
@@ -65,8 +64,8 @@ chmod a+x /usr/local/bin/composer
 
 # Install prestissimo for parallel composer installs (v1 only)
 if [[ "${COMPOSER_VERSION}" = "1" ]]; then
-    sudo -u edge composer global require hirak/prestissimo
-    sudo -u edge composer clear-cache
+    sudo -H -u edge composer global require hirak/prestissimo
+    sudo -H -u edge composer clear-cache
 fi
 
 # Download ioncube loaders for PHP < 8
