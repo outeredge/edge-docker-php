@@ -1,6 +1,7 @@
 #!/bin/bash -ex
 
 # Redirect PHP cli to fpm configs
+cp templates/php.ini /etc/php/$PHP_VERSION/fpm/php.ini
 rm -Rf /etc/php/$PHP_VERSION/cli
 ln -s /etc/php/$PHP_VERSION/fpm /etc/php/$PHP_VERSION/cli
 
