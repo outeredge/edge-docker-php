@@ -20,7 +20,7 @@ files=/etc/supervisor/conf.d/*.conf
 [program:nginx]
 command=nginx
 autostart=true
-user={% if NGINX_PORT == '80' %}root{% else %}nginx{% endif %}
+user={% if NGINX_PORT == '80' %}root{% elif ENABLE_DEV == 'Off' %}nginx{% else %}{{ USER }}{% endif %}
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
