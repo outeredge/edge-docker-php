@@ -4,6 +4,7 @@ export USER=$(whoami)
 
 if [[ $ENABLE_DEV = "On" ]]; then
     sudo chown -Rf $USER:$USER /var/log/php
+    sudo chown -Rf $USER:$USER /var/log/nginx
 else
     sudo chmod g=r /etc/passwd
 fi
