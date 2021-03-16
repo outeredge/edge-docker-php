@@ -65,7 +65,7 @@ stderr_logfile_maxbytes=0
 [program:redis]
 command=redis-server --save "" --appendonly no
 autostart={% if ENABLE_REDIS == 'On' %}true{% else %}false{% endif %}
-user=nginx
+user=redis
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
