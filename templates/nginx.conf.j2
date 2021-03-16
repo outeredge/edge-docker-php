@@ -1,4 +1,7 @@
+{% if NGINX_PORT == '80' %}
 user nginx;
+{% endif %}
+
 worker_processes auto;
 daemon off;
 error_log stderr notice;
