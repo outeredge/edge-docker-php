@@ -2,7 +2,7 @@
 
 export USER=$(whoami)
 
-if [[ $ENABLE_DEV = "On" ]]; then
+if [ "$ENABLE_DEV" = "On" ]; then
     sudo chown -Rf $USER:$USER /var/log/php
     sudo chown -Rf $USER:$USER /var/log/nginx
 else
@@ -10,12 +10,12 @@ else
 fi
 
 # Set SSH password
-if [[ $ENABLE_SSH = "On" ]]; then
+if [ "$ENABLE_SSH" = "On" ]; then
     echo "edge:$SSH_PASSWORD" | sudo chpasswd
 fi
 
 # Load custom environment variables from .env
-if [[ -f "$WEB_ROOT/.env" ]]; then
+if [ -f "$WEB_ROOT/.env" ]; then
     set -a; . $WEB_ROOT/.env; set +a
 fi
 

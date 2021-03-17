@@ -52,11 +52,17 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 curl https://i.jpillora.com/chisel! | bash
 
 # Upgrade pip and install shinto-cli
-pip3 install --no-cache-dir --upgrade pip setuptools
+pip3 install --no-cache-dir --upgrade pip
 pip3 install --no-cache-dir shinto-cli
 
 # Install yarn & gulp-cli
 npm install --global yarn gulp-cli
+
+if [ "$NODE_VERSION" -lt "10" ]; then
+    npm install --global n
+    sudo n $NODE_VERSION
+fi
+
 npm cache clean --force
 
 # Install Composer
@@ -64,13 +70,13 @@ wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERS
 chmod a+x /usr/local/bin/composer
 
 # Install prestissimo for parallel composer installs (v1 only)
-if [[ "${COMPOSER_VERSION}" = "1" ]]; then
+if [ "$COMPOSER_VERSION" = "1" ]; then
     sudo -H -u edge composer global require hirak/prestissimo
     sudo -H -u edge composer clear-cache
 fi
 
 # Download ioncube loaders for PHP < 8
-if [[ "$PHP_VERSION" < "8.0" ]]; then
+if [ "$PHP_VERSION" -lt "8.0" ]; then
     SV=(${PHP_VERSION//./ })
     IONCUBE_VERSION="${SV[0]}.${SV[1]}"
     wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
