@@ -63,7 +63,7 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
 [program:redis]
-command=redis-server --save "" --appendonly no
+command=redis-server --save "" --dir "/var/lib/redis" --appendonly no
 autostart={% if ENABLE_REDIS == 'On' %}true{% else %}false{% endif %}
 user=redis
 stdout_logfile=/dev/stdout
