@@ -17,6 +17,8 @@ fi
 # Load custom environment variables from .env
 if [ -f "$WEB_ROOT/.env" ]; then
     set -a; . $WEB_ROOT/.env; set +a
+elif [ -f "/var/www/.env" ]; then
+    set -a; . /var/www/.env; set +a
 fi
 
 env | sudo dd status=none of=/etc/environment
