@@ -21,7 +21,7 @@ fi
 
 env | sudo dd status=none of=/etc/environment
 
-sudo chmod -f 644 /var/spool/cron/crontabs/*
+sudo chmod -f 600 /var/spool/cron/crontabs/*
 
 j2 /templates/nginx.conf.j2 | sudo dd status=none of=/etc/nginx/nginx.conf
 j2 /templates/nginx-${NGINX_CONF}.conf.j2 | sudo dd status=none of=/etc/nginx/conf.d/${NGINX_CONF}.conf
