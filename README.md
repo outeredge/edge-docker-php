@@ -13,7 +13,7 @@ Most configuration can be done with environment variables. Here are the availabl
 
 | Environment       | Default | Description |
 | -------------     | ------- | --- |
-| ENABLE_CRON       | Off     | Enables crond, add your cron jobs to /etc/crontabs/edge. Remember to add an empty line at the end! |
+| ENABLE_CRON       | Off     | Enables crond, add your cron jobs to /var/spool/cron/crontabs/edge. Remember to add an empty line at the end! |
 | ENABLE_REDIS      | Off     | Enabled a local redis server |
 | ENABLE_SSH        | Off     | Enables SSH/SFTP access to the container with user `edge` (for dev purposes only) |
 | ENABLE_DEV        | Off     | Runs PHP as the `edge` user to simplify permissions (for dev purposes only) |
