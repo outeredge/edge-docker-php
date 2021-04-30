@@ -41,8 +41,8 @@ sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
 sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
 
 # Set HTTPS according to forwarded protocol
-sed -i "s/https/fe_https/" /etc/nginx/fastcgi_params
-sed -i "s/https/fe_https/" /etc/nginx/fastcgi.conf
+sed -i "s/\$https/on/" /etc/nginx/fastcgi_params
+sed -i "s/\$https/on/" /etc/nginx/fastcgi.conf
 
 # Don't time out SSH connections
 echo "ClientAliveInterval 120" >> /etc/ssh/sshd_config

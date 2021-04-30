@@ -81,10 +81,4 @@ http {
     upstream fastcgi_backend {
         server 127.0.0.1:8000;
     }
-
-    map $http_x_forwarded_proto $fe_https {
-        default $https;
-        http '';
-        https on;
-    }
 }
