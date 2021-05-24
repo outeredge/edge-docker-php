@@ -39,6 +39,7 @@ RUN apt-get update \
         ca-certificates \
         cron \
         curl \
+        debconf \
         git \
         gnupg \
         less \
@@ -52,6 +53,7 @@ RUN apt-get update \
         supervisor \
         unzip \
         wget \
+    && echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections \
     && . /etc/lsb-release \
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
