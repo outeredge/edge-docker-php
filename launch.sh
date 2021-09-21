@@ -32,4 +32,4 @@ for f in /templates/*.ini.j2; do j2 $f | sudo dd status=none of=/etc/php/${PHP_V
 
 chmod o+w /dev/stdout
 
-sudo /usr/bin/supervisord
+sudo -E /usr/bin/supervisord
