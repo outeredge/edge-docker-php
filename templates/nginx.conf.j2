@@ -68,6 +68,8 @@ http {
 
     server {
       listen {{ NGINX_PORT }} default_server reuseport;
+      
+      port_in_redirect off;
 
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
 
