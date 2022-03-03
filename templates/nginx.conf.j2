@@ -78,6 +78,7 @@ http {
       location = /Dockerfile              { deny all; }
       location = /robots.txt              { log_not_found off; }
       location = /favicon.ico             { log_not_found off; }
+      location = /vendor/                 { deny all; }
     }
 
     upstream fastcgi_backend {
