@@ -59,6 +59,7 @@ http {
     gzip_types application/pdf;
     gzip_types application/postscript;
     gzip_types application/x-javascript;
+    gzip_types application/xml;
     gzip_types image/svg+xml;
     gzip_types text/css;
     gzip_types text/csv;
@@ -67,9 +68,15 @@ http {
     gzip_types text/plain;
     gzip_types text/xml;
 
+    map $sent_http_content_type $expires {
+      "text/html"                 epoch;
+      "text/html; charset=utf-8"  epoch;
+      default                     off;
+    }
+
     server {
       listen {{ NGINX_PORT }} default_server reuseport;
-      
+
       port_in_redirect off;
 
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
@@ -84,5 +91,9 @@ http {
 
     upstream fastcgi_backend {
         server 127.0.0.1:8000;
+    }
+
+    upstream node_backend {
+        server 127.0.0.1:{{ NODE_PORT }};
     }
 }
