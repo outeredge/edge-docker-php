@@ -52,6 +52,7 @@ http {
     gzip on;
     gzip_vary on;
     gzip_proxied any;
+    gzip_min_length 1000;
     gzip_types application/ecmascript;
     gzip_types application/javascript;
     gzip_types application/json;
