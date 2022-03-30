@@ -1,5 +1,6 @@
 .git
 .dockerignore
+publish.sh
 Dockerfile.*
 LICENSE
 README.md
