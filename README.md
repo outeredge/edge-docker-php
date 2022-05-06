@@ -27,6 +27,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
 | XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
+| WEB_PUBLIC        | -       | A suffix to the WEB_ROOT to only serve files from this location |
 | NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf.j2` |
 | NGINX_PORT        | 8080    | Set the Nginx listening port |
 | NGINX_PORT        | 3000    | Set the Node listening port |

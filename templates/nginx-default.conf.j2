@@ -1,4 +1,4 @@
-    root {{ WEB_ROOT }};
+    root {{ WEB_ROOT }}{{ WEB_PUBLIC }};
 
     location / {
         try_files $uri $uri/ /index.html /index.php$is_args$args;
