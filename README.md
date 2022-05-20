@@ -30,7 +30,7 @@ Most configuration can be done with environment variables. Here are the availabl
 | WEB_PUBLIC        | -       | A suffix to the WEB_ROOT to only serve files from this location |
 | NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf.j2` |
 | NGINX_PORT        | 8080    | Set the Nginx listening port |
-| NGINX_PORT        | 3000    | Set the Node listening port |
+| NODE_PORT         | 3000    | Set the Node listening port |
 | SMTP_HOST         | smtp.mailtrap.io | Set SMTP hostname (uses MSMTP for sendmail) |
 | SMTP_PORT         | 25      | Set SMTP port |
 | SMTP_USER         | -       | Set SMTP username |
