@@ -34,7 +34,8 @@ ENV PHP_VERSION=${PHP_VERSION} \
     SMTP_PORT=2525 \
     SMTP_USER= \
     SMTP_PASS= \
-    SMTP_FROM=
+    SMTP_FROM= \
+    PATH="${PATH}:./node_modules/.bin:./vendor/bin"
 
 RUN apt-get update \
     && apt-get install --no-install-recommends --yes \
