@@ -1,10 +1,10 @@
 #!/bin/bash -ex
 
-# Install mcrypt for older PHP vers
-if [ "$PHP_VERSION" -lt "7.2" ]; then
+# Install mcrypt for PHP 7.1
+if [ "$PHP_VERSION" = "7.1" ]; then
     apt-get update
-    apt-get install --no-install-recommends --yes php${PHP_VERSION}-mcrypt \
-    rm -Rf /var/www/* \
+    apt-get install --no-install-recommends --yes php${PHP_VERSION}-mcrypt
+    rm -Rf /var/www/*
     rm -rf /var/lib/apt/lists/*
 fi
 
