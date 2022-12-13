@@ -28,7 +28,7 @@ stderr_logfile_maxbytes=0
 
 [program:vsf]
 command=yarn start
-autostart={% if NGINX_CONF == 'vsf' %}true{% else %}false{% endif %}
+autostart={% if NGINX_CONF == 'vsf' and ENABLE_DEV == 'Off' %}true{% else %}false{% endif %}
 user={% if ENABLE_DEV == 'Off' %}www-data{% else %}{{ USER }}{% endif %}
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
