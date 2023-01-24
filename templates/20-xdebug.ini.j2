@@ -4,7 +4,8 @@ zend_extension = xdebug.so
 {% endif %}
 
 {% if PHP_VERSION > '7.1' %}
-xdebug.mode=debug
+xdebug.mode=debug,profile
+xdebug.start_with_request = trigger
 {% if XDEBUG_HOST is defined and XDEBUG_HOST %}
 xdebug.client_host = {{ XDEBUG_HOST }}
 {% endif %}
