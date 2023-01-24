@@ -7,6 +7,7 @@ zend_extension = xdebug.so
 xdebug.mode = debug,profile
 xdebug.start_with_request = trigger
 xdebug.output_dir = {{ WEB_ROOT }}
+xdebug.use_compression = true
 {% if XDEBUG_HOST is defined and XDEBUG_HOST %}
 xdebug.client_host = {{ XDEBUG_HOST }}
 {% endif %}
