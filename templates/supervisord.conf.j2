@@ -27,7 +27,7 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
 [program:vsf]
-command=yarn start
+command=yarn --cwd vsf start
 autostart={% if NGINX_CONF == 'vsf' and NODE_START == 'yarn' %}true{% else %}false{% endif %}
 user={% if ENABLE_DEV == 'Off' %}www-data{% else %}{{ USER }}{% endif %}
 stdout_logfile=/dev/stdout
