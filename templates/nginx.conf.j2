@@ -84,8 +84,6 @@ http {
       location ^~ /\.                     { deny all; log_not_found off; }
       location ~\.(ini|log|conf)$         { deny all; }
       location = /Dockerfile              { deny all; }
-      location = /robots.txt              { log_not_found off; }
-      location = /favicon.ico             { log_not_found off; }
       location = /vendor/                 { deny all; }
     }
 
