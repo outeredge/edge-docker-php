@@ -81,7 +81,7 @@ http {
 
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
 
-      location ^~ /\.                     { deny all; log_not_found off; }
+      location ~ /\.                      { deny all; log_not_found off; }
       location ~\.(ini|log|conf)$         { deny all; }
       location = /Dockerfile              { deny all; }
       location = /vendor/                 { deny all; }
