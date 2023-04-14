@@ -81,10 +81,11 @@ http {
 
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
 
+      location = /healthz                 { access_log off; default_type text/plain; return 200 "healthy\n"; }
       location ~ /\.                      { deny all; log_not_found off; }
       location ~\.(ini|log|conf)$         { deny all; }
       location = /Dockerfile              { deny all; }
-      location = /vendor/                 { deny all; }
+      location = /vendor/                 { deny all; }      
     }
 
     upstream fastcgi_backend {
