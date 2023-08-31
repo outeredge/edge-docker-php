@@ -20,6 +20,10 @@ http {
 
     proxy_hide_header X-Powered-By;
 
+    proxy_buffers            4 256k;
+    proxy_buffer_size          128k;
+    proxy_busy_buffers_size    256k;
+
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
