@@ -1,0 +1,8 @@
+# syntax=edrevo/dockerfile-plus
+
+FROM ubuntu:22.04
+
+ARG PHP_VERSION=8.3
+ARG NODE_VERSION=20
+
+INCLUDE+ Dockerfile.common
