@@ -76,6 +76,11 @@ http {
       default                     off;
     }
 
+    map $http_accept $htmltonode {
+      "text/html"  node_backend;
+      default      fastcgi_backend;
+    }
+
     server {
       listen {{ NGINX_PORT }} default_server reuseport;
 
