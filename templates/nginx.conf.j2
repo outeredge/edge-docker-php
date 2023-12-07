@@ -86,6 +86,8 @@ http {
 
       port_in_redirect off;
 
+      set $WEB_ROOT {{ WEB_ROOT }};
+
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;
 
       location = /healthz                 { access_log off; default_type text/plain; return 200 "healthy\n"; }
