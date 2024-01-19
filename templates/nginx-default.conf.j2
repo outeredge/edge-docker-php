@@ -1,7 +1,7 @@
     root {{ WEB_ROOT }}{{ WEB_PUBLIC }};
 
     location / {
-        try_files $uri $uri/ /index.html /index.php$is_args$args;
+        try_files $uri $uri/ $uri.html /index.html /index.php$is_args$args;
     }
 
     location ~ \.php$ {
