@@ -28,7 +28,7 @@ stderr_logfile_maxbytes=0
 
 [program:node]
 command={{ NODE_START }}
-autostart={% if NGINX_CONF == 'node' && NODE_START != '' %}true{% else %}false{% endif %}
+autostart={% if NGINX_CONF == 'node' and NODE_START != '' %}true{% else %}false{% endif %}
 user={% if ENABLE_DEV == 'Off' %}www-data{% else %}{{ USER }}{% endif %}
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
