@@ -86,6 +86,8 @@ http {
 
       port_in_redirect off;
 
+      expires $expires;
+
       set $WEB_ROOT {{ WEB_ROOT }};
 
       include /etc/nginx/conf.d/{{ NGINX_CONF }}.conf;

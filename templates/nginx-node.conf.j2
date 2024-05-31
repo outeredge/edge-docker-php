@@ -1,8 +1,10 @@
     root {{ WEB_ROOT }}{{ WEB_PUBLIC }};
 
     location / {
-        expires $expires;
+        try_files $uri $uri/ $uri.html /index.html @node;
+    }
 
+    location @node {
         proxy_redirect                      off;
         proxy_set_header Host               $host;
         proxy_set_header X-Real-IP          $remote_addr;
