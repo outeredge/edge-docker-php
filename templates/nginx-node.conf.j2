@@ -1,7 +1,7 @@
     root {{ WEB_ROOT }}{{ WEB_PUBLIC }};
 
     location / {
-        try_files $uri $uri/ $uri.html /index.html @node;
+        try_files $uri $uri.html /index.html @node;
     }
 
     location @node {
