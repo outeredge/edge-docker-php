@@ -12,6 +12,7 @@
         proxy_pass                          http://node_backend;
     }
 
+    {% if ENABLE_PHP == 'On' %}
     location ~ \.php$ {
         try_files $uri =404;
 
@@ -20,5 +21,6 @@
         fastcgi_read_timeout 300;
         fastcgi_pass fastcgi_backend;
     }
+    {% endif %}
 
     include {{ WEB_ROOT }}/nginx[.]conf;
