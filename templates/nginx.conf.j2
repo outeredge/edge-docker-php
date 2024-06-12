@@ -24,6 +24,9 @@ http {
     proxy_buffer_size          128k;
     proxy_busy_buffers_size    256k;
 
+    fastcgi_buffers 16 16k;
+    fastcgi_buffer_size 32k;
+
     include /etc/nginx/mime.types;
     default_type application/octet-stream;
 
