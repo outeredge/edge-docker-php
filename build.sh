@@ -9,7 +9,7 @@ if [ "$PHP_VERSION" = "7.1" ]; then
 fi
 
 # Download ioncube loaders for PHP < 8
-if [ "$PHP_VERSION" -lt "8.0" ]; then
+if [ ${PHP_VERSION%.*} -lt 8 ]; then
     SV=(${PHP_VERSION//./ })
     IONCUBE_VERSION="${SV[0]}.${SV[1]}"
     wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
@@ -29,16 +29,17 @@ chmod 0440 /etc/sudoers.d/edge
 sed -i 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers
 
 # Create default user
+userdel -r ubuntu
 addgroup --gid 1000 --system edge
 adduser --uid 1000 --system --home /home/edge --shell /bin/bash --ingroup edge edge
-addgroup edge sudo
-addgroup www-data edge
+usermod -a -G sudo edge
+usermod -a -G edge www-data
 touch /home/edge/.hushlogin
 chown -Rf edge:edge /var/www
 
 # Create user for nginx
 adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
-addgroup nginx edge
+usermod -a -G edge nginx
 
 # Logging for nginx and PHP
 mkdir -p /var/log/php
@@ -67,9 +68,8 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 # Install Chisel TCP/UDP tunnel
 curl https://i.jpillora.com/chisel! | bash
 
-# Upgrade pip and install shinto-cli
-pip3 install --no-cache-dir --upgrade pip
-pip3 install --no-cache-dir shinto-cli
+# Install shinto-cli
+pipx install shinto-cli
 
 # Install yarn & gulp-cli
 npm install --global yarn gulp-cli
