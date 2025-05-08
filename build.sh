@@ -68,8 +68,13 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 # Install Chisel TCP/UDP tunnel
 curl https://i.jpillora.com/chisel! | bash
 
-# Install shinto-cli
-pipx install shinto-cli
+## Temporary solution until next Ubuntu release to upgrade PIPX
+sudo pipx install pipx # Install 1.7 in ~/.local/bin/
+sudo ~/.local/bin/pipx install --global pipx # Install 1.7 in /usr/local/bin/pipx
+sudo /usr/local/bin/pipx uninstall pipx # Remove 1.7 from ~/.local/
+
+## Install J2 globally
+sudo pipx install --global jinjanator
 
 # Install yarn & gulp-cli
 npm install --global yarn gulp-cli
