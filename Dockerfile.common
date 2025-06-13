@@ -69,6 +69,7 @@ RUN apt-get update \
     && echo "deb-src http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     # New Relic
+    && apt-config dump | grep -we 'APT::Key::Assert-Pubkey-Algo "' | sed 's/";/,dsa1024";/' | tee /etc/apt/apt.conf.d/99PubKeyAlgoWorkaround \
     && echo "deb http://apt.newrelic.com/debian/ newrelic non-free" >> /etc/apt/sources.list \
     && wget -O- https://download.newrelic.com/548C16BF.gpg | sudo apt-key add - \
     # For older node, install 20.04 compatible release then downgrade in build.sh
