@@ -65,8 +65,8 @@ RUN apt-get update \
     # PHP & Nginx
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
-    && echo "deb http://ppa.launchpad.net/ondrej/nginx-mainline/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
-    && echo "deb-src http://ppa.launchpad.net/ondrej/nginx-mainline/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && echo "deb http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
+    && echo "deb-src http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     # New Relic
     && echo "deb http://apt.newrelic.com/debian/ newrelic non-free" >> /etc/apt/sources.list \

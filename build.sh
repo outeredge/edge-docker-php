@@ -29,7 +29,6 @@ chmod 0440 /etc/sudoers.d/edge
 sed -i 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers
 
 # Create default user
-userdel -r ubuntu
 addgroup --gid 1000 --system edge
 adduser --uid 1000 --system --home /home/edge --shell /bin/bash --ingroup edge edge
 usermod -a -G sudo edge
