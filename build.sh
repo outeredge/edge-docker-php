@@ -68,10 +68,12 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 # Install Chisel TCP/UDP tunnel
 curl https://i.jpillora.com/chisel! | bash
 
-if [ "$NODE_VERSION" -lt "10" ]; then
-    npm install --global n
-    sudo n $NODE_VERSION
-    npm cache clean --force
+if [ -n "$NODE_VERSION" ]; then
+    if [ "$NODE_VERSION" -lt "10" ]; then
+        npm install --global n
+        sudo n $NODE_VERSION
+        npm cache clean --force
+    fi
 fi
 
 # Install Composer

@@ -63,6 +63,9 @@ RUN apt-get update \
     && echo "deb http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb-src http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
+    # For older node, install 20.04 compatible release then downgrade in build.sh
+    && if [ "$NODE_VERSION" -lt "10" ]; then export NODE_VERSION=14; fi \
+    && if [ -n "$NODE_VERSION" ]; then curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo bash - ; fi \
     # Install all packages
     && apt-get update \
     && apt-get install --no-install-recommends --yes \
