@@ -1,0 +1,4 @@
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo bash - \
+    && sudo apt-get update \
+    && sudo apt-get install --no-install-recommends --yes nodejs \
+    && sudo rm -rf /var/lib/apt/lists/*
