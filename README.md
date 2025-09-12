@@ -24,11 +24,8 @@ Most configuration can be done with environment variables. Here are the availabl
 | PHP_OPCACHE_VALIDATE | On   | Forces OPcache to check for updates on every request, turn Off for production |
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
 | PHP_MAX_CHILDREN  | 30      | Specify the maximum number of concurrent PHP processes |
-| XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
-| XDEBUG_HOST       | -       | Specify the remote host Xdebug should connect to |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
 | WEB_PUBLIC        | -       | A suffix to the WEB_ROOT to only serve files from this location |
-| NEWRELIC_LICENSE  | -       | New Relic license key to enable New Relic PHP agent |
 | NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf.j2` |
 | NGINX_PORT        | 8080    | Set the Nginx listening port |
 | NODE_PORT         | 3000    | Set the Node listening port |

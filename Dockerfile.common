@@ -10,7 +10,7 @@ ENV PHP_VERSION=${PHP_VERSION} \
     NODE_VERSION=${NODE_VERSION} \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     ENABLE_PHP=On \
-    ENABLE_REDIS=Off \
+    ENABLE_REDIS=On \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     ENABLE_DEV=Off \
@@ -19,7 +19,7 @@ ENV PHP_VERSION=${PHP_VERSION} \
     NODE_PORT=3000 \
     NODE_START= \
     PHP_DISPLAY_ERRORS=Off \
-    PHP_OPCACHE_VALIDATE=On \
+    PHP_OPCACHE_VALIDATE=Off \
     PHP_MAX_CHILDREN=30 \
     PHP_TIMEZONE=Europe/London \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
@@ -84,8 +84,8 @@ RUN apt-get update \
         php${PHP_VERSION}-xsl \
         php${PHP_VERSION}-zip \
         php${PHP_VERSION}-redis \
-    && PIPX_BIN_DIR=/usr/local/bin && pipx install jinjanator \
-    && apt-get purge pipx python3-pip-whl \
+    && PIPX_HOME=/opt/pipx PIPX_BIN_DIR=/usr/local/bin pipx install jinjanator \
+    && apt-get purge --yes pipx python3-pip-whl \
     && if [ -n "$NODE_VERSION" ]; then apt-get install --no-install-recommends --yes nodejs; fi \
     # Cleanup
     && rm -Rf /var/www/* \

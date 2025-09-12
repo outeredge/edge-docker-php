@@ -1,5 +1,8 @@
 # syntax=edrevo/dockerfile-plus
 
-INCLUDE+ Dockerfile.php84
+FROM ubuntu:24.04
 
+ARG PHP_VERSION=8.4
 ARG NODE_VERSION=22
+
+INCLUDE+ Dockerfile.common
