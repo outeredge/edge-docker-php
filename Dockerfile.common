@@ -14,7 +14,6 @@ ENV PHP_VERSION=${PHP_VERSION} \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     ENABLE_DEV=Off \
-    NEWRELIC_LICENSE= \
     NGINX_CONF=default \
     NGINX_PORT=8080 \
     NODE_PORT=3000 \
@@ -32,8 +31,6 @@ ENV PHP_VERSION=${PHP_VERSION} \
     WEB_PUBLIC= \
     COMPOSER_MEMORY_LIMIT=-1 \
     COMPOSER_PROCESS_TIMEOUT=600 \
-    XDEBUG_ENABLE=Off \
-    XDEBUG_HOST= \
     SMTP_HOST=smtp.mailtrap.io \
     SMTP_PORT=2525 \
     SMTP_USER= \
@@ -42,7 +39,6 @@ ENV PHP_VERSION=${PHP_VERSION} \
 
 RUN apt-get update \
     && apt-get install --no-install-recommends --yes \
-        bash-completion \
         ca-certificates \
         cron \
         curl \
@@ -53,7 +49,6 @@ RUN apt-get update \
         msmtp \
         nano \
         patch \
-        pipx \
         rsync \
         ssh \
         sudo \
@@ -68,25 +63,17 @@ RUN apt-get update \
     && echo "deb http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb-src http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
-    # New Relic
-    && apt-config dump | grep -we 'APT::Key::Assert-Pubkey-Algo "' | sed 's/";/,dsa1024";/' | tee /etc/apt/apt.conf.d/99PubKeyAlgoWorkaround \
-    && echo "deb http://apt.newrelic.com/debian/ newrelic non-free" >> /etc/apt/sources.list \
-    && wget -O- https://download.newrelic.com/548C16BF.gpg | sudo apt-key add - \
-    # For older node, install 20.04 compatible release then downgrade in build.sh
-    && if [ "$NODE_VERSION" -lt "10" ]; then export NODE_VERSION=14; fi \
-    && curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo bash - \
     # Install all packages
     && apt-get update \
     && apt-get install --no-install-recommends --yes \
-        newrelic-php5 \
         nginx \
-        nodejs \
+        pipx \
         redis-server \
-        # PHP
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-bcmath \
         php${PHP_VERSION}-common \
         php${PHP_VERSION}-curl \
+        php${PHP_VERSION}-gd \
         php${PHP_VERSION}-intl \
         php${PHP_VERSION}-mbstring \
         php${PHP_VERSION}-mysql \
@@ -96,9 +83,11 @@ RUN apt-get update \
         php${PHP_VERSION}-xml \
         php${PHP_VERSION}-xsl \
         php${PHP_VERSION}-zip \
-        php${PHP_VERSION}-xdebug \
         php${PHP_VERSION}-redis \
-        # Cleanup
+    && PIPX_BIN_DIR=/usr/local/bin && pipx install jinjanator \
+    && apt-get purge pipx python3-pip-whl \
+    && if [ -n "$NODE_VERSION" ]; then apt-get install --no-install-recommends --yes nodejs; fi \
+    # Cleanup
     && rm -Rf /var/www/* \
     && rm -rf /var/lib/apt/lists/*
 

@@ -5,7 +5,7 @@ Ubuntu running Nginx, PHP and Node.
 ## Provided Software
 * PHP
 * Nginx
-* Node & NPM
+* Node & NPM (on -node variants)
 * Composer
 
 ## Configuration Options

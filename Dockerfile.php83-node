@@ -1,0 +1,5 @@
+# syntax=edrevo/dockerfile-plus
+
+INCLUDE+ Dockerfile.php83
+
+ARG NODE_VERSION=20

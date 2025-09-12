@@ -68,23 +68,11 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 # Install Chisel TCP/UDP tunnel
 curl https://i.jpillora.com/chisel! | bash
 
-## Temporary solution until next Ubuntu release to upgrade PIPX
-sudo pipx install pipx # Install 1.7 in ~/.local/bin/
-sudo ~/.local/bin/pipx install --global pipx # Install 1.7 in /usr/local/bin/pipx
-sudo /usr/local/bin/pipx uninstall pipx # Remove 1.7 from ~/.local/
-
-## Install J2 globally
-sudo pipx install --global jinjanator
-
-# Install yarn & gulp-cli
-npm install --global yarn gulp-cli
-
 if [ "$NODE_VERSION" -lt "10" ]; then
     npm install --global n
     sudo n $NODE_VERSION
+    npm cache clean --force
 fi
-
-npm cache clean --force
 
 # Install Composer
 wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
