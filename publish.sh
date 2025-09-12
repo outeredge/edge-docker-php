@@ -9,7 +9,9 @@ if [ ! -z "$DOCKER_PASS" ]; then
     echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 fi;
 
-echo "Building image outeredge/edge-docker-php:$1 with Dockerfile.php${1//./}"
+echo "Building image outeredge/edge-docker-php:$1 (and -node) with Dockerfile.php${1//./}"
 DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1 -f Dockerfile.php${1//./} && \
 docker push outeredge/edge-docker-php:$1 && \
+DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1-node -f Dockerfile.php${1//./}-node && \
+docker push outeredge/edge-docker-php:$1-node && \
 echo "Complete!"

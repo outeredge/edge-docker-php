@@ -68,23 +68,9 @@ echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 # Install Chisel TCP/UDP tunnel
 curl https://i.jpillora.com/chisel! | bash
 
-if [ -n "$NODE_VERSION" ]; then
-    if [ "$NODE_VERSION" -lt "10" ]; then
-        npm install --global n
-        sudo n $NODE_VERSION
-        npm cache clean --force
-    fi
-fi
-
 # Install Composer
 wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
 chmod a+x /usr/local/bin/composer
-
-# Install prestissimo for parallel composer installs (v1 only)
-if [ "$COMPOSER_VERSION" = "1" ]; then
-    sudo -H -u edge composer global require hirak/prestissimo
-    sudo -H -u edge composer clear-cache
-fi
 
 # Cleanup
 rm -rf /tmp/*
