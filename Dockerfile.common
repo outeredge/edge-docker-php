@@ -94,6 +94,11 @@ COPY . /
 
 RUN /build.sh
 
+COPY --from=outeredge/edge-docker-magento:2.4.8-p2 \
+        /templates/magento.conf.j2 \
+        /templates/nginx-magento.conf.j2 \
+    /templates/
+
 USER edge
 
 EXPOSE $NGINX_PORT
