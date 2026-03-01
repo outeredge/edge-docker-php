@@ -20,7 +20,7 @@ ENV PHP_VERSION=${PHP_VERSION} \
     NODE_START= \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=Off \
-    PHP_MAX_CHILDREN=30 \
+    PHP_MAX_CHILDREN=50 \
     PHP_TIMEZONE=Europe/London \
     PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     NUXT_TELEMETRY_DISABLED=1 \
@@ -59,9 +59,7 @@ RUN apt-get update \
     && . /etc/lsb-release \
     # PHP & Nginx
     && echo "deb http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
-    && echo "deb-src http://ppa.launchpad.net/ondrej/php/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && echo "deb http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
-    && echo "deb-src http://ppa.launchpad.net/ondrej/nginx/ubuntu $DISTRIB_CODENAME main" >> /etc/apt/sources.list \
     && apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 4F4EA0AAE5267A6C \
     # Install all packages
     && apt-get update \

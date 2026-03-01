@@ -46,10 +46,6 @@ mkdir -p /var/log/php
 chown -Rf www-data:www-data /var/log/php
 chown -Rf nginx:nginx /var/log/nginx
 
-# Create default host keys
-mkdir -p /var/run/sshd
-ssh-keygen -A
-
 # Replace sendmail with msmtp
 ln -sf /usr/bin/msmtp /usr/sbin/sendmail
 

@@ -9,8 +9,10 @@ else
     sudo chmod g=r /etc/passwd
 fi
 
-# Set SSH password
+# Generate unique SSH host keys and set SSH password per container
 if [ "$ENABLE_SSH" = "On" ]; then
+    sudo mkdir -p /var/run/sshd
+    sudo ssh-keygen -A
     echo "edge:$SSH_PASSWORD" | sudo chpasswd
 fi
 
