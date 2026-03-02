@@ -1,21 +1,5 @@
 #!/bin/bash -ex
 
-# Install mcrypt for PHP 7.1
-if [ "$PHP_VERSION" = "7.1" ]; then
-    apt-get update
-    apt-get install --no-install-recommends --yes php${PHP_VERSION}-mcrypt
-    rm -Rf /var/www/*
-    rm -rf /var/lib/apt/lists/*
-fi
-
-# Download ioncube loaders for PHP < 8
-if [ ${PHP_VERSION%.*} -lt 8 ]; then
-    SV=(${PHP_VERSION//./ })
-    IONCUBE_VERSION="${SV[0]}.${SV[1]}"
-    wget https://downloads.ioncube.com/loader_downloads/ioncube_loaders_lin_x86-64.tar.gz -O - | tar -zxf - -C /tmp
-    cp /tmp/ioncube/ioncube_loader_lin_$IONCUBE_VERSION.so $(php -i | grep ^extension_dir | cut -d '>' -f3)/ioncube.so
-fi
-
 # Redirect PHP cli to fpm configs
 cp /templates/php.ini /etc/php/$PHP_VERSION/fpm/php.ini
 rm -Rf /etc/php/$PHP_VERSION/cli
