@@ -45,9 +45,6 @@ sed -i "s/\$https/on/" /etc/nginx/fastcgi.conf
 echo "ClientAliveInterval 120" >> /etc/ssh/sshd_config
 echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
 
-# Install Chisel TCP/UDP tunnel
-curl https://i.jpillora.com/chisel! | bash
-
 # Install Composer
 wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
 chmod a+x /usr/local/bin/composer

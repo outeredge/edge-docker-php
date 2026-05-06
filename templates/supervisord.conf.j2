@@ -62,15 +62,6 @@ stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
-[program:chisel]
-command=chisel server --socks5 --port {{ CHISEL_PORT }}
-autostart={% if ENABLE_SSH == 'On' %}true{% else %}false{% endif %}
-user=root
-stdout_logfile=/dev/stdout
-stdout_logfile_maxbytes=0
-stderr_logfile=/dev/stderr
-stderr_logfile_maxbytes=0
-
 [program:redis]
 command=redis-server --save "" --dir "/var/lib/redis" --appendonly no
 autostart={% if ENABLE_REDIS == 'On' %}true{% else %}false{% endif %}

@@ -19,7 +19,6 @@ Most configuration can be done with environment variables. Here are the availabl
 | ENABLE_DEV        | Off     | Runs PHP as the `edge` user to simplify permissions (for dev purposes only) |
 | SSH_PASSWORD      | -       | Set SSH password for user `edge`, required for SSH access to work |
 | SSH_PORT          | 2222    | Set the port for the sshd server |
-| CHISEL_PORT       | 8022    | Set the port for the chisel tunnel |
 | PHP_DISPLAY_ERRORS | Off    | Display PHP errors in the browser, *not* recommended for production |
 | PHP_OPCACHE_VALIDATE | On   | Forces OPcache to check for updates on every request, turn Off for production |
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
