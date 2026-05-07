@@ -1,31 +1,63 @@
-# Magento 2 Caddy snippet — port of nginx-magento.conf.j2.
-# NOTE: needs validation against a Magento smoke test; ship default first
-# if any portability issues surface.
+# ── Security: hide sensitive files (404) ──
+@hidden_magento path_regexp (?i)/\..*$|/errors/.*\.xml$|theme_customization/.*\.xml$|/(composer\.(json|lock)|RELEASE_NOTES\.txt|CHANGELOG\.md|cron\.php|\.user\.ini|\.htaccess|\.htpasswd)$
+respond @hidden_magento 404
 
-# Magento serves from <root>/pub
-root * {$SERVER_ROOT}/pub
+# ── Security: hard denies (403) ──
+@blocked path /media/customer/* /media/downloadable/* /media/import/* /media/custom_options/* /setup* /update*
+respond @blocked 403
 
-# setup/ and pub/setup
-@setup path /setup /setup/*
-handle @setup {
-	root * {$SERVER_ROOT}/setup
-	php_server
+@unsafe_exec path_regexp ^/(media|static)/.*\.(php|phtml|pl|py|jsp|asp|sh|cgi|htm|shtml)$
+respond @unsafe_exec 403
+
+@phtml path *.phtml
+respond @phtml 403
+
+@trace method TRACE TRACK
+respond @trace 405
+
+# ── Security headers ──
+header {
+    X-Frame-Options        "SAMEORIGIN"
+    X-Content-Type-Options "nosniff"
+    Referrer-Policy        "strict-origin-when-cross-origin"
+    -Server
 }
 
-# Static content versioning — strip /static/version*
-@staticVersion path_regexp ^/static/version[^/]+/(.*)$
-rewrite @staticVersion /static/{re.staticVersion.1}
+# ── /static/ — strip version prefix (TOP LEVEL so it runs before handle blocks) ──
+rewrite /static/version*/* /static/{path.2}
 
-# Static and media — pass through with long cache
-@staticMedia path /static/* /media/*
-handle @staticMedia {
-	header Cache-Control "public, max-age=31536000"
-	file_server
+# If a /static/ file doesn't exist, materialize via static.php
+@static_missing {
+    path /static/*
+    not file
 }
+rewrite @static_missing /static.php?resource={path.1}
 
-# Block hidden / sensitive paths
-@blocked path_regexp ^/(\.|app/|bin/|dev/|lib/|phpserver/|pkginfo/|report/config\.xml|var/|vendor/)
-respond @blocked 404
+# ── /media/ — fallback to get.php ──
+@media_missing {
+    path /media/*
+    not file
+}
+rewrite @media_missing /get.php?{query}
 
-# Default — Magento bootstrap
+# ── Cache headers ──
+header /static/* Cache-Control "public, max-age=31536000, immutable"
+header /media/*  Cache-Control "public, max-age=31536000"
+
+# ── PHP entry-point whitelist ──
+# Block any .php URL that isn't a Magento entry point
+@bad_php {
+    path *.php
+    not path /index.php /get.php /static.php /health_check.php /errors/*.php
+}
+respond @bad_php 403
+
+# ── Front controller (php_server handles static + PHP fallback to index.php) ──
 php_server
+
+# ── Custom error pages ──
+handle_errors {
+    @magento_errors expression `{err.status_code} in [403, 404, 503]`
+    rewrite @magento_errors /errors/{err.status_code}.php
+    php_server
+}

@@ -25,8 +25,6 @@
 	}
 	respond @hidden 403
 
-	try_files {path} {path}/ {path}.html /index.html /index.php?{query}
-
 	import /etc/caddy/conf.d/{$CADDY_CONF}.caddy
 
 	# Per-app overrides — optional import (trailing ?). Mirror of the
