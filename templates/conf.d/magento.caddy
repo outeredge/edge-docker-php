@@ -1,0 +1,31 @@
+# Magento 2 Caddy snippet — port of nginx-magento.conf.j2.
+# NOTE: needs validation against a Magento smoke test; ship default first
+# if any portability issues surface.
+
+# Magento serves from <root>/pub
+root * {$SERVER_ROOT}/pub
+
+# setup/ and pub/setup
+@setup path /setup /setup/*
+handle @setup {
+	root * {$SERVER_ROOT}/setup
+	php_server
+}
+
+# Static content versioning — strip /static/version*
+@staticVersion path_regexp ^/static/version[^/]+/(.*)$
+rewrite @staticVersion /static/{re.staticVersion.1}
+
+# Static and media — pass through with long cache
+@staticMedia path /static/* /media/*
+handle @staticMedia {
+	header Cache-Control "public, max-age=31536000"
+	file_server
+}
+
+# Block hidden / sensitive paths
+@blocked path_regexp ^/(\.|app/|bin/|dev/|lib/|phpserver/|pkginfo/|report/config\.xml|var/|vendor/)
+respond @blocked 404
+
+# Default — Magento bootstrap
+php_server

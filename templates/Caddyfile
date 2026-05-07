@@ -1,0 +1,35 @@
+{
+	{$CADDY_GLOBAL_OPTIONS}
+	servers {
+		trusted_proxies static private_ranges
+	}
+}
+
+{$SERVER_NAME} {
+	log {
+		output stderr
+		format console
+	}
+
+	root * {$SERVER_ROOT}
+	encode zstd br gzip
+
+	@healthz path /healthz
+	respond @healthz "healthy" 200
+
+	@hidden {
+		path_regexp \.(ini|log|conf)$
+		path_regexp /\..*
+		path_regexp /Dockerfile
+		path_regexp /vendor/.*
+	}
+	respond @hidden 403
+
+	try_files {path} {path}/ {path}.html /index.html /index.php?{query}
+
+	import /etc/caddy/conf.d/{$CADDY_CONF}.caddy
+
+	# Per-app overrides — optional import (trailing ?). Mirror of the
+	# nginx track's `include {{ WEB_ROOT }}/nginx[.]conf;` glob trick.
+	import /var/www/Caddyfile?
+}

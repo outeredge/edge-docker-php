@@ -25,13 +25,19 @@ chown -Rf edge:edge /var/www
 adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
 usermod -a -G edge nginx
 
-# Logging for nginx and PHP
-mkdir -p /var/log/php
-chown -Rf www-data:www-data /var/log/php
+# Logging for nginx (PHP errors now go to /dev/stderr via php.ini)
 chown -Rf nginx:nginx /var/log/nginx
 
-# Replace sendmail with msmtp
-ln -sf /usr/bin/msmtp /usr/sbin/sendmail
+# Install env-driven sendmail wrapper (msmtp). msmtp merges CLI flags with
+# /etc/msmtprc (rendered at runtime by msmtprc.j2 on this track), so existing
+# behaviour is preserved while php.ini's sendmail_path resolves on both tracks.
+install -m 0755 -o root -g root /templates/sendmail /usr/local/bin/sendmail
+ln -sf /usr/local/bin/sendmail /usr/sbin/sendmail
+
+# Install profile.d snippet so docker exec shell sessions auto-load $WEB_ROOT/.env
+install -m 0644 -o root -g root /templates/profile.d/edge-env.sh /etc/profile.d/edge-env.sh
+grep -q '/etc/profile.d/edge-env.sh' /etc/bash.bashrc \
+    || echo '. /etc/profile.d/edge-env.sh' >> /etc/bash.bashrc
 
 # Use host as SERVER_NAME
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
