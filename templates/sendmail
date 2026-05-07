@@ -1,7 +1,6 @@
 #!/bin/sh
 # /usr/local/bin/sendmail — env-driven msmtp wrapper.
-# Reads SMTP_* env vars at every invocation and execs msmtp. Mirrors the
-# conditional logic that templates/msmtprc.j2 uses for the nginx track.
+# Reads SMTP_* env vars at every invocation and execs msmtp.
 # SMTP_PASS is passed via --passwordeval so it never appears in argv (only
 # in /proc/<pid>/environ, the same exposure profile as /etc/msmtprc).
 set -eu

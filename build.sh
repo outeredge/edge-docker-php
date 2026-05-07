@@ -28,9 +28,7 @@ usermod -a -G edge nginx
 # Logging for nginx (PHP errors now go to /dev/stderr via php.ini)
 chown -Rf nginx:nginx /var/log/nginx
 
-# Install env-driven sendmail wrapper (msmtp). msmtp merges CLI flags with
-# /etc/msmtprc (rendered at runtime by msmtprc.j2 on this track), so existing
-# behaviour is preserved while php.ini's sendmail_path resolves on both tracks.
+# Install env-driven sendmail wrapper (msmtp)
 install -m 0755 -o root -g root /templates/sendmail /usr/local/bin/sendmail
 ln -sf /usr/local/bin/sendmail /usr/sbin/sendmail
 
