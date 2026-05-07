@@ -1,0 +1,76 @@
+WORKDIR /var/www
+
+# No custom ENTRYPOINT — inherit upstream docker-php-entrypoint, which ends
+# with `exec "$@"` and therefore runs CMD directly.
+CMD ["/launch-frankenphp.sh"]
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ENV PHP_VERSION=${PHP_VERSION} \
+    COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
+    EDITOR=nano \
+    ENABLE_PHP=On \
+    CADDY_CONF=default \
+    PORT=8080 \
+    SERVER_NAME=:8080 \
+    PHP_DISPLAY_ERRORS=Off \
+    PHP_OPCACHE_VALIDATE=Off \
+    PHP_TIMEZONE=Europe/London \
+    WEB_ROOT=/var/www \
+    WEB_PUBLIC= \
+    COMPOSER_MEMORY_LIMIT=-1 \
+    COMPOSER_PROCESS_TIMEOUT=600 \
+    SMTP_HOST=smtp.mailtrap.io \
+    SMTP_PORT=2525 \
+    SMTP_USER= \
+    SMTP_PASS= \
+    SMTP_FROM= \
+    SMTP_TLS=Off \
+    SMTP_CHECK_CERTS=On \
+    XDG_CONFIG_HOME=/tmp \
+    XDG_DATA_HOME=/tmp
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends --yes \
+        ca-certificates \
+        curl \
+        git \
+        less \
+        libcap2-bin \
+        msmtp \
+        nano \
+        patch \
+        rsync \
+        unzip \
+        wget \
+    && install-php-extensions \
+        bcmath \
+        curl \
+        gd \
+        intl \
+        mbstring \
+        pdo_mysql \
+        mysqli \
+        opcache \
+        soap \
+        pdo_sqlite \
+        xml \
+        xsl \
+        zip \
+        redis \
+    # Cleanup
+    && rm -Rf /var/www/* \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* /var/tmp/*
+
+COPY . /
+
+RUN /build-frankenphp.sh
+
+COPY --from=outeredge/edge-docker-magento:2.4.8-p2 \
+        /templates/magento.conf.j2 \
+    /templates/
+
+USER edge
+
+EXPOSE 8080
