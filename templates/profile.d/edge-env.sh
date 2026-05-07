@@ -5,8 +5,8 @@
 # non-login (/etc/bash.bashrc) shells.
 #
 # Limitations:
-#   - `docker exec <c> php artisan …` (no shell in the chain) cannot be covered.
-#     Wrap as `docker exec <c> bash -lc 'php artisan …'`.
+#   - `docker exec <c> php …` (no shell in the chain) cannot be covered.
+#     Wrap as `docker exec <c> bash -lc 'php …'`.
 #   - .env is sourced as shell, so $, backticks, unquoted spaces are interpreted.
 if [ -z "${CUSTOM_VARS_SET:-}" ] && [ -f "${WEB_ROOT:-/var/www}/.env" ]; then
     set -a; . "${WEB_ROOT:-/var/www}/.env"; export CUSTOM_VARS_SET=1; set +a

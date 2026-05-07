@@ -15,10 +15,8 @@ if [ "$ENABLE_SSH" = "On" ]; then
     echo "edge:$SSH_PASSWORD" | sudo chpasswd
 fi
 
-# Load custom environment variables from .env when CUSTOM_VARS_SET is empty
-if [ -z "$CUSTOM_VARS_SET" -a -f "$WEB_ROOT/.env" ]; then
-    set -a; . $WEB_ROOT/.env; export CUSTOM_VARS_SET=1; set +a
-fi
+# Load custom environment variables
+. /etc/profile.d/edge-env.sh
 
 env | sudo dd status=none of=/etc/environment
 
