@@ -36,22 +36,26 @@ header {
 	# Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 }
 
-# ── /static/ — strip cache-busting version prefix (top-level rewrite) ──
-rewrite /static/version*/* /static/{path.2}
+# ── /static/ — strip cache-busting version prefix via regex capture ──
+# Captures everything after /static/versionXXX/ into {re.static_ver.1}
+@static_version path_regexp static_ver ^/static/version\d+/(.*)$
+rewrite @static_version /static/{re.static_ver.1}
 
-# If a /static/ file doesn't exist on disk, materialize via static.php.
+# ── If a /static/ file doesn't exist on disk, materialize via static.php ──
+# Captures the resource path after /static/ into {re.static_resource.1}
 @static_missing {
-	path /static/*
+	path_regexp static_resource ^/static/(.*)$
 	not file
 }
-rewrite @static_missing /static.php?resource={path.1}
+rewrite @static_missing /static.php?resource={re.static_resource.1}
 
 # ── /media/ — fall back to get.php for missing files ──
+# rewrite preserves the original query string automatically.
 @media_missing {
 	path /media/*
 	not file
 }
-rewrite @media_missing /get.php?{query}
+rewrite @media_missing /get.php
 
 # ── Long-cache headers for static assets ──
 header /static/* Cache-Control "public, max-age=31536000, immutable"
