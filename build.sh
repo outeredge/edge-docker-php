@@ -57,3 +57,4 @@ chmod a+x /usr/local/bin/composer
 
 # Cleanup
 rm -rf /tmp/*
+rm /build*.sh /launch-frankenphp.sh

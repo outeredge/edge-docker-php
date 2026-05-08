@@ -1,6 +1,6 @@
 # Auto-load $WEB_ROOT/.env into shell sessions started via `docker exec`.
 # Docker snapshots the container env at start, so PID 1's runtime mutations
-# (in launch-frankenphp.sh / launch.sh) do NOT propagate to later exec'd
+# (in launch.sh) do NOT propagate to later exec'd
 # processes. Sourcing here covers both login (/etc/profile) and interactive
 # non-login (/etc/bash.bashrc) shells.
 #

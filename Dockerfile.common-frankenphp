@@ -1,6 +1,6 @@
 WORKDIR /var/www
 
-ENTRYPOINT ["/launch-frankenphp.sh"]
+ENTRYPOINT ["/launch.sh"]
 
 CMD ["--config", "/etc/caddy/Caddyfile"]
 
@@ -61,7 +61,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
 
-COPY . /
+COPY --exclude=*.j2 . /
 
 RUN /build-frankenphp.sh
 

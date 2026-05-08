@@ -10,33 +10,21 @@
 # ─────────────────────────────────────────────────────────────────────────────
 
 {
-	# Don't attempt to install Caddy's local CA root into the system trust
-	# store. Containers have read-only or ephemeral trust stores; this just
-	# silences a startup warning.
+	# Silences startup warnings about trust store in ephemeral containers
 	skip_install_trust
 
-	# Serverless-friendly defaults: no admin socket, no config autosave.
-	# Override CADDY_ADMIN=localhost:2019 in dev for live config inspection.
-	admin          {$CADDY_ADMIN:off}
+	admin {$CADDY_ADMIN:off}
 	persist_config off
 
-	# TLS strategy:
-	#   on  — Caddy obtains certs via ACME (VMs / dev containers with public DNS)
-	#   off — TLS is terminated upstream (Cloud Run, Ona, Cloudflare, etc.)
 	auto_https {$CADDY_AUTO_HTTPS:off}
 
-	# Global escape hatch: e.g. `debug`, custom `order` directives, etc.
 	{$CADDY_GLOBAL_OPTIONS}
 
-	# FrankenPHP runtime tuning (workers, threads, etc.) i.e.
-	#   FRANKENPHP_CONFIG="num_threads 8"
-	#   FRANKENPHP_CONFIG="worker /var/www/public/index.php 4"
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
 	}
 
-	# Structured logs (JSON in prod for Cloud Logging; console in dev).
-	# Sensitive query params and auth headers are redacted before write.
+	# Sensitive query params and auth headers are redacted before write
 	log {
 		output stderr
 		format {$CADDY_LOG_FORMAT:json} {
@@ -75,25 +63,15 @@
 	respond @hidden_dirs    404
 }
 
-# ─────────────────────────────────────────────────────────────────────────────
 # Top-level escape hatch: inject named snippets, additional sites, etc.
-# without rebuilding the image. Example:
-#   CADDY_EXTRA_CONFIG='(cors) { header Access-Control-Allow-Origin * }'
-# ─────────────────────────────────────────────────────────────────────────────
 {$CADDY_EXTRA_CONFIG}
 
-# ─────────────────────────────────────────────────────────────────────────────
 # Primary site
-#
-# SERVER_NAME=app.example.com  on a VM (Caddy provisions TLS)
-# SERVER_NAME unset            on Cloud Run (binds :$PORT, default 8080)
-# ─────────────────────────────────────────────────────────────────────────────
 {$SERVER_NAME::{$PORT:8080}} {
 	root   * {$SERVER_ROOT}
 	
 	encode {$CADDY_ENCODINGS:zstd br gzip}
 
-	# Cap inbound request body size (Cloud Run hard limit is 32 MiB).
 	request_body {
 		max_size {$MAX_REQUEST_SIZE:32MB}
 	}
@@ -107,7 +85,6 @@
 
 	import hidden_paths
 
-	# ── Baseline security headers (apps may add/override) ──
 	header {
 		X-Content-Type-Options "nosniff"
 		Referrer-Policy        "strict-origin-when-cross-origin"
@@ -115,21 +92,11 @@
 		-X-Powered-By
 	}
 
-	# ── Per-environment escape hatch ──
-	# e.g. basicauth on staging, X-Robots-Tag noindex, custom redirects, etc.
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
-	# ── App-specific config ──
-	# MUST end with a terminal handler (php_server / file_server / etc.).
 	import /etc/caddy/conf.d/{$CADDY_CONF:default}.caddy
 
-	# ── Optional per-deployment overrides ──
-	# Silent if absent. MUST NOT include another terminal handler.
 	import {$WEB_ROOT:/var/www}/Caddyfile?
 }
 
-# ─────────────────────────────────────────────────────────────────────────────
-# Additional whole-site blocks (admin domain, metrics endpoint, etc.).
-# Drop *.caddyfile files into this directory at deploy time.
-# ─────────────────────────────────────────────────────────────────────────────
 import /etc/caddy/Caddyfile.d/*.caddyfile

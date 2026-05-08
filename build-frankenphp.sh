@@ -1,5 +1,7 @@
 #!/bin/bash -ex
 
+mv /launch-frankenphp.sh /launch.sh
+
 # Install our php.ini override under $PHP_INI_DIR/conf.d so it loads after
 # defaults. FrankenPHP/Caddy uses the CLI ini layout exclusively.
 cp /templates/php.ini "$PHP_INI_DIR/conf.d/zz-edge.ini"
@@ -34,3 +36,4 @@ chmod a+x /usr/local/bin/composer
 
 # Cleanup
 rm -rf /tmp/*
+rm /build*.sh
