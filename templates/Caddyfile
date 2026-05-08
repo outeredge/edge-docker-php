@@ -1,4 +1,4 @@
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 # Base Caddyfile
 #
 # Designed for multiple environments include dev containers and serverless
@@ -11,7 +11,7 @@
 # Logging note: Caddy's default logger writes JSON to stderr at INFO level and
 # automatically redacts Authorization, Proxy-Authorization, Cookie, and
 # Set-Cookie headers. No explicit log block is needed for that behavior.
-# ─────────────────────────────────────────────────────────────────────────────
+# -----------------------------------------------------------------------------
 
 {
 	# Silences startup warnings about trust store in ephemeral containers
