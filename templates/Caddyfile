@@ -7,6 +7,10 @@
 # App-specific configuration lives in /etc/caddy/conf.d/<CADDY_CONF>.caddy
 # and MUST end with a terminal handler (php_server, file_server, reverse_proxy,
 # etc.). The base provides no default terminal handler.
+#
+# Logging note: Caddy's default logger writes JSON to stderr at INFO level and
+# automatically redacts Authorization, Proxy-Authorization, Cookie, and
+# Set-Cookie headers. No explicit log block is needed for that behavior.
 # ─────────────────────────────────────────────────────────────────────────────
 
 {
@@ -22,24 +26,6 @@
 
 	frankenphp {
 		{$FRANKENPHP_CONFIG}
-	}
-
-	# Sensitive query params and auth headers are redacted before write
-	log {
-		output stderr
-		format {$CADDY_LOG_FORMAT:json} {
-			request>uri query {
-				replace authorization REDACTED
-				replace token         REDACTED
-				replace api_key       REDACTED
-				replace access_token  REDACTED
-				replace signature     REDACTED
-			}
-			request>headers>Authorization delete
-			request>headers>Cookie        delete
-			request>headers>Set-Cookie    delete
-		}
-		level {$CADDY_LOG_LEVEL:INFO}
 	}
 
 	servers {
@@ -69,7 +55,7 @@
 # Primary site
 {$SERVER_NAME::{$PORT:8080}} {
 	root   * {$SERVER_ROOT}
-	
+
 	encode {$CADDY_ENCODINGS:zstd br gzip}
 
 	request_body {

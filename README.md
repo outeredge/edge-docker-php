@@ -58,8 +58,6 @@ should continue to use the existing `8.x-node` (nginx) images.
 | `CADDY_ADMIN` | `off` | Caddy admin API socket (e.g. `localhost:2019` for live inspection) |
 | `CADDY_AUTO_HTTPS` | `off` | TLS strategy: `on` for ACME certs, `off` for upstream termination (Cloud Run, etc.) |
 | `CADDY_GLOBAL_OPTIONS` | - | Global escape hatch for `debug` or custom `order` directives |
-| `CADDY_LOG_FORMAT` | `json` | Log format: `json` for structured logging, `console` for dev |
-| `CADDY_LOG_LEVEL` | `INFO` | Minimum severity level to log |
 | `CADDY_EXTRA_CONFIG` | - | Top-level escape hatch for named snippets or additional sites |
 | `CADDY_SERVER_EXTRA_DIRECTIVES` | - | Extra directives/overrides (e.g. `header`, `basicauth`, `X-Robots-Tag`) |
 | `CADDY_CONF` | `default` | App-specific config from `/etc/caddy/conf.d/${CADDY_CONF}.caddy` |
