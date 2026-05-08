@@ -6,7 +6,7 @@ CMD []
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV APP_ENV=production \
+ENV APP_ENV=prod \
     PHP_VERSION=${PHP_VERSION} \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     EDITOR=nano \

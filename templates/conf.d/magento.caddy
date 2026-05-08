@@ -50,8 +50,8 @@ rewrite @static_missing /static.php?resource={re.static_resource.1}
 }
 rewrite @media_missing /get.php
 
-# ── Long-cache headers for static assets (only if APP_ENV is "production") ──
-@is_prod expression `{env.APP_ENV} == "production"`
+# ── Long-cache headers for static assets (only if APP_ENV is "prod") ──
+@is_prod expression `{env.APP_ENV} == "prod"`
 header @is_prod /static/* Cache-Control "public, max-age=31536000, immutable"
 header @is_prod /media/* Cache-Control "public, max-age=31536000"
 
