@@ -1,15 +1,14 @@
 WORKDIR /var/www
 
-# No custom ENTRYPOINT — inherit upstream docker-php-entrypoint, which ends
-# with `exec "$@"` and therefore runs CMD directly.
-CMD ["/launch-frankenphp.sh"]
+ENTRYPOINT ["/launch-frankenphp.sh"]
+
+CMD ["--config", "/etc/caddy/Caddyfile"]
 
 ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PHP_VERSION=${PHP_VERSION} \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     EDITOR=nano \
-    ENABLE_PHP=On \
     CADDY_CONF=default \
     PORT=8080 \
     SERVER_NAME=:8080 \
