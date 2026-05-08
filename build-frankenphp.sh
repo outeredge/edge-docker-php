@@ -30,10 +30,6 @@ chown -Rf edge:edge ${WEB_ROOT}
 # Remove default CAP_NET_BIND_SERVICE — we run as non-root and don't bind <1024.
 setcap -r /usr/local/bin/frankenphp || true
 
-# Install Composer
-wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
-chmod a+x /usr/local/bin/composer
-
 # Cleanup
 rm -rf /tmp/*
 rm /build*.sh

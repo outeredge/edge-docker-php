@@ -44,6 +44,7 @@ RUN apt-get update \
         wget \
     && install-php-extensions \
         bcmath \
+        @composer-${COMPOSER_VERSION} \
         curl \
         gd \
         intl \
