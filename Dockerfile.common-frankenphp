@@ -66,10 +66,6 @@ COPY . /
 
 RUN /build-frankenphp.sh
 
-COPY --from=outeredge/edge-docker-magento:2.4.8-p2 \
-        /templates/magento.conf.j2 \
-    /templates/
-
 USER edge
 
-EXPOSE 8080
+EXPOSE $PORT

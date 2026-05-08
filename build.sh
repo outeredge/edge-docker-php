@@ -32,7 +32,9 @@ chown -Rf nginx:nginx /var/log/nginx
 install -m 0755 -o root -g root /templates/sendmail /usr/local/bin/sendmail
 ln -sf /usr/local/bin/sendmail /usr/sbin/sendmail
 
-# Install profile.d snippet so docker exec shell sessions auto-load $WEB_ROOT/.env
+# Install profile.d snippet to auto-load $WEB_ROOT/.env in docker exec shell sessions.
+# /etc/profile.d/*.sh is only read by login shells, so we also append a sourcing
+# line to /etc/bash.bashrc for interactive non-login shells (idempotent).
 install -m 0644 -o root -g root /templates/profile.d/edge-env.sh /etc/profile.d/edge-env.sh
 grep -q '/etc/profile.d/edge-env.sh' /etc/bash.bashrc \
     || echo '. /etc/profile.d/edge-env.sh' >> /etc/bash.bashrc
