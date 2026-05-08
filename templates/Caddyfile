@@ -1,4 +1,4 @@
-# -----------------------------------------------------------------------------
+# #############################################################################
 # Base Caddyfile
 #
 # Designed for multiple environments include dev containers and serverless
@@ -11,8 +11,7 @@
 # Logging note: Caddy's default logger writes JSON to stderr at INFO level and
 # automatically redacts Authorization, Proxy-Authorization, Cookie, and
 # Set-Cookie headers. No explicit log block is needed for that behavior.
-# -----------------------------------------------------------------------------
-
+# #############################################################################
 {
 	# Silences startup warnings about trust store in ephemeral containers
 	skip_install_trust
@@ -30,23 +29,23 @@
 
 	servers {
 		# Trust standard private ranges (LB / sidecar / Cloud Run frontend).
-		trusted_proxies   static private_ranges
+		trusted_proxies static private_ranges
 		client_ip_headers X-Forwarded-For X-Real-IP
 	}
 }
 
 (hidden_paths) {
-	@hidden_ext      path_regexp (?i)\.(ini|log|conf|env|sh|sql|sqlite3?|orig|save|bak|swp|pem|key|crt|p12|pfx|tar|gz|lock)$
-	@hidden_dotfile  path_regexp /\..+
-	@hidden_backup   path_regexp ~$
-	@hidden_files    path_regexp (?i)/(Dockerfile|docker-compose\.ya?ml|composer\.json|package(-lock)?\.json|README(\.md)?|LICENSE.*|phpunit\.xml(\.dist)?)$
-	@hidden_dirs     path_regexp /(vendor|node_modules|tests?)(/|$)
+	@hidden_ext path_regexp (?i)\.(ini|log|conf|env|sh|sql|sqlite3?|orig|save|bak|swp|pem|key|crt|p12|pfx|tar|gz|lock)$
+	@hidden_dotfile path_regexp /\..+
+	@hidden_backup path_regexp ~$
+	@hidden_files path_regexp (?i)/(Dockerfile|docker-compose\.ya?ml|composer\.json|package(-lock)?\.json|README(\.md)?|LICENSE.*|phpunit\.xml(\.dist)?)$
+	@hidden_dirs path_regexp /(vendor|node_modules|tests?)(/|$)
 
-	respond @hidden_ext     404
+	respond @hidden_ext 404
 	respond @hidden_dotfile 404
-	respond @hidden_backup  404
-	respond @hidden_files   404
-	respond @hidden_dirs    404
+	respond @hidden_backup 404
+	respond @hidden_files 404
+	respond @hidden_dirs 404
 }
 
 # Top-level escape hatch: inject named snippets, additional sites, etc.
@@ -54,7 +53,7 @@
 
 # Primary site
 {$SERVER_NAME::8080} {
-	root   * {$SERVER_ROOT}
+	root * {$SERVER_ROOT}
 
 	encode {$CADDY_ENCODINGS:zstd br gzip}
 
@@ -63,7 +62,7 @@
 	}
 
 	@health path /healthz /readyz /livez
-	handle  @health {
+	handle @health {
 		log_skip
 		respond "ok" 200
 	}

@@ -1,9 +1,9 @@
-# -----------------------------------------------------------------------------
-# Magento 2.4.8+ — for use with the base Caddyfile, served from `pub/`.
+# #############################################################################
+# Magento 2.4.8+ - for use with the base Caddyfile, served from `pub/`.
 #
 # Translates security rules from Magento's various .htaccess files plus the
 # routing logic from the official nginx.conf.sample.
-# -----------------------------------------------------------------------------
+# #############################################################################
 
 # -- Magento-specific 404s (don't confirm existence) --
 @hidden_magento path_regexp magento_hidden (?i)/errors/.*\.xml$|/media/theme_customization/.*\.xml$|/cron\.php$|/RELEASE_NOTES\.txt$|/COPYING\.txt$|/LICENSE.*\.txt$
@@ -29,7 +29,7 @@ respond @phtml 403
 @trace method TRACE TRACK
 respond @trace 405
 
-# -- /static/ — strip cache-busting version prefix via regex capture --
+# -- /static/ strip cache-busting version prefix via regex capture --
 # Captures everything after /static/versionXXX/ into {re.static_ver.1}
 @static_version path_regexp static_ver ^/static/version\d+/(.*)$
 rewrite @static_version /static/{re.static_ver.1}
@@ -42,7 +42,7 @@ rewrite @static_version /static/{re.static_ver.1}
 }
 rewrite @static_missing /static.php?resource={re.static_resource.1}
 
-# -- /media/ — fall back to get.php for missing files --
+# -- /media/ fall back to get.php for missing files --
 # rewrite preserves the original query string automatically.
 @media_missing {
 	path /media/*
