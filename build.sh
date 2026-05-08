@@ -19,7 +19,7 @@ adduser --uid 1000 --system --home /home/edge --shell /bin/bash --ingroup edge e
 usermod -a -G sudo edge
 usermod -a -G edge www-data
 touch /home/edge/.hushlogin
-chown -Rf edge:edge /var/www
+chown -Rf edge:edge ${WEB_ROOT}
 
 # Create user for nginx
 adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx

@@ -11,7 +11,6 @@ ENV PHP_VERSION=${PHP_VERSION} \
     EDITOR=nano \
     CADDY_CONF=default \
     PORT=8080 \
-    SERVER_NAME=:8080 \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=Off \
     PHP_TIMEZONE=Europe/London \
@@ -58,7 +57,7 @@ RUN apt-get update \
         zip \
         redis \
     # Cleanup
-    && rm -Rf /var/www/* \
+    && rm -Rf ${WEB_ROOT}/* \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
 

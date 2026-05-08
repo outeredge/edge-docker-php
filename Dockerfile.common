@@ -83,7 +83,7 @@ RUN apt-get update \
     && apt-get purge --yes pipx \
     && apt-get autoremove --yes \
     # Cleanup
-    && rm -Rf /var/www/* \
+    && rm -Rf ${WEB_ROOT}/* \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
 

@@ -1,63 +1,79 @@
-# ── Security: hide sensitive files (404) ──
-@hidden_magento path_regexp (?i)/\..*$|/errors/.*\.xml$|theme_customization/.*\.xml$|/(composer\.(json|lock)|RELEASE_NOTES\.txt|CHANGELOG\.md|cron\.php|\.user\.ini|\.htaccess|\.htpasswd)$
+# ─────────────────────────────────────────────────────────────────────────────
+# Magento 2.4.8 — for use with the base Caddyfile, served from `pub/`.
+#
+# Translates security rules from Magento's various .htaccess files plus the
+# routing logic from the official nginx.conf.sample.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# ── Magento-specific 404s (don't confirm existence) ──
+@hidden_magento path_regexp magento_hidden (?i)/errors/.*\.xml$|/media/theme_customization/.*\.xml$|/cron\.php$|/RELEASE_NOTES\.txt$|/COPYING\.txt$|/LICENSE.*\.txt$
 respond @hidden_magento 404
 
-# ── Security: hard denies (403) ──
-@blocked path /media/customer/* /media/downloadable/* /media/import/* /media/custom_options/* /setup* /update*
+# ── Hard denies (403): private media + setup/update apps ──
+@blocked {
+	path /media/customer/* /media/downloadable/* /media/import/* /media/custom_options/*
+	path /setup* /update*
+}
 respond @blocked 403
 
-@unsafe_exec path_regexp ^/(media|static)/.*\.(php|phtml|pl|py|jsp|asp|sh|cgi|htm|shtml)$
+# ── Block script execution inside /media/ and /static/ ──
+# Mirrors `php_flag engine 0` + `AddHandler cgi-script` denies in those .htaccess files.
+@unsafe_exec path_regexp unsafe ^/(media|static)/.*\.(php|phtml|pl|py|jsp|asp|sh|cgi|htm|shtml)$
 respond @unsafe_exec 403
 
+# ── Block .phtml anywhere (Magento template files, never web-served) ──
 @phtml path *.phtml
 respond @phtml 403
 
+# ── Block TRACE / TRACK (XST mitigation from pub/.htaccess) ──
 @trace method TRACE TRACK
 respond @trace 405
 
-# ── Security headers ──
+# ── Magento-specific security headers ──
 header {
-    X-Frame-Options        "SAMEORIGIN"
-    X-Content-Type-Options "nosniff"
-    Referrer-Policy        "strict-origin-when-cross-origin"
-    -Server
+	X-Frame-Options "SAMEORIGIN"
+	# HSTS: enable once HTTPS is verified across all storefront domains.
+	# Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
 }
 
-# ── /static/ — strip version prefix (TOP LEVEL so it runs before handle blocks) ──
+# ── /static/ — strip cache-busting version prefix (top-level rewrite) ──
 rewrite /static/version*/* /static/{path.2}
 
-# If a /static/ file doesn't exist, materialize via static.php
+# If a /static/ file doesn't exist on disk, materialize via static.php.
 @static_missing {
-    path /static/*
-    not file
+	path /static/*
+	not file
 }
 rewrite @static_missing /static.php?resource={path.1}
 
-# ── /media/ — fallback to get.php ──
+# ── /media/ — fall back to get.php for missing files ──
 @media_missing {
-    path /media/*
-    not file
+	path /media/*
+	not file
 }
 rewrite @media_missing /get.php?{query}
 
-# ── Cache headers ──
+# ── Long-cache headers for static assets ──
 header /static/* Cache-Control "public, max-age=31536000, immutable"
 header /media/*  Cache-Control "public, max-age=31536000"
 
 # ── PHP entry-point whitelist ──
-# Block any .php URL that isn't a Magento entry point
+# Only Magento's known entry points may be executed. Any other .php URL
+# (uploads, leftover scripts, vendor files) returns 403.
 @bad_php {
-    path *.php
-    not path /index.php /get.php /static.php /health_check.php /errors/*.php
+	path *.php
+	not path /index.php /get.php /static.php /health_check.php /errors/*.php
 }
 respond @bad_php 403
 
-# ── Front controller (php_server handles static + PHP fallback to index.php) ──
+# ── Terminal handler: serve static files, route everything else to index.php ──
+# php_server already handles /static.php and /get.php (rewritten above) plus
+# the front-controller fallback to /index.php.
 php_server
 
-# ── Custom error pages ──
+# ── Custom error pages via Magento's error controller ──
 handle_errors {
-    @magento_errors expression `{err.status_code} in [403, 404, 503]`
-    rewrite @magento_errors /errors/{err.status_code}.php
-    php_server
+	@magento_errors expression `{err.status_code} in [403, 404, 503]`
+	rewrite @magento_errors /errors/{err.status_code}.php
+	php_server
 }

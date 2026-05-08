@@ -23,7 +23,7 @@ grep -q '/etc/profile.d/edge-env.sh' /etc/bash.bashrc \
 # Create default user (uid auto-assigned)
 useradd --create-home --shell /bin/bash edge
 touch /home/edge/.hushlogin
-chown -Rf edge:edge /var/www
+chown -Rf edge:edge ${WEB_ROOT}
 
 # Remove default CAP_NET_BIND_SERVICE — we run as non-root and don't bind <1024.
 setcap -r /usr/local/bin/frankenphp || true
