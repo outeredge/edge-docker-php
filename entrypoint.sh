@@ -8,7 +8,7 @@ if ! whoami &> /dev/null; then
      rm /tmp/passwd
      sudo addgroup --gid $(id -u) --system arbitary
      sudo usermod -aG arbitary edge
-     sudo chown -R edge /home/edge /var/www
+     sudo chown -R edge /home/edge ${WEB_ROOT}
   fi
 fi
 

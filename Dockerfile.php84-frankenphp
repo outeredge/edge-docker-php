@@ -1,0 +1,7 @@
+# syntax=edrevo/dockerfile-plus
+
+FROM dunglas/frankenphp:php8.4-trixie
+
+ARG PHP_VERSION=8.4
+
+INCLUDE+ Dockerfile.common-frankenphp

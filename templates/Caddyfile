@@ -1,0 +1,102 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# Base Caddyfile
+#
+# Designed for multiple environments include dev containers and serverless
+# platforms like Google Cloud Run.
+#
+# App-specific configuration lives in /etc/caddy/conf.d/<CADDY_CONF>.caddy
+# and MUST end with a terminal handler (php_server, file_server, reverse_proxy,
+# etc.). The base provides no default terminal handler.
+# ─────────────────────────────────────────────────────────────────────────────
+
+{
+	# Silences startup warnings about trust store in ephemeral containers
+	skip_install_trust
+
+	admin {$CADDY_ADMIN:off}
+	persist_config off
+
+	auto_https {$CADDY_AUTO_HTTPS:off}
+
+	{$CADDY_GLOBAL_OPTIONS}
+
+	frankenphp {
+		{$FRANKENPHP_CONFIG}
+	}
+
+	# Sensitive query params and auth headers are redacted before write
+	log {
+		output stderr
+		format {$CADDY_LOG_FORMAT:json} {
+			request>uri query {
+				replace authorization REDACTED
+				replace token         REDACTED
+				replace api_key       REDACTED
+				replace access_token  REDACTED
+				replace signature     REDACTED
+			}
+			request>headers>Authorization delete
+			request>headers>Cookie        delete
+			request>headers>Set-Cookie    delete
+		}
+		level {$CADDY_LOG_LEVEL:INFO}
+	}
+
+	servers {
+		# Trust standard private ranges (LB / sidecar / Cloud Run frontend).
+		trusted_proxies   static private_ranges
+		client_ip_headers X-Forwarded-For X-Real-IP
+	}
+}
+
+(hidden_paths) {
+	@hidden_ext      path_regexp (?i)\.(ini|log|conf|env|sh|sql|sqlite3?|orig|save|bak|swp|pem|key|crt|p12|pfx|tar|gz|lock)$
+	@hidden_dotfile  path_regexp /\..+
+	@hidden_backup   path_regexp ~$
+	@hidden_files    path_regexp (?i)/(Dockerfile|docker-compose\.ya?ml|composer\.json|package(-lock)?\.json|README(\.md)?|LICENSE.*|phpunit\.xml(\.dist)?)$
+	@hidden_dirs     path_regexp /(vendor|node_modules|tests?)(/|$)
+
+	respond @hidden_ext     404
+	respond @hidden_dotfile 404
+	respond @hidden_backup  404
+	respond @hidden_files   404
+	respond @hidden_dirs    404
+}
+
+# Top-level escape hatch: inject named snippets, additional sites, etc.
+{$CADDY_EXTRA_CONFIG}
+
+# Primary site
+{$SERVER_NAME::{$PORT:8080}} {
+	root   * {$SERVER_ROOT}
+	
+	encode {$CADDY_ENCODINGS:zstd br gzip}
+
+	request_body {
+		max_size {$MAX_REQUEST_SIZE:32MB}
+	}
+
+	@health path /healthz /readyz /livez
+	handle  @health {
+		log_skip
+		respond "ok" 200
+	}
+
+	import hidden_paths
+
+	header {
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+		-X-Powered-By
+	}
+
+	{$CADDY_SERVER_EXTRA_DIRECTIVES}
+
+	import /etc/caddy/conf.d/{$CADDY_CONF:default}.caddy
+
+	import {$WEB_ROOT:/var/www}/Caddyfile?
+}
+
+import /etc/caddy/Caddyfile.d/*.caddyfile

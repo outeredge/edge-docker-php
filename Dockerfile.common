@@ -6,7 +6,8 @@ CMD ["/launch.sh"]
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PHP_VERSION=${PHP_VERSION} \
+ENV APP_ENV=production \
+    PHP_VERSION=${PHP_VERSION} \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     EDITOR=nano \
     ENABLE_PHP=On \
@@ -83,7 +84,7 @@ RUN apt-get update \
     && apt-get purge --yes pipx \
     && apt-get autoremove --yes \
     # Cleanup
-    && rm -Rf /var/www/* \
+    && rm -Rf ${WEB_ROOT}/* \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
 

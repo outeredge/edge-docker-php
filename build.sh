@@ -19,19 +19,25 @@ adduser --uid 1000 --system --home /home/edge --shell /bin/bash --ingroup edge e
 usermod -a -G sudo edge
 usermod -a -G edge www-data
 touch /home/edge/.hushlogin
-chown -Rf edge:edge /var/www
+chown -Rf edge:edge ${WEB_ROOT}
 
 # Create user for nginx
 adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
 usermod -a -G edge nginx
 
-# Logging for nginx and PHP
-mkdir -p /var/log/php
-chown -Rf www-data:www-data /var/log/php
+# Logging for nginx (PHP errors now go to /dev/stderr via php.ini)
 chown -Rf nginx:nginx /var/log/nginx
 
-# Replace sendmail with msmtp
-ln -sf /usr/bin/msmtp /usr/sbin/sendmail
+# Install env-driven sendmail wrapper (msmtp)
+install -m 0755 -o root -g root /templates/sendmail /usr/local/bin/sendmail
+ln -sf /usr/local/bin/sendmail /usr/sbin/sendmail
+
+# Install profile.d snippet to auto-load $WEB_ROOT/.env in docker exec shell sessions.
+# /etc/profile.d/*.sh is only read by login shells, so we also append a sourcing
+# line to /etc/bash.bashrc for interactive non-login shells (idempotent).
+install -m 0644 -o root -g root /templates/profile.d/edge-env.sh /etc/profile.d/edge-env.sh
+grep -q '/etc/profile.d/edge-env.sh' /etc/bash.bashrc \
+    || echo '. /etc/profile.d/edge-env.sh' >> /etc/bash.bashrc
 
 # Use host as SERVER_NAME
 sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
@@ -51,3 +57,4 @@ chmod a+x /usr/local/bin/composer
 
 # Cleanup
 rm -rf /tmp/*
+rm /build*.sh /launch-frankenphp.sh
