@@ -62,7 +62,7 @@ RUN apt-get update \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
 
-COPY --exclude=*.j2 . /
+COPY . /
 
 RUN /build-frankenphp.sh
 
