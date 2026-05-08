@@ -76,7 +76,6 @@
 		max_size {$MAX_REQUEST_SIZE:32MB}
 	}
 
-	# ── Healthchecks (silent: skipped from access logs) ──
 	@health path /healthz /readyz /livez
 	handle  @health {
 		log_skip
@@ -87,7 +86,8 @@
 
 	header {
 		X-Content-Type-Options "nosniff"
-		Referrer-Policy        "strict-origin-when-cross-origin"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
 		-Server
 		-X-Powered-By
 	}

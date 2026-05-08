@@ -6,7 +6,8 @@ CMD ["--config", "/etc/caddy/Caddyfile"]
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PHP_VERSION=${PHP_VERSION} \
+ENV APP_ENV=production \
+    PHP_VERSION=${PHP_VERSION} \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     EDITOR=nano \
     CADDY_CONF=default \
