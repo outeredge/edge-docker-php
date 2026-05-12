@@ -8,8 +8,8 @@ cp /templates/php.ini "$PHP_INI_DIR/conf.d/zz-edge.ini"
 
 # Install Caddyfile and conf.d snippets
 mkdir -p /etc/caddy/conf.d
-cp /templates/Caddyfile /etc/caddy/Caddyfile
-cp /templates/conf.d/*.caddy /etc/caddy/conf.d/
+cp /templates/caddy/Caddyfile /etc/caddy/Caddyfile
+cp /templates/caddy/*.caddy /etc/caddy/conf.d/
 
 # Install env-driven sendmail wrapper (msmtp)
 install -m 0755 -o root -g root /templates/sendmail /usr/local/bin/sendmail
