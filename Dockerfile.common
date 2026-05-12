@@ -9,7 +9,6 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV APP_ENV=prod \
     PHP_VERSION=${PHP_VERSION} \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
-    COMPOSER_HOME=/home/edge/.composer \
     EDITOR=nano \
     ENABLE_PHP=On \
     ENABLE_REDIS=On \
