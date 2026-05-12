@@ -72,7 +72,7 @@ stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
 [program:sql-proxy]
-command=cloud-sql-proxy
+command=cloud-sql-proxy --log-level=warning
 autostart={% if ENABLE_SQL_PROXY == 'On' %}true{% else %}false{% endif %}
 user=edge
 stdout_logfile=/dev/stdout
