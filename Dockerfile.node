@@ -1,7 +1,7 @@
-ENV npm_config_cache=/home/edge/.npm
+ENV NPM_CONFIG_CACHE=/home/edge/.npm
 
 RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | sudo bash - \
     && sudo apt-get install --no-install-recommends --yes nodejs \
     && sudo rm -rf /var/lib/apt/lists/* \
     && sudo npm install --global bun \
-    && sudo npm cache clean --force
+    && sudo rm -Rf $NPM_CONFIG_CACHE
