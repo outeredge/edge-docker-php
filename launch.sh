@@ -2,11 +2,7 @@
 
 export USER=$(whoami)
 
-if [ "$ENABLE_DEV" = "On" ]; then
-    sudo chown -Rf $USER:$USER /var/log/nginx
-else
-    sudo chmod g=r /etc/passwd
-fi
+sudo chown -Rf $USER:$USER /var/log/nginx
 
 # Generate unique SSH host keys and set SSH password per container
 if [ "$ENABLE_SSH" = "On" ]; then

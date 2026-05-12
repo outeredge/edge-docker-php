@@ -9,6 +9,9 @@ process_control_timeout = 10s
 
 [www]
 
+user = edge
+group = edge
+
 listen = 127.0.0.1:8000
 
 pm = {% if PHP_DISPLAY_ERRORS == 'On' %}dynamic{% else %}ondemand{% endif %}
