@@ -14,6 +14,7 @@ ENV APP_ENV=prod \
     ENABLE_REDIS=On \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
+    ENABLE_SQL_PROXY=On \
     NGINX_CONF=default \
     NGINX_PORT=8080 \
     NODE_PORT=3000 \
@@ -86,6 +87,9 @@ RUN apt-get update \
     && rm -Rf ${WEB_ROOT}/* \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
+
+# Install Google Cloud SQL Proxy
+COPY --from=gcr.io/cloud-sql-connectors/cloud-sql-proxy:2 /cloud-sql-proxy /usr/local/bin/cloud-sql-proxy
 
 COPY . /
 

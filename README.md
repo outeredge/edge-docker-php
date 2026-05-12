@@ -31,6 +31,7 @@ Most configuration can be done with environment variables. Here are some of the 
 | ENABLE_CRON       | Off     | Enables crond, add your cron jobs to /var/spool/cron/crontabs/edge. Remember to add an empty line at the end! |
 | ENABLE_REDIS      | Off     | Enabled a local redis server |
 | ENABLE_SSH        | Off     | Enables SSH/SFTP access to the container with user `edge` (for dev purposes only) |
+| ENABLE_SQL_PROXY  | On      | Starts a Google Cloud SQL Auth Proxy |
 | SSH_PASSWORD      | -       | Set SSH password for user `edge`, required for SSH access to work |
 | SSH_PORT          | 2222    | Set the port for the sshd server |
 | NGINX_CONF        | default | Specify the Nginx conf file to use from `/templates/nginx-${NGINX_CONF}.conf.j2` |
