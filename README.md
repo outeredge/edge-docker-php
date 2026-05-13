@@ -29,7 +29,7 @@ Most configuration can be done with environment variables. Here are some of the 
 | Environment       | Default | Description |
 | -------------     | ------- | --- |
 | ENABLE_CRON       | Off     | Enables crond, add your cron jobs to /var/spool/cron/crontabs/edge. Remember to add an empty line at the end! |
-| ENABLE_REDIS      | Off     | Enabled a local redis server |
+| ENABLE_VALKEY     | Off     | Enabled a local Valkey server |
 | ENABLE_SSH        | Off     | Enables SSH/SFTP access to the container with user `edge` (for dev purposes only) |
 | ENABLE_SQL_PROXY  | On      | Starts a Google Cloud SQL Auth Proxy |
 | SSH_PASSWORD      | -       | Set SSH password for user `edge`, required for SSH access to work |
@@ -72,7 +72,7 @@ imported automatically (mirrors the nginx track's `$WEB_ROOT/nginx.conf`).
 
 ### What's different
 
-- Single process: FrankenPHP runs as PID 1. No supervisord, no nginx, no PHP-FPM, no cron, no SSH, no Redis sidecar, no `sudo`.
+- Single process: FrankenPHP runs as PID 1. No supervisord, no nginx, no PHP-FPM, no cron, no SSH, no Valkey sidecar, no `sudo`.
 - Runs as non-root user `edge` with `CAP_NET_BIND_SERVICE` removed - cannot bind privileged ports.
 - Read-only-rootfs friendly.
 - Debian base image (vs Ubuntu on the nginx track).

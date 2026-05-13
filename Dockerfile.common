@@ -11,7 +11,7 @@ ENV APP_ENV=prod \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     EDITOR=nano \
     ENABLE_PHP=On \
-    ENABLE_REDIS=On \
+    ENABLE_VALKEY=On \
     ENABLE_CRON=Off \
     ENABLE_SSH=Off \
     ENABLE_SQL_PROXY=On \
@@ -64,7 +64,7 @@ RUN apt-get update \
     && apt-get install --no-install-recommends --yes \
         nginx \
         pipx \
-        redis-server \
+        valkey \
         php${PHP_VERSION}-fpm \
         php${PHP_VERSION}-bcmath \
         php${PHP_VERSION}-common \

@@ -63,10 +63,10 @@ stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
 stderr_logfile_maxbytes=0
 
-[program:redis]
-command=redis-server --save "" --dir "/var/lib/redis" --appendonly no
-autostart={% if ENABLE_REDIS == 'On' %}true{% else %}false{% endif %}
-user=redis
+[program:valkey]
+command=/usr/bin/valkey-server --save "" --dir /tmp --appendonly no --bind 127.0.0.1 --port 6379
+autostart={% if ENABLE_VALKEY == 'On' %}true{% else %}false{% endif %}
+user=edge
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
