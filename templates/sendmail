@@ -5,27 +5,42 @@
 # in /proc/<pid>/environ, the same exposure profile as /etc/msmtprc).
 set -eu
 
+if [ -z "${SMTP_HOST:-}" ] || [ -z "${SMTP_PORT:-}" ]; then
+    echo "sendmail wrapper error: SMTP_HOST and SMTP_PORT must be set." >&2
+    exit 1
+fi
+
 set -- --host="${SMTP_HOST}" --port="${SMTP_PORT}" "$@"
+
+set -- --logfile=/dev/stderr "$@"
 
 if [ -n "${SMTP_USER:-}" ]; then
     set -- --auth=on --user="${SMTP_USER}" \
            --passwordeval='printenv SMTP_PASS' "$@"
 fi
-if [ "${SMTP_TLS:-Off}" = "On" ]; then
+
+if [ "${SMTP_TLS:-Off}" = "On" ] || [ "${SMTP_PORT}" = "465" ] || [ "${SMTP_PORT}" = "587" ]; then
     set -- --tls=on "$@"
+    
+    if [ "${SMTP_PORT}" = "465" ]; then
+        set -- --tls-starttls=off "$@"
+    else
+        set -- --tls-starttls=on "$@"
+    fi
 fi
-if [ "${SMTP_PORT}" = "587" ]; then
-    set -- --tls-starttls=on "$@"
-fi
+
 if [ "${SMTP_CHECK_CERTS:-On}" = "Off" ]; then
     set -- --tls-certcheck=off "$@"
 else
     set -- --tls-trust-file=/etc/ssl/certs/ca-certificates.crt "$@"
 fi
+
 if [ -n "${SMTP_FROM:-}" ]; then
     set -- --from="${SMTP_FROM}" "$@"
 elif [ -n "${SMTP_USER:-}" ]; then
     set -- --from="${SMTP_USER}" "$@"
+else
+    set -- --read-envelope-from "$@"
 fi
 
 exec /usr/bin/msmtp "$@"
