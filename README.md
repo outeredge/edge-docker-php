@@ -17,11 +17,11 @@ Most configuration can be done with environment variables. Here are some of the 
 | WEB_ROOT          | /var/www | Set's the web server root directory |
 | WEB_PUBLIC        | -       | A suffix to the WEB_ROOT to only serve files from this location |
 | SMTP_HOST         | smtp.mailtrap.io | Set SMTP hostname (uses MSMTP for sendmail) |
-| SMTP_PORT         | 25      | Set SMTP port |
+| SMTP_PORT         | 2525    | Set SMTP port |
 | SMTP_USER         | -       | Set SMTP username |
 | SMTP_FROM         | -       | Set SMTP envelope-from header |
 | SMTP_PASS         | -       | Set SMTP password |
-| SMTP_TLS          | Off     | Enable TLS support, by default STARTTLS is enabled on port 587 |
+| SMTP_TLS          | On      | Enable TLS support, by default STARTTLS is enabled on port 587 |
 | SMTP_CHECK_CERTS  | On      | Specifying *Off* will disable SMTP TLS certificate checks |
 
 ## Nginx variants

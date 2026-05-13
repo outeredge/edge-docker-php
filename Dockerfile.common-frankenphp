@@ -23,11 +23,11 @@ ENV APP_ENV=prod \
     COMPOSER_PROCESS_TIMEOUT=600 \
     SMTP_HOST=smtp.mailtrap.io \
     SMTP_PORT=2525 \
+    SMTP_CHECK_CERTS=On \
+    SMTP_TLS=On \
     SMTP_USER= \
     SMTP_PASS= \
     SMTP_FROM= \
-    SMTP_TLS=Off \
-    SMTP_CHECK_CERTS=On \
     XDG_CONFIG_HOME=/tmp \
     XDG_DATA_HOME=/tmp
 
