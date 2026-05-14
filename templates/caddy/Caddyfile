@@ -80,8 +80,8 @@
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
 	import /etc/caddy/conf.d/{$CADDY_CONF:default}.caddy
-
-	import {$WEB_ROOT:/var/www}/Caddyfile
+    
+	import {$WEB_ROOT:/var/www}/[C]addyfile	
 }
 
 import /etc/caddy/Caddyfile.d/*.caddyfile
