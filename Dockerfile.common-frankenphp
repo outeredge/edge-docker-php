@@ -11,8 +11,8 @@ ENV APP_ENV=prod \
     COMPOSER_VERSION=${COMPOSER_VERSION:-2} \
     EDITOR=nano \
     CADDY_CONF=default \
-    LC_ALL=C \
-    LANG=C \
+    LC_ALL=C.UTF-8 \
+    LANG=C.UTF-8 \
     PORT=8080 \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=Off \
@@ -55,6 +55,7 @@ RUN apt-get update \
         mysqli \
         opcache \
         soap \
+        sockets \
         pdo_sqlite \
         xml \
         xsl \
