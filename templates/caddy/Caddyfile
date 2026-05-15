@@ -38,14 +38,12 @@
 	@hidden_ext path_regexp (?i)\.(ini|log|conf|env|sh|sql|sqlite3?|orig|save|bak|swp|pem|key|crt|p12|pfx|tar|gz|lock)$
 	@hidden_dotfile path_regexp /\..+
 	@hidden_backup path_regexp ~$
-	@hidden_files path_regexp (?i)/(Dockerfile|docker-compose\.ya?ml|composer\.json|package(-lock)?\.json|README(\.md)?|LICENSE.*|phpunit\.xml(\.dist)?)$
-	@hidden_dirs path_regexp /(vendor|node_modules|tests?)(/|$)
+	@hidden_files path_regexp (?i)/(Dockerfile|docker-compose\.ya?ml|composer\.json|composer\.lock|package(-lock)?\.json|phpunit\.xml(\.dist)?)$
 
 	respond @hidden_ext 404
 	respond @hidden_dotfile 404
 	respond @hidden_backup 404
 	respond @hidden_files 404
-	respond @hidden_dirs 404
 }
 
 # Top-level escape hatch: inject named snippets, additional sites, etc.

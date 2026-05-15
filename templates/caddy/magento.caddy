@@ -35,8 +35,8 @@ rewrite @static /static/{re.static.1}
 
 # -- If a /static/ file doesn't exist on disk, materialize via static.php --
 @static_missing {
-    path_regexp static_missing ^/static/(.*)$
-    not file
+	path_regexp static_missing ^/static/(.*)$
+	not file
 }
 rewrite @static_missing /static.php?resource={re.static_missing.1}
 
