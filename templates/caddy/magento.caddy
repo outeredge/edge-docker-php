@@ -29,17 +29,16 @@ respond @phtml 403
 @trace method TRACE TRACK
 respond @trace 405
 
-# -- /static/ strip version and materialize missing files --
-# Captures the clean resource path (ignoring the optional version prefix) into {re.static.1}
+# -- /static/ strip version so file_server can find the unversioned file --
 @static path_regexp static ^/static/(?:version\d+/)?(.*)$
 rewrite @static /static/{re.static.1}
 
 # -- If a /static/ file doesn't exist on disk, materialize via static.php --
 @static_missing {
-	path /static/*
-	not file
+    path_regexp static_missing ^/static/(.*)$
+    not file
 }
-rewrite @static_missing /static.php?resource={re.static.1}
+rewrite @static_missing /static.php?resource={re.static_missing.1}
 
 # -- /media/ fall back to get.php for missing files --
 # rewrite preserves the original query string automatically.
