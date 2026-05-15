@@ -29,18 +29,17 @@ respond @phtml 403
 @trace method TRACE TRACK
 respond @trace 405
 
-# -- /static/ strip cache-busting version prefix via regex capture --
-# Captures everything after /static/versionXXX/ into {re.static_ver.1}
-@static_version path_regexp static_ver ^/static/version\d+/(.*)$
-rewrite @static_version /static/{re.static_ver.1}
+# -- /static/ strip version and materialize missing files --
+# Captures the clean resource path (ignoring the optional version prefix) into {re.static.1}
+@static path_regexp static ^/static/(?:version\d+/)?(.*)$
+rewrite @static /static/{re.static.1}
 
 # -- If a /static/ file doesn't exist on disk, materialize via static.php --
-# Captures the resource path after /static/ into {re.static_resource.1}
 @static_missing {
-	path_regexp static_resource ^/static/(.*)$
+	path /static/*
 	not file
 }
-rewrite @static_missing /static.php?resource={re.static_resource.1}
+rewrite @static_missing /static.php?resource={re.static.1}
 
 # -- /media/ fall back to get.php for missing files --
 # rewrite preserves the original query string automatically.
