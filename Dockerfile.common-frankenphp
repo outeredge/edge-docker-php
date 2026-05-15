@@ -48,19 +48,20 @@ RUN apt-get update \
         bcmath \
         @composer-${COMPOSER_VERSION} \
         curl \
+        ftp \
         gd \
         intl \
         mbstring \
-        pdo_mysql \
         mysqli \
         opcache \
-        soap \
-        sockets \
+        pdo_mysql \
         pdo_sqlite \
+        redis \
+        soap \
+        sockets \        
         xml \
         xsl \
-        zip \
-        redis \
+        zip \        
     # Cleanup
     && rm -Rf ${WEB_ROOT}/* \
     && rm -rf /var/lib/apt/lists/* \
