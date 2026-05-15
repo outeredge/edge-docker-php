@@ -81,7 +81,7 @@
 
 	import /etc/caddy/conf.d/{$CADDY_CONF:default}.caddy
     
-	import {$WEB_ROOT:/var/www}/[C]addyfile	
+	import {$WEB_ROOT:/var/www}/Caddyfile*
 }
 
 import /etc/caddy/Caddyfile.d/*.caddyfile
