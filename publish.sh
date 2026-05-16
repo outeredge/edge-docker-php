@@ -17,4 +17,6 @@ fi;
 # docker push outeredge/edge-docker-php:$1-node && \
 DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1-frankenphp -f Dockerfile.php${1//./}-frankenphp && \
 docker push outeredge/edge-docker-php:$1-frankenphp && \
+DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1-frankenphp-super -f Dockerfile.php${1//./}-frankenphp-super && \
+docker push outeredge/edge-docker-php:$1-frankenphp-super && \
 echo "Complete!"

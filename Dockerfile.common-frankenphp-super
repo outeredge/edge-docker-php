@@ -1,0 +1,21 @@
+USER root
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends --yes \
+        cron \
+        supervisor \
+        valkey \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Google Cloud SQL Proxy
+COPY --from=gcr.io/cloud-sql-connectors/cloud-sql-proxy:2 /cloud-sql-proxy /usr/local/bin/cloud-sql-proxy
+
+COPY templates/supervisord-frankenphp.conf /etc/supervisord.conf
+COPY launch-frankenphp-super.sh /launch-frankenphp-super.sh
+
+# Make launch-frankenphp-super.sh executable, replace entrypoint
+RUN chmod +x /launch-frankenphp-super.sh
+
+USER edge
+
+ENTRYPOINT ["/launch-frankenphp-super.sh"]
