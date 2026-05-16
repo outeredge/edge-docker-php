@@ -29,24 +29,27 @@ respond @phtml 403
 @trace method TRACE TRACK
 respond @trace 405
 
-# -- /static/ strip version so file_server can find the unversioned file --
-@static path_regexp static ^/static/(?:version\d+/)?(.*)$
-rewrite @static /static/{re.static.1}
+# -- /static/ handling, in strict source order --
+route {
+	# -- /static/ strip version so file_server can find the unversioned file --
+	@static path_regexp static ^/static/(?:version\d+/)?(.*)$
+	rewrite @static /static/{re.static.1}
 
-# -- If a /static/ file doesn't exist on disk, materialize via static.php --
-@static_missing {
-	path_regexp static_missing ^/static/(.*)$
-	not file
-}
-rewrite @static_missing /static.php?resource={re.static_missing.1}
+	# -- If a /static/ file doesn't exist on disk, materialize via static.php --
+	@static_missing {
+		path_regexp static_missing ^/static/(.*)$
+		not file
+	}
+	rewrite @static_missing /static.php?resource={re.static_missing.1}
 
-# -- /media/ fall back to get.php for missing files --
-# rewrite preserves the original query string automatically.
-@media_missing {
-	path /media/*
-	not file
+	# -- /media/ fall back to get.php for missing files --
+	# rewrite preserves the original query string automatically.
+	@media_missing {
+		path /media/*
+		not file
+	}
+	rewrite @media_missing /get.php
 }
-rewrite @media_missing /get.php
 
 # -- Long-cache headers for static assets (only if APP_ENV is "prod") --
 @is_prod expression `{env.APP_ENV} == "prod"`
