@@ -29,21 +29,31 @@ respond @phtml 403
 @trace method TRACE TRACK
 respond @trace 405
 
-# -- /static/ handling, in strict source order --
+# -- /static/ handling --
+#
+# Two separate route{} blocks are required because both rewrites must fire on the
+# same request in sequence:
+#   1. Strip the cache-busting version prefix from the URI.
+#   2. If the resulting unversioned file is absent on disk, hand off to static.php.
+#
+
+# Step 1: Strip cache-busting version prefix (/static/version1234/foo -> /static/foo).
+# Matches with or without a version segment so the regex is idempotent on re-entry.
 route {
-	# -- /static/ strip version so file_server can find the unversioned file --
 	@static path_regexp static ^/static/(?:version\d+/)?(.*)$
 	rewrite @static /static/{re.static.1}
+}
 
-	# -- If a /static/ file doesn't exist on disk, materialize via static.php --
+# Step 2: If the unversioned file does not exist on disk, materialise via static.php.
+# `not file` tests the current (already-stripped) URI against the filesystem root.
+route {
 	@static_missing {
-		path_regexp static_missing ^/static/(.*)$
+		path /static/*
 		not file
 	}
-	rewrite @static_missing /static.php?resource={re.static_missing.1}
+	rewrite @static_missing /static.php?resource={path}
 
-	# -- /media/ fall back to get.php for missing files --
-	# rewrite preserves the original query string automatically.
+	# /media/ fall back to get.php for missing files.
 	@media_missing {
 		path /media/*
 		not file
