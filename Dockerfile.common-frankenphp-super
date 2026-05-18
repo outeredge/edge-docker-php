@@ -5,14 +5,10 @@ RUN apt-get update \
         cron \
         supervisor \
         valkey \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* /var/tmp/*
 
 # Install Google Cloud SQL Proxy
 COPY --from=gcr.io/cloud-sql-connectors/cloud-sql-proxy:2 /cloud-sql-proxy /usr/local/bin/cloud-sql-proxy
 
-COPY templates/supervisord.conf /etc/supervisord.conf
-COPY launch-super.sh /launch-super.sh
-
 USER edge
-
-ENTRYPOINT ["/launch-super.sh"]
