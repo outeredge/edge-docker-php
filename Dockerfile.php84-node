@@ -1,7 +1,0 @@
-# syntax=edrevo/dockerfile-plus
-
-FROM outeredge/edge-docker-php:8.4
-
-ARG NODE_VERSION=24
-
-INCLUDE+ Dockerfile.node

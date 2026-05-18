@@ -1,6 +1,8 @@
 file_server
 
 php_server {
+	env HTTPS {http.request.header.HTTPS}
+	env SERVER_PORT {http.request.header.X-Forwarded-Port}
 	try_files {path} index.php
 }
 

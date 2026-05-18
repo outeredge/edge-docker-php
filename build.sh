@@ -1,32 +1,13 @@
 #!/bin/bash -ex
 
-# Redirect PHP cli to fpm configs
-cp /templates/php.ini /etc/php/$PHP_VERSION/fpm/php.ini
-rm -Rf /etc/php/$PHP_VERSION/cli
-ln -s /etc/php/$PHP_VERSION/fpm /etc/php/$PHP_VERSION/cli
+# Install our php.ini override under $PHP_INI_DIR/conf.d so it loads after
+# defaults. FrankenPHP/Caddy uses the CLI ini layout exclusively.
+cp /templates/php.ini "$PHP_INI_DIR/conf.d/zz-edge.ini"
 
-# Set up sudo for passwordless access to edge and sudo users
-chmod g=u /etc/passwd
-echo 'Set disable_coredump false' > /etc/sudo.conf
-echo "edge ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers.d/edge
-chmod 0440 /etc/sudoers.d/edge
-sed -i 's/%sudo\s\+ALL=(ALL\(:ALL\)\?)\s\+ALL/%sudo ALL=NOPASSWD:ALL/g' /etc/sudoers
-
-# Create default user
-userdel -r ubuntu || true
-addgroup --gid 1000 --system edge
-adduser --uid 1000 --system --home /home/edge --shell /bin/bash --ingroup edge edge
-usermod -a -G sudo edge
-usermod -a -G edge www-data
-touch /home/edge/.hushlogin
-chown -Rf edge:edge ${WEB_ROOT}
-
-# Create user for nginx
-adduser --system --no-create-home --shell /bin/false --group --disabled-login nginx
-usermod -a -G edge nginx
-
-# Logging for nginx (PHP errors now go to /dev/stderr via php.ini)
-chown -Rf nginx:nginx /var/log/nginx
+# Install Caddyfile and conf.d snippets
+mkdir -p /etc/caddy/conf.d
+cp /templates/caddy/Caddyfile /etc/caddy/Caddyfile
+cp /templates/caddy/*.caddy /etc/caddy/conf.d/
 
 # Install env-driven sendmail wrapper (msmtp)
 install -m 0755 -o root -g root /templates/sendmail /usr/local/bin/sendmail
@@ -39,22 +20,14 @@ install -m 0644 -o root -g root /templates/profile.d/edge-env.sh /etc/profile.d/
 grep -q '/etc/profile.d/edge-env.sh' /etc/bash.bashrc \
     || echo '. /etc/profile.d/edge-env.sh' >> /etc/bash.bashrc
 
-# Use host as SERVER_NAME
-sed -i "s/server_name/host/" /etc/nginx/fastcgi_params
-sed -i "s/server_name/host/" /etc/nginx/fastcgi.conf
+# Create default user (uid auto-assigned)
+useradd --create-home --shell /bin/bash edge
+touch /home/edge/.hushlogin
+chown -Rf edge:edge ${WEB_ROOT}
 
-# Set HTTPS according to forwarded protocol
-sed -i "s/\$https/on/" /etc/nginx/fastcgi_params
-sed -i "s/\$https/on/" /etc/nginx/fastcgi.conf
-
-# Don't time out SSH connections
-echo "ClientAliveInterval 120" >> /etc/ssh/sshd_config
-echo "ClientAliveCountMax 720" >> /etc/ssh/sshd_config
-
-# Install Composer
-wget -O /usr/local/bin/composer "https://getcomposer.org/composer-$COMPOSER_VERSION.phar"
-chmod a+x /usr/local/bin/composer
+# Remove default CAP_NET_BIND_SERVICE — we run as non-root and don't bind <1024.
+setcap -r /usr/local/bin/frankenphp || true
 
 # Cleanup
 rm -rf /tmp/*
-rm /build*.sh /launch-frankenphp.sh
+rm /build.sh

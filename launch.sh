@@ -1,28 +1,19 @@
 #!/bin/bash
+set -e
 
-export USER=$(whoami)
-
-sudo chown -Rf $USER:$USER /var/log/nginx
-
-# Generate unique SSH host keys and set SSH password per container
-if [ "$ENABLE_SSH" = "On" ]; then
-    sudo mkdir -p /var/run/sshd
-    sudo ssh-keygen -A
-    echo "edge:$SSH_PASSWORD" | sudo chpasswd
-fi
-
-# Load custom environment variables
+# Load custom environment variables.
 . /etc/profile.d/edge-env.sh
 
-env | sudo dd status=none of=/etc/environment
+export SERVER_NAME="${SERVER_NAME:-:${PORT}}"
+export SERVER_ROOT="${WEB_ROOT}${WEB_PUBLIC}"
 
-sudo chmod -f 600 /var/spool/cron/crontabs/*
+# If no arguments are passed, default to running FrankenPHP with our config
+if [ $# -eq 0 ]; then
+    set -- frankenphp run --config /etc/caddy/Caddyfile
+# If arguments are passed but they are flags (e.g. --watch), prepend the run command
+elif [ "${1#-}" != "$1" ]; then
+    set -- frankenphp run --config /etc/caddy/Caddyfile "$@"
+fi
 
-j2 /templates/nginx.conf.j2 | sudo dd status=none of=/etc/nginx/nginx.conf
-j2 /templates/nginx-${NGINX_CONF}.conf.j2 | sudo dd status=none of=/etc/nginx/conf.d/${NGINX_CONF}.conf
-j2 /templates/supervisord.conf.j2 | sudo dd status=none of=/etc/supervisord.conf
-j2 /templates/php-fpm.conf.j2 | sudo dd status=none of=/etc/php/${PHP_VERSION}/fpm/php-fpm.conf
-
-chmod o+w /dev/stdout
-
-sudo -E /usr/bin/supervisord
+# Execute the final command (becomes PID 1)
+exec "$@"

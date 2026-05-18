@@ -9,12 +9,6 @@ if [ ! -z "$DOCKER_PASS" ]; then
     echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
 fi;
 
-# Disable non-frankenphp variants for now
-# echo "Building image outeredge/edge-docker-php:$1 (and -node) with Dockerfile.php${1//./}"
-# DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1 -f Dockerfile.php${1//./} && \
-# docker push outeredge/edge-docker-php:$1 && \
-# DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1-node -f Dockerfile.php${1//./}-node && \
-# docker push outeredge/edge-docker-php:$1-node && \
 DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1-frankenphp -f Dockerfile.php${1//./}-frankenphp && \
 docker push outeredge/edge-docker-php:$1-frankenphp && \
 DOCKER_BUILDKIT=1 docker build --pull . -t outeredge/edge-docker-php:$1-frankenphp-super -f Dockerfile.php${1//./}-frankenphp-super && \
