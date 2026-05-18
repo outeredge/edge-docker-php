@@ -77,8 +77,16 @@
 
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
+	# Translate forwarded scheme into PHP-visible vars.
+	# `trusted_proxies` (set globally) ensures these headers are authentic.
+	@forwarded_https header X-Forwarded-Proto https
+	handle @forwarded_https {
+		request_header HTTPS on
+		request_header X-Forwarded-Port 443
+	}
+
 	import /etc/caddy/conf.d/{$CADDY_CONF:default}.caddy
-    
+
 	import {$WEB_ROOT:/var/www}/Caddyfile*
 }
 

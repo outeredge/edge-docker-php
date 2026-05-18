@@ -69,7 +69,7 @@ RUN apt-get update \
 
 COPY . /
 
-RUN /build-frankenphp.sh
+RUN /build.sh
 
 USER edge
 

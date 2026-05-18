@@ -1,0 +1,5 @@
+# syntax=edrevo/dockerfile-plus
+
+FROM outeredge/edge-docker-php:8.3-frankenphp
+
+INCLUDE+ Dockerfile.common-frankenphp-super

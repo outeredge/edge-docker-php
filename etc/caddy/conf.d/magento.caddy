@@ -31,11 +31,16 @@ respond @trace 405
 
 # -- /static/ handling --
 #
-# Two separate route{} blocks are required because both rewrites must fire on the
-# same request in sequence:
+# Two separate route{} blocks are required because both rewrites must fire on
+# the same request in sequence:
 #   1. Strip the cache-busting version prefix from the URI.
-#   2. If the resulting unversioned file is absent on disk, hand off to static.php.
+#   2. If the resulting unversioned file is absent on disk, hand off to
+#      static.php so Magento can materialise it on demand.
 #
+# A single route{} block would put both rewrites in the same Caddy "group",
+# making them mutually exclusive (first match wins). The version-strip would
+# always win, the missing-file rewrite would never fire, and missing static
+# URLs would fall through to index.php instead of static.php.
 
 # Step 1: Strip cache-busting version prefix (/static/version1234/foo -> /static/foo).
 # Matches with or without a version segment so the regex is idempotent on re-entry.
@@ -44,21 +49,22 @@ route {
 	rewrite @static /static/{re.static.1}
 }
 
-# Step 2: If the unversioned file does not exist on disk, materialise via static.php.
-# `not file` tests the current (already-stripped) URI against the filesystem root.
+# Step 2: If the unversioned file does not exist on disk, materialise via
+# static.php. Resource path is the regex capture (everything after /static/),
+# matching the canonical nginx.conf.sample behaviour.
 route {
-    @static_missing {
-        path_regexp static_missing ^/static/(.*)$
-        not file
-    }
-    rewrite @static_missing /static.php?resource={re.static_missing.1}
+	@static_missing {
+		path_regexp static_missing ^/static/(.*)$
+		not file
+	}
+	rewrite @static_missing /static.php?resource={re.static_missing.1}
 
-    # /media/ fall back to get.php for missing files.
-    @media_missing {
-        path /media/*
-        not file
-    }
-    rewrite @media_missing /get.php
+	# /media/ falls back to get.php for missing files.
+	@media_missing {
+		path /media/*
+		not file
+	}
+	rewrite @media_missing /get.php
 }
 
 # -- Long-cache headers for static assets (only if APP_ENV is "prod") --
@@ -78,11 +84,17 @@ respond @bad_php 403
 # -- Terminal handler: serve static files, route everything else to index.php --
 # php_server already handles /static.php and /get.php (rewritten above) plus
 # the front-controller fallback to /index.php.
-php_server
+php_server {
+	env HTTPS {http.request.header.HTTPS}
+	env SERVER_PORT {http.request.header.X-Forwarded-Port}
+}
 
 # -- Custom error pages via Magento's error controller --
 handle_errors {
 	@magento_errors expression `{err.status_code} in [403, 404, 503]`
 	rewrite @magento_errors /errors/{err.status_code}.php
-	php_server
+	php_server {
+		env HTTPS {http.request.header.HTTPS}
+		env SERVER_PORT {http.request.header.X-Forwarded-Port}
+	}
 }

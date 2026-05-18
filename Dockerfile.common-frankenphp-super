@@ -1,0 +1,14 @@
+USER root
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends --yes \
+        cron \
+        supervisor \
+        valkey \
+    && rm -rf /var/lib/apt/lists/* \
+    && rm -rf /tmp/* /var/tmp/*
+
+# Install Google Cloud SQL Proxy
+COPY --from=gcr.io/cloud-sql-connectors/cloud-sql-proxy:2 /cloud-sql-proxy /usr/local/bin/cloud-sql-proxy
+
+USER edge

@@ -1,7 +1,0 @@
-# syntax=edrevo/dockerfile-plus
-
-FROM ubuntu:24.04
-
-ARG PHP_VERSION=8.3
-
-INCLUDE+ Dockerfile.common
