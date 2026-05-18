@@ -1,0 +1,3 @@
+MAILTO=""
+* * * * * php /var/www/bin/magento cron:run 2>&1
+
