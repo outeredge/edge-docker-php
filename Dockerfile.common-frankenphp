@@ -17,6 +17,7 @@ ENV APP_ENV=prod \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=Off \
     PHP_TIMEZONE=Europe/London \
+    PHPRC=/dev/null \
     WEB_ROOT=/var/www \
     WEB_PUBLIC= \
     COMPOSER_MEMORY_LIMIT=-1 \
