@@ -41,6 +41,7 @@ RUN apt-get update \
         libcap2-bin \
         msmtp \
         nano \
+        openssh-client \
         patch \
         rsync \
         unzip \
