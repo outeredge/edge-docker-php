@@ -14,6 +14,7 @@ ENV APP_ENV=prod \
     LC_ALL=C.UTF-8 \
     LANG=C.UTF-8 \
     PORT=8080 \
+    PHP_MEMORY_LIMIT=2G \
     PHP_DISPLAY_ERRORS=Off \
     PHP_OPCACHE_VALIDATE=Off \
     PHP_TIMEZONE=Europe/London \

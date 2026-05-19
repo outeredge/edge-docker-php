@@ -12,6 +12,7 @@ Most configuration can be done with environment variables. Here are some of the 
 | PHP_DISPLAY_ERRORS | Off    | Display PHP errors in the browser, *not* recommended for production |
 | PHP_OPCACHE_VALIDATE | Off   | Forces OPcache to check for updates on every request, turn Off for production |
 | PHP_TIMEZONE      | Europe/London | Specify the PHP date.timezone |
+| PHP_MEMORY_LIMIT  | 2G       | Specify the PHP memory limit |
 | WEB_ROOT          | /var/www | Set's the web server root directory |
 | WEB_PUBLIC        | -       | A suffix to the WEB_ROOT to only serve files from this location |
 | SMTP_HOST         | smtp.mailtrap.io | Set SMTP hostname (uses MSMTP for sendmail) |
