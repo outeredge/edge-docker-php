@@ -1,5 +1,6 @@
 .git
 .dockerignore
+.devcontainer.json
 publish.sh
 Dockerfile.*
 LICENSE
