@@ -50,7 +50,7 @@
 {$CADDY_EXTRA_CONFIG}
 
 # Primary site
-{$SERVER_NAME::8080} {
+{$SERVER_NAME} {
 	root * {$SERVER_ROOT}
 
 	encode {$CADDY_ENCODINGS:zstd br gzip}

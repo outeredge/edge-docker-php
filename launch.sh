@@ -5,6 +5,8 @@ set -e
 . /etc/profile.d/edge-env.sh
 
 export SERVER_NAME="${SERVER_NAME:-${PORT:+:${PORT}}}"
+export SERVER_NAME="${SERVER_NAME:-:8080}"
+
 export SERVER_ROOT="${WEB_ROOT}${WEB_PUBLIC}"
 
 if command -v supervisord >/dev/null 2>&1; then
