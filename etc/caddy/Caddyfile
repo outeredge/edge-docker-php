@@ -78,10 +78,8 @@
 	{$CADDY_SERVER_EXTRA_DIRECTIVES}
 
 	@forwarded_https header X-Forwarded-Proto https
-	handle @forwarded_https {
-		request_header HTTPS on
-		request_header X-Forwarded-Port 443
-	}
+	request_header @forwarded_https HTTPS on
+	request_header @forwarded_https X-Forwarded-Port 443
 
 	@has_forwarded_host {
 		remote_ip private_ranges
