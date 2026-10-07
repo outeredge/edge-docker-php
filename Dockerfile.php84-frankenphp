@@ -3,5 +3,7 @@
 FROM dunglas/frankenphp:php8.4-trixie
 
 ARG PHP_VERSION=8.4
+ARG DEPLOYER_VERSION=8.0.5
+ARG DEPLOYER_SHA256=0026dfa73626a8ccde06222fe5fccf03e6d4a19e765914bb87d7d2cc21f3e57d
 
 INCLUDE+ Dockerfile.common-frankenphp
