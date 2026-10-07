@@ -29,7 +29,7 @@
 
 	servers {
 		# Trust standard private ranges (LB / sidecar / Cloud Run frontend).
-		trusted_proxies static private_ranges
+		trusted_proxies static private_ranges 169.254.0.0/16
 		client_ip_headers X-Forwarded-For X-Real-IP
 	}
 }
@@ -82,7 +82,7 @@
 	request_header @forwarded_https X-Forwarded-Port 443
 
 	@has_forwarded_host {
-		remote_ip private_ranges
+		remote_ip private_ranges 169.254.0.0/16
 		header X-Forwarded-Host *
 	}
 	request_header @has_forwarded_host Host {header.X-Forwarded-Host}
