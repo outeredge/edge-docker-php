@@ -5,6 +5,8 @@ ENTRYPOINT ["/launch.sh"]
 CMD []
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG DEPLOYER_VERSION
+ARG DEPLOYER_SHA256
 
 ENV APP_ENV=prod \
     PHP_VERSION=${PHP_VERSION} \
@@ -69,6 +71,18 @@ RUN apt-get update \
     && rm -Rf ${WEB_ROOT}/* \
     && rm -rf /var/lib/apt/lists/* \
     && rm -rf /tmp/* /var/tmp/*
+
+RUN set -eu; \
+    if [ -n "${DEPLOYER_VERSION:-}" ]; then \
+        DEP_URL="https://deployer.org/releases/v${DEPLOYER_VERSION}/deployer.phar"; \
+        echo "Downloading Deployer ${DEPLOYER_VERSION} from ${DEP_URL}"; \
+        curl -fsSL --retry 3 --retry-delay 2 -o /usr/local/bin/dep "$DEP_URL"; \
+        if [ -n "${DEPLOYER_SHA256:-}" ]; then \
+            echo "${DEPLOYER_SHA256}  /usr/local/bin/dep" | sha256sum -c -; \
+        fi; \
+        chmod +x /usr/local/bin/dep; \
+        dep --version; \
+    fi
 
 COPY . /
 
