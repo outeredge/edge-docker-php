@@ -1,6 +1,12 @@
 {
-	"image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
-    "features": {
-        "ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	"postStartCommand": {
+        "dockerd": "dockerd-entrypoint.sh"
+    },
+	"customizations": {
+        "vscode": {
+            "extensions": [
+                "kilocode.kilo-code"
+            ]
+        }        
     }
 }
