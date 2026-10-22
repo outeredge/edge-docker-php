@@ -11,5 +11,6 @@ ENV MAGENTO_VERSION=${MAGENTO_VERSION} \
     CADDY_CONF=magento \
     WEB_PUBLIC=/pub
 
-RUN composer create-project --no-interaction --no-cache --prefer-dist --no-dev --repository=https://repo.magento.com/ magento/project-community-edition ${WEB_ROOT} ${MAGENTO_VERSION} && \
+RUN composer config --global policy.advisories.block false && \
+    composer create-project --no-interaction --no-cache --prefer-dist --no-dev --repository=https://repo.magento.com/ magento/project-community-edition ${WEB_ROOT} ${MAGENTO_VERSION} && \
     composer require outeredge/magento-disable-common
