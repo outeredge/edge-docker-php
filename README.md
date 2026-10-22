@@ -56,3 +56,61 @@ To add app-level Caddy rules, drop a file at `$WEB_ROOT/Caddyfile` - it is impor
 ### Additional Site Blocks
 
 To add entirely new site blocks (e.g. for an admin domain, metrics endpoint, or monitoring), drop `.caddyfile` files into `/etc/caddy/Caddyfile.d/`. These are imported at the top level, outside of the primary site block.
+
+## Dev Images (`outeredge/edge-docker-php-dev`)
+
+The `dev/` directory in this repo builds the development variants, published as `outeredge/edge-docker-php-dev`. They are built `FROM outeredge/edge-docker-php:{ver}-frankenphp-super` and add:
+
+* Xdebug (toggleable at runtime)
+* Node.js (20 on PHP 8.3, 24 on PHP 8.4/8.5) with Grunt, Gulp, agent-browser and Kilo CLI's
+* code-server (VS Code in the browser)
+* Magerun2, GitLab CLI (`glab`), ImageMagick, jq, ripgrep, sass and other dev tooling
+* A `dev.sh` entrypoint wrapper that enables Xdebug based on `$XDEBUG_ENABLE` before handing off to the base image's `launch.sh`
+
+The dev layer uses its own include file (`dev/Dockerfile.common-frankenphp-dev`). Dev builds use the `dev/` directory as their build context with a single shared `dev/.dockerignore`; the root `.dockerignore` excludes `dev/` so the prod images' blanket `COPY . /` never sees dev files.
+
+| Environment       | Default | Description |
+| -------------     | ------- | --- |
+| XDEBUG_ENABLE     | Off     | Enables the Xdebug PHP extension |
+
+You can also quickly enable or disable Xdebug on demand using the CLI:
+```bash
+xdebug on
+xdebug off
+```
+
+### Dev image variants
+
+| Tag                | Base                                       | Web server  | Process model            |
+| ------------------ | ------------------------------------------ | ----------- | ------------------------ |
+| `8.3-frankenphp` / `8.4-frankenphp` / `8.5-frankenphp` | `outeredge/edge-docker-php:8.x-frankenphp-super` | FrankenPHP/Caddy | supervisord (multi-proc, runs as `edge`) |
+| `magento-<version>` | `outeredge/edge-docker-php-dev:<php>-frankenphp` | FrankenPHP/Caddy | supervisord (pre-installed Magento project) |
+
+The `-frankenphp` variants ship Node. They include `valkey` and `cloud-sql-proxy` managed by a non-root supervisord. These variants run as the unprivileged `edge` user with no `sudo`, no nginx, and no php-fpm. Caddy listens on `${PORT}` (default `8080`).
+
+**Note:** `ENABLE_VALKEY`, `ENABLE_SQL_PROXY`, `ENABLE_SSH`, and `ENABLE_CRON` are currently unsupported toggle switches. `valkey` and `cloud-sql-proxy` are always on.
+
+### Dev invocation modes
+
+| Invocation | What happens |
+|------------|--------------|
+| `docker run <image>` | ENTRYPOINT `/launch.sh` runs CMD `/dev.sh` → dev.sh setup (xdebug) → defaults to supervisord (multi-proc, all sidecars). |
+| `docker run <image> /dev.sh frankenphp run --config /etc/caddy/Caddyfile` | launch.sh execs `/dev.sh frankenphp …` → dev.sh setup → execs frankenphp directly (single-proc). |
+| `docker run <image> /dev.sh bash` | launch.sh execs `/dev.sh bash` → dev.sh setup (xdebug toggle) → interactive shell. |
+| `docker run <image> bash` | launch.sh execs `bash` directly — dev.sh is bypassed (CMD overridden), identical to upstream behaviour. |
+
+## Publishing
+
+Images are published manually with `publish.sh`. No arguments builds **all** images in dependency order (prod → dev → magento); a target argument builds that image **plus its full upstream chain**; the `--only` flag restricts the run to exactly the named target:
+
+| Command | Builds |
+|---------|--------|
+| `./publish.sh` | Everything: prod 8.3/8.4/8.5 → dev images → all Magento images |
+| `./publish.sh 8.4` | prod 8.4 (standard + super) → dev 8.4 → magento 2.4.9 |
+| `./publish.sh dev 8.3` | prod 8.3 chain → dev 8.3 → magento 2.4.8-p5, 2.4.7-p10 |
+| `./publish.sh magento 2.4.9` | prod + dev chain for 8.4 → magento-2.4.9 |
+| `./publish.sh --only 8.4` | Only prod 8.4 (standard + super) |
+| `./publish.sh --only dev 8.4` | Only dev 8.4 |
+| `./publish.sh --only magento 2.4.9` | Only magento-2.4.9 |
+
+Magento builds require `$MAGENTO_COMPOSER_AUTH` (repo.magento.com credentials); when unset, magento builds are skipped with a warning instead of failing the whole run. `DOCKER_USER`/`DOCKER_PASS` are used for an optional Docker Hub login.

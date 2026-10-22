@@ -1,0 +1,7 @@
+# syntax=edrevo/dockerfile-plus
+
+ARG PHP_VERSION=8.5
+
+FROM outeredge/edge-docker-php:${PHP_VERSION}-frankenphp
+
+INCLUDE+ Dockerfile.common-frankenphp-super

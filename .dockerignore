@@ -4,3 +4,5 @@ publish.sh
 Dockerfile.*
 LICENSE
 README.md
+.devcontainer.json
+dev/

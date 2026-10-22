@@ -1,0 +1,15 @@
+# syntax=edrevo/dockerfile-plus
+
+ARG PHP_VERSION
+
+FROM outeredge/edge-docker-php-dev:${PHP_VERSION}-frankenphp
+
+ARG MAGENTO_VERSION
+ARG COMPOSER_AUTH
+
+ENV MAGENTO_VERSION=${MAGENTO_VERSION} \
+    CADDY_CONF=magento \
+    WEB_PUBLIC=/pub
+
+RUN composer create-project --no-interaction --no-cache --prefer-dist --no-dev --repository=https://repo.magento.com/ magento/project-community-edition ${WEB_ROOT} ${MAGENTO_VERSION} && \
+    composer require outeredge/magento-disable-common

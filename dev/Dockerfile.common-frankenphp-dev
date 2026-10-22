@@ -1,0 +1,61 @@
+CMD ["/dev.sh"]
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ENV APP_ENV=dev \
+    PHP_DISPLAY_ERRORS=On \
+    PHP_OPCACHE_VALIDATE=On \
+    GLAB_CHECK_UPDATE=false \
+    GLAB_SEND_TELEMETRY=false \
+    XDEBUG_ENABLE=Off
+
+USER root
+
+COPY templates/20-xdebug.ini /tmp/20-xdebug.ini
+
+RUN apt-get update \
+    && apt-get install --no-install-recommends --yes \
+        default-mysql-client \
+        imagemagick \
+        jq \
+        ripgrep \
+        rsync \
+        sassc \
+        vim \
+    && install-php-extensions imagick xdebug \
+    # `install-php-extensions xdebug` writes an auto-generated ini into
+    # $PHP_INI_DIR/conf.d/. Defensively glob-match it: must be exactly one file.
+    && XDEBUG_INI_COUNT=$(ls "$PHP_INI_DIR"/conf.d/*xdebug*.ini 2>/dev/null | wc -l) \
+    && if [ "$XDEBUG_INI_COUNT" != "1" ]; then \
+           echo "ERROR: expected exactly 1 xdebug ini in $PHP_INI_DIR/conf.d/, found $XDEBUG_INI_COUNT" >&2; \
+           ls -la "$PHP_INI_DIR"/conf.d/ >&2; \
+           exit 1; \
+       fi \
+    && rm -f "$PHP_INI_DIR"/conf.d/*xdebug*.ini \
+    && mv /tmp/20-xdebug.ini "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini.disabled" \
+    && chown edge:edge "$PHP_INI_DIR/conf.d" "$PHP_INI_DIR/conf.d/docker-php-ext-xdebug.ini.disabled" \
+    && curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+    && apt-get install --no-install-recommends --yes nodejs \
+    # Enable our profile.d script before the base images
+    && sed -i '/edge-env.sh/i . /etc/profile.d/00-workspace-env.sh' /etc/bash.bashrc \
+    # Install code-server
+    && curl -fsSL https://code-server.dev/install.sh | sh \
+    # Install Grunt, Gulp, agent-browser and Kilo CLI's
+    && npm install --global grunt-cli gulp-cli agent-browser @kilocode/cli @kilocode/cli-linux-x64 --omit=optional --ignore-scripts \
+    && chown -R edge:edge /usr/lib/node_modules/agent-browser \
+    # Install Magerun
+    && wget https://files.magerun.net/n98-magerun2.phar -O /usr/local/bin/magerun2 \
+    && chmod +x /usr/local/bin/magerun2 \
+    # Install glab (GitLab CLI) from official GitLab releases
+    && GLAB_VERSION=$(curl -fsSL "https://gitlab.com/api/v4/projects/gitlab-org%2Fcli/releases?per_page=1" | jq -r '.[0].tag_name | ltrimstr("v")') \
+    && curl -fsSL "https://gitlab.com/gitlab-org/cli/-/releases/v${GLAB_VERSION}/downloads/glab_${GLAB_VERSION}_linux_amd64.deb" -o /tmp/glab.deb \
+    && apt-get install -y /tmp/glab.deb \
+    && rm /tmp/glab.deb \
+    # Cleanup
+    && find /usr/lib/node_modules/agent-browser/bin -type f -name "agent-browser-*" ! -name "agent-browser-linux-x64" -exec rm -f {} + \
+    && rm -rf /var/lib/apt/lists/* \
+    && npm cache clean --force
+
+USER edge
+
+COPY --chown=edge . /

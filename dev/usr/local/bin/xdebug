@@ -1,0 +1,30 @@
+#!/bin/bash
+set -eu
+
+# Toggle xdebug by renaming its ini and hot-reloading FrankenPHP via
+# `frankenphp reload --force`. No PID 1 restart needed.
+
+# FIX: Use getenv() to fetch the environment variable, with a fallback just in case
+INI_DIR="$(php -r 'echo getenv("PHP_INI_DIR") ?: "/usr/local/etc/php";')/conf.d"
+OFF="$INI_DIR/docker-php-ext-xdebug.ini.disabled"
+ON="$INI_DIR/docker-php-ext-xdebug.ini"
+
+case "${1:-}" in
+    on)
+        [ -f "$OFF" ] && mv "$OFF" "$ON"
+        # Only reload if not in startup/silent mode
+        if [ "${XDEBUG_QUIET:-}" != "1" ]; then
+            frankenphp reload --force --config /etc/caddy/Caddyfile
+        fi
+        echo "Xdebug enabled"
+        ;;
+    off)
+        [ -f "$ON" ] && mv "$ON" "$OFF"
+        # Only reload if not in startup/silent mode
+        if [ "${XDEBUG_QUIET:-}" != "1" ]; then
+            frankenphp reload --force --config /etc/caddy/Caddyfile
+        fi
+        echo "Xdebug disabled"
+        ;;
+    *) echo "Usage: xdebug [on|off]"; exit 1 ;;
+esac
