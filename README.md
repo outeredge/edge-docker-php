@@ -62,7 +62,7 @@ To add entirely new site blocks (e.g. for an admin domain, metrics endpoint, or 
 The `dev/` directory in this repo builds the development variants, published as `outeredge/edge-docker-php-dev`. They are built `FROM outeredge/edge-docker-php:{ver}-frankenphp-super` and add:
 
 * Xdebug (toggleable at runtime)
-* Node.js (20 on PHP 8.3, 24 on PHP 8.4/8.5) with Grunt, Gulp, agent-browser and Kilo CLI's
+* Node.js (20 on PHP 8.3, 24 on PHP 8.4. 26 on PHP 8.5) with Grunt, Gulp, agent-browser and Kilo CLI's
 * code-server (VS Code in the browser)
 * Magerun2, GitLab CLI (`glab`), ImageMagick, jq, ripgrep, sass and other dev tooling
 * A `dev.sh` entrypoint wrapper that enables Xdebug based on `$XDEBUG_ENABLE` before handing off to the base image's `launch.sh`
